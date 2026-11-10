@@ -1,0 +1,16 @@
+<!-- @dsCard group="Forms" height=320 width=860 -->
+<!doctype html>
+<html><head><meta charset="utf-8"><style>
+body { margin: 0; padding: 24px; background: var(--surfaces-white); color: var(--text-primary); font-family: var(--font-serif); }
+.row { display: flex; flex-wrap: wrap; gap: 16px; align-items: center; }
+.col { display: flex; flex-direction: column; gap: 16px; }
+.lbl { font-family: var(--font-sans); font-size: 12px; color: var(--text-secondary); margin: 0 0 8px; }
+</style></head><body><div id="root"></div>
+<script>
+var h = React.createElement, M = window.MartinsWeb;
+ReactDOM.createRoot(document.getElementById("root")).render(h("div", { className: "col", style: { maxWidth: 752 } },
+  h("div", { style: { display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16 } },
+    h(M.Input, { label: "Name", placeholder: "Your name", autoComplete: "name" }),
+    h(M.Input, { label: "Email", type: "email", placeholder: "you@company.com", autoComplete: "email" })),
+  h(M.Input, { label: "Message", size: "l", placeholder: "Tell me a bit about what you\u2019d like to discuss." })));
+</script></body></html>

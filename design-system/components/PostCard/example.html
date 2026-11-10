@@ -1,0 +1,15 @@
+<!-- @dsCard group="Blog" height=360 width=900 -->
+<!doctype html>
+<html><head><meta charset="utf-8"><style>
+body { margin: 0; padding: 24px; background: var(--surfaces-white); color: var(--text-primary); font-family: var(--font-serif); }
+.row { display: flex; flex-wrap: wrap; gap: 16px; align-items: center; }
+.col { display: flex; flex-direction: column; gap: 16px; }
+.lbl { font-family: var(--font-sans); font-size: 12px; color: var(--text-secondary); margin: 0 0 8px; }
+</style></head><body><div id="root"></div>
+<script>
+var h = React.createElement, M = window.MartinsWeb;
+ReactDOM.createRoot(document.getElementById("root")).render(h(M.PostCard, {
+  featured: true, tags: ["Leading Teams"], date: "Oct 25, 2026", readTime: "5 min read",
+  title: "The armor I called confidence.",
+  highlight: "My arrogance wasn't confidence. It was the only way I knew to avoid asking for help." }));
+</script></body></html>

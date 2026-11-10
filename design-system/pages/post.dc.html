@@ -1,0 +1,232 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>The armor I called confidence. · Martín Mato</title>
+<script src="./support.js"></script>
+<link rel="stylesheet" href="ds/martins-web/components/bundle.css">
+<script src="ds/martins-web/components/bundle.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600;700&amp;family=Space+Mono&amp;family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,500;0,8..60,600;0,8..60,700;1,8..60,400;1,8..60,500&amp;display=swap">
+<style>
+:root{
+--surfaces-white:#fafafa;--surfaces-highlights:#f2f6f8;--surfaces-strokes:#cdd8df;--surfaces-elevation:#7a8b99;--surfaces-elevation-20:rgba(122,139,153,0.2);--surfaces-divider:#364552;
+--text-primary:#121b27;--text-secondary:#364552;--text-contrast:#f2f6f8;--text-highlight:#3d9c9a;
+--button-dark:#013345;--button-mid:#216375;--button-light:#3d9c9a;--accent:#22d48d;--teal-500:#3d9c9a;--highlight-rule:#3d9c9a;
+--font-mono:"Space Mono",ui-monospace,"SFMono-Regular",Menlo,monospace;--font-serif:"Source Serif 4",Georgia,"Times New Roman",serif;--font-sans:"Instrument Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
+--space-xxs:4px;--space-xs:8px;--space-s:12px;--space-m:16px;--space-l:24px;--space-xl:32px;--space-xxl:96px;--space-l-mobile:16px;
+--radius-none:0px;--radius-s:4px;--radius-card:8px;
+--shadow-elevation:0px 4px 4px 0px rgba(122,139,153,0.2);
+--measure-reading:680px;
+--gutter:96px;--container:1440px;--side:max(var(--gutter),calc((100% - var(--container)) / 2 + var(--gutter)));
+--section:96px
+}
+@media (max-width: 1023px){:root{--gutter:48px}}
+@media (max-width: 599px){:root{--gutter:16px;--section:56px}}
+body{margin:0;background:#fafafa}
+a{color:#121b27}
+a:not(.mw-button):hover{color:#216375}
+a:focus-visible{outline:1px solid #216375;outline-offset:3px}
+.nav a{text-decoration:underline;text-underline-offset:3px}
+.nav a:hover{text-decoration:none}
+.btn:hover{background:#216375 !important}
+
+/* Mobile navigation: hamburger + drop-down list (hidden on desktop) */
+.menu-btn{display:none;align-items:center;justify-content:center;width:48px;height:48px;padding:0;border:0;border-radius:4px;background:none;color:#013345;cursor:pointer}
+.menu-btn:hover{color:#216375}
+.menu-btn:focus-visible{outline:1px solid #216375;outline-offset:2px}
+.menu-panel{display:none}
+.menu-panel a{display:block;padding:14px 0;border-bottom:1px solid #cdd8df;font-family:var(--font-sans);font-weight:500;font-size:16px;line-height:1.2;color:#121b27;text-decoration:none}
+.menu-panel a[aria-current="page"]{color:#216375}
+.menu-panel a.btn{margin-top:16px;padding:12px 16px;border:0;border-radius:4px;background:#013345;color:#f2f6f8;text-align:center}
+
+/* Animated logo, same as Home and About */
+.logo-anim .m-trace{stroke-dasharray:1 3;stroke-dashoffset:1.05;animation:m-write 1.5s cubic-bezier(.55,.1,.35,1) .35s forwards}
+.logo-anim .m-full{opacity:0;animation:m-settle .25s ease 1.8s forwards}
+@keyframes m-write{to{stroke-dashoffset:0}}
+@keyframes m-settle{to{opacity:1}}
+@media (prefers-reduced-motion: reduce){.logo-anim .m-trace{animation:none;stroke-dashoffset:0}.logo-anim .m-full{animation:none;opacity:1}}
+
+/* Article: the post sits in the 680px reading column */
+.back{display:inline-flex;align-items:center;gap:6px;padding:4px 0;font-family:var(--font-sans);font-weight:500;font-size:14px;line-height:1.2;color:#121b27;text-underline-offset:3px}
+.back .arr{display:inline-block;transition:transform .15s ease}
+.back:hover .arr{transform:translateX(-3px)}
+
+/* Author: like a newspaper column. Desktop: the photo floats right of the first paragraph, which wraps around it.
+   Phone: it becomes a byline row (round photo + name) above the text, never a float in a narrow column. */
+.mw-article__body > .author{float:right;width:200px;margin:6px 0 16px 32px;display:flex;flex-direction:column;gap:12px}
+.author img{display:block;width:200px;height:250px;object-fit:cover;object-position:50% 30%}
+.author figcaption{display:flex;flex-direction:column;gap:2px}
+.author .name{font-family:var(--font-sans);font-weight:600;font-size:14px;line-height:1.2;color:#121b27}
+.author .role{font-size:14px;font-style:italic;line-height:1.35;color:#364552}
+
+/* Newsletter: the one dark band, so the invitation is what stays */
+.eyebrow{margin:0;font-family:var(--font-mono);font-size:18px;text-transform:uppercase;letter-spacing:.04em}
+.lead{margin:0;font-size:20px;line-height:1.5}
+.band{width:100%;box-sizing:border-box;padding:var(--section) var(--side)}
+.dark{background:#013345;color:#f2f6f8}
+.dark a{color:#f2f6f8}
+.dark a:hover{color:#97cfcc}
+.dark .mw-input__label{color:#f2f6f8}
+.dark .mw-button--primary{background:#3d9c9a;border-color:#3d9c9a;color:#121b27}
+.dark .mw-button--primary:hover,.dark .mw-button--primary:focus-visible{background:#68b6b2;border-color:#68b6b2}
+.dark .mw-button--secondary{border-color:#97cfcc;color:#f2f6f8}
+.dark .mw-button{min-height:48px;padding:12px 16px}
+.news{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:64px;align-items:end;max-width:1088px}
+.sub-row{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:16px;align-items:end}
+
+@media (max-width: 1023px){
+.news{grid-template-columns:minmax(0,1fr);gap:40px;align-items:start}
+}
+@media (max-width: 767px){
+header .nav{display:none !important}
+.menu-btn{display:flex}
+.menu-panel{position:absolute;left:0;right:0;top:100%;display:flex;flex-direction:column;padding:8px var(--side) 24px;background:#fafafa;border-top:1px solid #cdd8df;box-shadow:0px 4px 4px 0px rgba(122,139,153,0.2)}
+footer{flex-direction:column;align-items:flex-start !important}
+footer .nav{flex-wrap:wrap;gap:8px 16px !important}
+}
+@media (max-width: 599px){
+.mw-article__body > .author{float:none;width:auto;margin:0 0 20px;flex-direction:row;align-items:center;gap:12px}
+.author img{width:56px;height:56px;border-radius:50%;object-position:50% 25%}
+.eyebrow{font-size:14px}
+.lead{font-size:16px}
+.sub-row{grid-template-columns:minmax(0,1fr)}
+}
+</style>
+</helmet>
+<div style="min-height: 100vh; background: #fafafa; color: #121b27; font-family: var(--font-serif); display: flex; flex-direction: column">
+
+<header style="position: relative; z-index: 2; display: flex; align-items: center; justify-content: space-between; gap: 24px; padding: 24px var(--side); background: #fafafa; box-shadow: 0px 4px 4px 0px rgba(122,139,153,0.2)">
+<a href="#" style="display: flex; align-items: center; text-decoration: none; color: #121b27">
+<svg class="logo-anim" width="57" height="48" viewBox="0 0 57 48" fill="none" aria-hidden="true" style="display: block">
+<defs><mask id="m-write-post" maskUnits="userSpaceOnUse" x="0" y="0" width="57" height="48"><path class="m-trace" d="M26.7 35.6 C26.8 29 27.4 21 28.7 14.4 C30.4 19.4 31.8 14.8 34.2 14.8 C36.9 15 36.4 24 34.9 31.6 C35.7 26 37.5 21.2 39.7 20.3 C41.7 20.2 41.2 26 40.8 30 C40.5 33 40.5 35.4 41.4 34.9 C42 34.6 42.5 33.4 42.7 32.6" pathLength="1" stroke="#fff" stroke-width="5.2" stroke-linecap="round" stroke-linejoin="round" fill="none"></path></mask></defs>
+<path class="m-ink" d="M32.746 12C33.737 12.013 34.746 12.003 35.737 12.003L41.145 12.003L41.141 17.533L41.14 19.005C41.14 19.225 41.15 19.621 41.122 19.825C41.296 20.004 41.516 20.173 41.645 20.394C41.969 20.948 42.109 21.668 42.127 22.31C42.185 24.299 41.695 26.284 41.227 28.203C41.192 28.346 41.157 28.489 41.134 28.634C41.156 28.856 41.149 29.195 41.148 29.426L41.145 30.72C41.144 31.737 41.174 32.9 41.144 33.907C41.397 33.699 41.64 33.19 41.793 32.895C41.87 32.743 41.927 32.556 42.035 32.424C42.369 32.018 42.847 32.629 42.732 32.988C42.431 33.925 41.865 34.926 41.042 35.489C40.678 35.738 40.151 35.853 39.728 35.763C39.529 35.722 39.245 35.571 39.157 35.553C38.608 35.572 37.997 35.56 37.444 35.56L34.428 35.56C34.428 34.056 34.404 32.477 34.436 30.979C33.95 30.66 33.559 30.423 33.694 29.746C33.776 29.334 33.884 28.925 33.974 28.514C34.155 27.679 34.322 26.841 34.475 26C34.851 23.865 35.082 21.707 35.165 19.54C35.201 18.605 35.234 17.656 35.089 16.731C35.045 16.446 34.934 15.729 34.518 15.879C33.769 16.148 33.229 17.129 32.82 17.777C31.491 20.152 30.64 22.954 29.876 25.559C29.332 27.415 28.749 29.504 28.344 31.38C28.179 32.118 28.046 32.862 27.945 33.611C27.883 34.079 27.879 34.654 27.757 35.074C27.644 35.464 27.302 35.867 26.893 35.957C26.605 36.02 26.384 36.028 26.111 35.882C25.96 35.8 25.846 35.597 25.785 35.556C25.569 35.179 25.632 34.522 25.638 34.096C25.649 33.373 25.675 32.651 25.716 31.93C25.843 29.687 26.047 27.449 26.326 25.221C26.427 24.388 26.522 23.498 26.649 22.672C26.701 22.499 26.72 22.24 26.744 22.054L26.873 21.05C27.056 19.678 27.254 18.308 27.467 16.94C27.542 16.442 27.625 15.945 27.714 15.449C27.775 15.106 27.871 14.386 28.095 14.118C28.761 13.263 30.318 14.006 30.484 14.882C30.536 15.156 30.262 16.493 30.206 16.835L29.835 19.103C29.801 19.302 29.674 19.886 29.699 20.053C29.805 19.834 29.943 19.446 30.033 19.211L30.594 17.718L31.998 13.983C32.236 13.351 32.491 12.619 32.746 12Z" fill="#3d9c9a" mask="url(#m-write-post)"></path>
+<path class="m-full" d="M32.746 12C33.737 12.013 34.746 12.003 35.737 12.003L41.145 12.003L41.141 17.533L41.14 19.005C41.14 19.225 41.15 19.621 41.122 19.825C41.296 20.004 41.516 20.173 41.645 20.394C41.969 20.948 42.109 21.668 42.127 22.31C42.185 24.299 41.695 26.284 41.227 28.203C41.192 28.346 41.157 28.489 41.134 28.634C41.156 28.856 41.149 29.195 41.148 29.426L41.145 30.72C41.144 31.737 41.174 32.9 41.144 33.907C41.397 33.699 41.64 33.19 41.793 32.895C41.87 32.743 41.927 32.556 42.035 32.424C42.369 32.018 42.847 32.629 42.732 32.988C42.431 33.925 41.865 34.926 41.042 35.489C40.678 35.738 40.151 35.853 39.728 35.763C39.529 35.722 39.245 35.571 39.157 35.553C38.608 35.572 37.997 35.56 37.444 35.56L34.428 35.56C34.428 34.056 34.404 32.477 34.436 30.979C33.95 30.66 33.559 30.423 33.694 29.746C33.776 29.334 33.884 28.925 33.974 28.514C34.155 27.679 34.322 26.841 34.475 26C34.851 23.865 35.082 21.707 35.165 19.54C35.201 18.605 35.234 17.656 35.089 16.731C35.045 16.446 34.934 15.729 34.518 15.879C33.769 16.148 33.229 17.129 32.82 17.777C31.491 20.152 30.64 22.954 29.876 25.559C29.332 27.415 28.749 29.504 28.344 31.38C28.179 32.118 28.046 32.862 27.945 33.611C27.883 34.079 27.879 34.654 27.757 35.074C27.644 35.464 27.302 35.867 26.893 35.957C26.605 36.02 26.384 36.028 26.111 35.882C25.96 35.8 25.846 35.597 25.785 35.556C25.569 35.179 25.632 34.522 25.638 34.096C25.649 33.373 25.675 32.651 25.716 31.93C25.843 29.687 26.047 27.449 26.326 25.221C26.427 24.388 26.522 23.498 26.649 22.672C26.701 22.499 26.72 22.24 26.744 22.054L26.873 21.05C27.056 19.678 27.254 18.308 27.467 16.94C27.542 16.442 27.625 15.945 27.714 15.449C27.775 15.106 27.871 14.386 28.095 14.118C28.761 13.263 30.318 14.006 30.484 14.882C30.536 15.156 30.262 16.493 30.206 16.835L29.835 19.103C29.801 19.302 29.674 19.886 29.699 20.053C29.805 19.834 29.943 19.446 30.033 19.211L30.594 17.718L31.998 13.983C32.236 13.351 32.491 12.619 32.746 12Z" fill="#3d9c9a"></path>
+<path d="M32.747 12C33.737 12.013 34.746 12.003 35.738 12.003L41.145 12.003L41.141 17.533L41.14 19.005C41.14 19.225 41.15 19.621 41.122 19.825C40.733 19.582 40.317 19.496 39.869 19.605C38.866 19.847 38.283 20.71 37.765 21.516C38.013 19.505 38.1 16.847 36.784 15.163C36.389 14.658 35.875 14.271 35.224 14.196C34.528 14.116 33.876 14.423 33.346 14.852C31.433 16.396 30.021 20.781 29.203 23.112L29.528 21.038C29.57 20.785 29.639 20.286 29.699 20.053C29.806 19.834 29.944 19.446 30.033 19.211L30.594 17.718L31.999 13.983C32.237 13.351 32.491 12.619 32.747 12Z" fill="#121b27"></path>
+<path d="M34.437 30.979C34.707 31.097 34.988 31.149 35.271 31.037C35.657 30.883 35.874 30.49 36.027 30.127C36.431 29.162 36.587 28.121 36.893 27.128C37.279 25.871 38.847 21.566 39.998 21.041C40.025 21.028 40.046 21.026 40.075 21.027C40.269 21.253 39.83 22.74 39.734 23.076L39.442 24.137C38.703 26.832 37.848 29.83 37.88 32.658C37.891 33.64 38.284 35.011 39.158 35.553C38.609 35.572 37.998 35.56 37.444 35.56L34.429 35.56C34.429 34.056 34.404 32.477 34.437 30.979Z" fill="#121b27"></path>
+<path d="M41.135 28.634C41.157 28.855 41.15 29.195 41.149 29.426L41.146 30.72C41.145 31.736 41.175 32.9 41.145 33.906C41.068 34.009 40.965 34.103 40.868 34.186C40.746 34.289 40.488 34.493 40.317 34.46C40.259 34.449 40.22 34.415 40.192 34.364C40.132 34.259 40.12 34.106 40.107 33.988C39.96 32.63 40.765 30.018 41.135 28.634Z" fill="#121b27"></path>
+<path d="M14.251 12.004L22.648 12.001C22.839 12.542 23.063 13.107 23.266 13.646L24.529 17.003C25.237 18.886 25.923 20.798 26.65 22.672C26.522 23.498 26.427 24.387 26.326 25.22C26.047 27.449 25.843 29.687 25.716 31.93C25.675 32.651 25.649 33.373 25.639 34.096C25.632 34.522 25.569 35.179 25.786 35.556C25.313 35.569 24.803 35.56 24.327 35.561C24.189 35.065 24.036 34.56 23.882 34.068C22.882 30.858 21.976 27.603 20.964 24.398C20.931 24.739 20.951 25.349 20.952 25.714L20.952 28.029L20.959 35.561L14.25 35.562C14.271 34.702 14.252 33.759 14.253 32.893L14.252 27.475L14.251 12.004Z" fill="#121b27"></path>
+</svg>
+<span style="font-weight: 700; font-size: 30px; line-height: 1.35">Martín Mato</span>
+</a>
+<nav class="nav" aria-label="Main" style="display: flex; align-items: center; gap: 24px; font-family: var(--font-sans); font-weight: 500; font-size: 14px">
+<a href="#" aria-current="page" style="padding: 8px; color: #121b27">Blog</a>
+<a href="#" style="padding: 8px; color: #121b27">About</a>
+<a href="#" style="padding: 8px; color: #121b27">Contact</a>
+<a class="btn" href="#newsletter" style="padding: 8px; border-radius: 4px; background: #013345; color: #f2f6f8; text-decoration: none">Subscribe</a>
+</nav>
+<button type="button" class="menu-btn" aria-label="{{menuLabel}}" aria-expanded="{{menuExpanded}}" aria-controls="mobile-menu" onClick="{{toggleMenu}}">
+<svg width="34" height="28" viewBox="0 0 34 28" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round" aria-hidden="true"><path d="M3 4h28M3 14h28M3 24h28"></path></svg>
+</button>
+<sc-if value="{{menuOpen}}" hint-placeholder-val="{{false}}">
+<nav id="mobile-menu" class="menu-panel" aria-label="Main (mobile)">
+<a href="#" aria-current="page" onClick="{{closeMenu}}">Blog</a>
+<a href="#" onClick="{{closeMenu}}">About</a>
+<a href="#" onClick="{{closeMenu}}">Contact</a>
+<a class="btn" href="#newsletter" onClick="{{closeMenu}}">Subscribe</a>
+</nav>
+</sc-if>
+</header>
+
+<main style="width: 100%; box-sizing: border-box; padding: 56px var(--side) var(--section); display: flex; flex-direction: column; align-items: center; gap: 40px">
+<div style="width: 100%; max-width: 680px">
+<a class="back" href="#"><span class="arr" aria-hidden="true">←</span> All stories</a>
+</div>
+
+<x-import component-from-global-scope="MartinsWeb.Article" title="The armor I called confidence." tags="{{tags}}" date="Oct 25, 2026" read-time="{{readTime}}" style="width: 100%">
+<figure class="author">
+<img src="/_blob/b907b2d214758d23a3f5ed0beea8674b" alt="Portrait of Martín Mato">
+<figcaption><span class="name">Martín Mato</span><span class="role">Principal Software Engineer. Writes from Montevideo, Uruguay.</span></figcaption>
+</figure>
+<p>Nine months into my first job as a junior developer, I was called into a meeting nobody wants to have. I was at the top of the layoff list. My manager at the time was the one who gave me the news. Even though I reacted politely, I was angry. I asked for the specific reason, although part of me didn’t want to hear it. I tried to defend myself, but the decision had already been made. I thought the company was unfair, the world was unfair and all the other things I imagine you’ve heard before. I was blaming everyone and everything instead of looking at my part of the problem.</p>
+<p>So, what was my part? My team was a small one at an e-banking solutions company. The SDLC process was far from perfect, and the onboarding wasn’t ideal either. But I worked the only way I knew: sit down, put on my headphones and code. It was me, the code and the process. Sometimes other people’s answers just weren’t enough for me. Taking off my headphones to ask for help felt like too much friction, so I’d just Google it. I finished every day exhausted, bored and sometimes angry. My isolation and lack of motivation were what put me on that list.</p>
+<p>A few weeks later, my old company called, the one where I had spent four years going from QA to test lead. This time they wanted me on a dev team. After some onboarding, and without any experience leading developers, I found myself in charge of a small team of analysts. It was my test lead experience that drove that decision. I knew in that moment that I had to change something and work on my people skills. I thrived in that position: I got things done on time, had a good relationship with my team and received high praise and recognition from my client. I thought I had learned the lesson.</p>
+<p>Then I joined Kaizen. It’s a horizontal company: no bosses, no titles to lean on. Every decision has to be earned through conversation. I started on a small team where, before long, I found myself defending architecture decisions I had never implemented, against people who had. People started saying yes just to avoid arguing with me. At the time, I took their silence as agreement. I thought I was winning. Some colleagues even joked that I had become a know-it-all. They weren’t really joking.</p>
+<p>Like many kids raised in the 90s, I was taught to solve things on my own. Asking for help felt like weakness. So I made sure I always had an answer, right or not.</p>
+<x-import component-from-global-scope="MartinsWeb.Highlight">My arrogance wasn’t confidence. It was the only way I knew to avoid asking for help.</x-import>
+<p>I’d be lying if I said I had an epiphany. It took me a while to realize that even though I was surrounded by people, I was alone. First, I had to get through the shame of having become that arrogant person. Then, I had to break the armor and let people in, to be vulnerable enough to accept help. I needed help. I needed guidance. And I needed to stop solving everything on my own.</p>
+<p>Years later, on a night out with some colleagues, one of them told me that when we first met, he couldn’t stand me. Too arrogant. It took him a while to get to know me, and to actually like me. He wasn’t the only one.</p>
+<p>It hurt to hear. But it also meant something had changed: he could tell me because I wasn’t that person anymore.</p>
+<p>Today, I enjoy debate. I genuinely believe that one of the most precious gifts people can give me is their opinion on the things we care about. I take in other people’s views and leave room in mine to be shaped by new experiences.</p>
+<p>Of course, I still fall back on old habits. When I see something unresolved, I jump in and fix it myself, afraid it won’t get done on time, instead of building the kind of trust where someone can tell me why they couldn’t finish it. And sometimes I swing to the other extreme: I keep an opinion to myself because I’m afraid that defending it will turn me back into that person.</p>
+<p>That’s why I’m writing this blog. To build my own opinions, get comfortable sharing them without the armor, and find out who I am beyond my job title.</p>
+<p>Here you’ll find stories from my personal life, from leading teams, mentoring people and bringing AI into my team. I’m not writing to tell anyone how things should be done. Everything here is up for debate, and that’s the point. Sometimes other people’s stories help us get unstuck, or make us want to tell our own. If one of mine does that for you, I’d love to hear it. And if you think I got it wrong, even better.</p>
+<x-import component-from-global-scope="MartinsWeb.ClosingPrompt" question="So, what was the armor you had to take off?" href="https://www.linkedin.com/"></x-import>
+</x-import>
+</main>
+
+<section id="newsletter" aria-labelledby="news-title" class="band dark">
+<div class="news">
+<div style="display: flex; flex-direction: column; gap: 20px">
+<p class="eyebrow" style="color: #97cfcc">Newsletter</p>
+<h2 id="news-title" style="margin: 0; font-size: 44px; font-weight: 700; line-height: 1.15">Get the next story in your inbox.</h2>
+<p class="lead" style="color: #cdd8df">Stories about leading teams, mentoring and bringing AI into a team, sent when a new one is out. Nothing else.</p>
+</div>
+<div>
+<sc-if value="{{showForm}}" hint-placeholder-val="{{true}}">
+<form novalidate="" onSubmit="{{submit}}" style="display: flex; flex-direction: column; gap: 12px">
+<div class="sub-row">
+<x-import component-from-global-scope="MartinsWeb.Input" label="Email" name="email" type="email" placeholder="you@company.com" auto-complete="email" value="{{email}}" on-change="{{onEmail}}"></x-import>
+<x-import component-from-global-scope="MartinsWeb.Button" type="submit">Subscribe</x-import>
+</div>
+<sc-if value="{{showError}}" hint-placeholder-val="{{false}}">
+<p role="alert" style="margin: 0; font-size: 14px; line-height: 1.35; color: #f2f6f8">Please add a valid email.</p>
+</sc-if>
+</form>
+</sc-if>
+<sc-if value="{{subscribed}}" hint-placeholder-val="{{false}}">
+<div role="status" style="display: flex; flex-direction: column; align-items: flex-start; gap: 12px">
+<p style="margin: 0; font-size: 28px; font-weight: 600; line-height: 1.35">You’re in.</p>
+<p class="lead" style="color: #cdd8df">The next story will reach you at {{email}}.</p>
+<x-import component-from-global-scope="MartinsWeb.Button" variant="secondary" on-click="{{reset}}">Use another email</x-import>
+</div>
+</sc-if>
+</div>
+</div>
+</section>
+
+<footer style="display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 16px; padding: 24px var(--side); background: #f2f6f8">
+<p style="margin: 0; font-size: 14px; color: #364552">© 2026 Martín Mato</p>
+<nav class="nav" aria-label="Footer" style="display: flex; gap: 24px; font-family: var(--font-sans); font-weight: 500; font-size: 14px">
+<a href="#" style="padding: 8px; color: #121b27">Blog</a>
+<a href="#" style="padding: 8px; color: #121b27">About</a>
+<a href="#" style="padding: 8px; color: #121b27">Contact</a>
+<a href="#" style="padding: 8px; color: #121b27">RSS</a>
+</nav>
+</footer>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1280,"height":4000}}'>
+class Component extends DCLogic {
+constructor(props) {
+super(props);
+this.state = { email: '', tried: false, subscribed: false, menuOpen: false };
+}
+renderVals() {
+var self = this;
+var s = this.state;
+var valid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(s.email.trim());
+return {
+tags: ['Personal'],
+readTime: '4 min read',
+menuOpen: s.menuOpen,
+menuExpanded: s.menuOpen ? 'true' : 'false',
+menuLabel: s.menuOpen ? 'Close menu' : 'Open menu',
+toggleMenu: function () { self.setState({ menuOpen: !self.state.menuOpen }); },
+closeMenu: function () { self.setState({ menuOpen: false }); },
+email: s.email,
+showForm: !s.subscribed, subscribed: s.subscribed, showError: s.tried && !valid,
+onEmail: function (e) { self.setState({ email: e.target.value }); },
+submit: function (e) { if (e && e.preventDefault) e.preventDefault(); self.setState(valid ? { subscribed: true, tried: false } : { tried: true }); },
+reset: function () { self.setState({ email: '', tried: false, subscribed: false }); }
+};
+}
+}
+</script>
+</body>
+</html>

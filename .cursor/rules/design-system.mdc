@@ -1,0 +1,70 @@
+---
+description: Martin's Web design system. Applies to every UI, style, layout, page or copy change on the site.
+alwaysApply: true
+---
+
+# Martin's Web: design system rules
+
+This site is built from the design system in `design-system/`. It is the source of truth for how anything looks, reads and behaves. Do not invent styles.
+
+## Before touching any UI
+
+1. Read `design-system/README.md` (the brand book: voice, colour, type, spacing, layout, page patterns). Read it again whenever you build a new page or pattern.
+2. For a component, read `design-system/components/<Name>/README.md`, its props in `design-system/components/index.d.ts`, and its usage in `design-system/components/<Name>/example.html`.
+3. For a page, open its approved design in `design-system/pages/` (see `design-system/pages/README.md`).
+4. `design-system/reference/bundle.js` and `bundle.css` are the working React implementation of every component. Port their markup, class names and states into the site's own components. Do not import or ship the bundle.
+
+If the README and a page design disagree, the README wins. If something is not covered, ask instead of guessing.
+
+## Tokens
+
+- Import `design-system/tokens.css` once, globally. It defines every token as a CSS custom property, plus `.type-*` classes for the type scale.
+- Colours, spacing, radii, shadows and layout widths always come from `var(--token)`. Never hard-code a hex, rgb or px value that a token covers.
+- Paint with semantic tokens (`surfaces-*`, `text-*`, `button-*`, `accent`, `highlight-rule`, `topic-*`). Never use the primitives (`teal-*`, `mint-500`, `neutral-*`) directly in components.
+- Type: use the `.type-<name>` classes (`display`, `h1` to `h4`, `body`, `body-long`, `pull-quote`, `highlights`, `button`, `caption`, `caption-mono`). They switch to the mobile scale below 600px on their own.
+- `tokens.css` is generated from `tokens.json`. Never edit it by hand.
+- Fonts are self-hosted: `tokens.css` imports `design-system/fonts.css`, which loads the files in `design-system/fonts/`. Do not add Google Fonts links or other families.
+
+## Theme
+
+- Light is the default. Dark is opt-in only, through an explicit toggle that sets `data-theme="dark"` on `<html>` and remembers the reader's choice.
+- Never switch theme from `prefers-color-scheme`.
+- Components need no theme-specific code: the semantic tokens already change.
+
+## Layout
+
+- Breakpoints: 600 (`breakpoint-sm`, phone type and spacing), 768 (`breakpoint-md`, header nav collapses, hero stacks), 1024 (`breakpoint-lg`, desktop gutter).
+- Content lives in a centred `container-max` (1440px) with `gutter-lg` / `gutter-md` / `gutter-sm` side padding.
+- No text block wider than `measure-page` (800px). Article bodies use `measure-reading` (680px).
+- One left edge per page. Indent only content hanging from a rail.
+
+## Shape and depth
+
+- `radius-s` (4px) for Buttons, Chips and Inputs; `radius-none` for structure (header, footer, Next-Read cards, forms); `radius-card` (8px) only for Cards. Avatars stay round. No pills.
+- One shadow in use: `shadow-elevation`. No gradients.
+
+## Icons and logo
+
+- Only the eight glyphs in `design-system/assets/icons/` (share, quote, back, group, psychology, coach, external-link, menu). Inline them so they inherit `currentColor`. No icon libraries, no emoji.
+- Logo: `design-system/assets/logo/martin-mato-logo.svg`. Inline it with the block M in `var(--text-primary)` and the script m in `var(--teal-500)` so it survives the dark theme. Always next to "Martín Mato" in Source Serif 4 Bold 30.
+
+## Photos
+
+- Use the photos in `design-system/assets/photos/` (described in `design-system/pages/README.md`). Never stock images or placeholders presented as real.
+- Show Martín once per page. Heroes prefer a natural photo in context (the Kaizen booth); the post author block uses `portrait-headshot.jpg`.
+- Every photo gets an explicit size with `object-fit: cover` and a real `alt`.
+
+## Content rules
+
+- Posts are written in English, first person, never prescriptive. Post titles in sentence case; page and section titles in title case.
+- Topics are a closed list, in this order: Personal, Leading Teams, Mentoring, AI in Teams. One topic per post.
+- Meta line is always: topic Chip, date, read time, joined by a middle dot "·" ("Sept 9, 2026 · 6 min read").
+- No cover images on posts.
+- A post page is exactly: Header, Article (author block, `body-long` paragraphs, at most one Highlight, ClosingPrompt), the dark newsletter band (`id="newsletter"`), Footer. Nothing else between them.
+- Blog list: newest first, PostCards separated by `surfaces-divider` rules, "Older Entries" secondary Button for paging, never infinite scroll.
+
+## Accessibility
+
+- Real `<button>`, `<a href>`, `<input>` with `<label>`. Never click handlers on divs.
+- Text 4.5:1 against its background (3:1 at 24px and up). The README lists the few pairs kept below that on purpose; do not add new ones.
+- Focus rings: 1px `button-mid`, offset 2 to 3px. Touch targets at least 44px.

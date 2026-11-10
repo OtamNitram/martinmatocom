@@ -1,0 +1,173 @@
+/* Martin's Web tokens. Generated from tokens.json: edit tokens.json, then regenerate. */
+@import url("./fonts.css");
+
+/* Light is the default theme. Dark only via an explicit toggle: <html data-theme="dark">.
+   Do not follow prefers-color-scheme automatically (README, Visual foundations). */
+:root {
+  color-scheme: light;
+
+  /* Primitives: never paint with these directly, use the semantic tokens below. */
+  --teal-900: #013345;
+  --teal-800: #0f4a5d;
+  --teal-700: #216375;
+  --teal-600: #297f89;
+  --teal-500: #3d9c9a;
+  --teal-400: #68b6b2;
+  --teal-300: #97cfcc;
+  --teal-200: #c2e4e3;
+  --teal-100: #e3f4f4;
+  --mint-500: #22d48d;
+  --neutral-900: #121b27;
+  --neutral-800: #212d38;
+  --neutral-700: #364552;
+  --neutral-500: #7a8b99;
+  --neutral-200: #cdd8df;
+  --neutral-100: #f2f6f8;
+  --neutral-50: #fafafa;
+
+  /* Semantic colours (light) */
+  --surfaces-white: var(--neutral-50);
+  --surfaces-highlights: var(--neutral-100);
+  --surfaces-strokes: var(--neutral-200);
+  --surfaces-elevation: var(--neutral-500);
+  --surfaces-elevation-20: rgba(122, 139, 153, 0.2);
+  --surfaces-divider: var(--neutral-700);
+  --surfaces-divider-20: rgba(54, 69, 82, 0.2);
+  --surfaces-captions: var(--neutral-800);
+  --surfaces-dark: var(--neutral-900);
+  --text-primary: var(--neutral-900);
+  --text-secondary: var(--neutral-700);
+  --text-contrast: var(--neutral-100);
+  --text-highlight: var(--teal-500);
+  --button-dark: var(--teal-900);
+  --button-mid: var(--teal-700);
+  --button-light: var(--teal-500);
+  --accent: var(--mint-500);
+  --highlight-rule: var(--teal-500);
+  --topic-leading-surface: var(--teal-300);
+  --topic-leading-stroke: var(--teal-400);
+  --topic-leading-text: var(--neutral-900);
+  --topic-leading-dot: var(--teal-900);
+  --topic-ai-surface: var(--teal-100);
+  --topic-ai-stroke: var(--teal-300);
+  --topic-ai-text: var(--neutral-900);
+  --topic-ai-dot: var(--teal-700);
+  --topic-mentoring-surface: var(--neutral-50);
+  --topic-mentoring-stroke: var(--teal-400);
+  --topic-mentoring-text: var(--neutral-900);
+  --topic-mentoring-dot: var(--teal-500);
+  --topic-personal-surface: var(--neutral-200);
+  --topic-personal-stroke: var(--neutral-500);
+  --topic-personal-text: var(--neutral-900);
+  --topic-personal-dot: var(--neutral-700);
+
+  /* Font families */
+  --font-serif: "Source Serif 4", Georgia, "Times New Roman", serif;
+  --font-sans: "Instrument Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-mono: "Space Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
+
+  /* Spacing */
+  --space-xxs: 4px;
+  --space-xs: 8px;
+  --space-s: 12px;
+  --space-m: 16px;
+  --space-l: 24px;
+  --space-xl: 32px;
+  --space-xxl: 96px;
+  --space-xxxl: 128px;
+  --space-l-mobile: 16px;
+  --space-xl-mobile: 24px;
+  --space-xxl-mobile: 48px;
+  --space-xxxl-mobile: 64px;
+
+  /* Radius */
+  --radius-none: 0px;
+  --radius-s: 4px;
+  --radius-card: 8px;
+
+  /* Layout */
+  --measure-page: 800px;
+  --measure-reading: 680px;
+  --measure-hero: 700px;
+  --measure-lead: 600px;
+  --container-max: 1440px;
+  --gutter-lg: 96px;
+  --gutter-md: 48px;
+  --gutter-sm: 16px;
+  --breakpoint-sm: 600px;
+  --breakpoint-md: 768px;
+  --breakpoint-lg: 1024px;
+
+  /* Shadows (light) */
+  --shadow-elevation: 0px 4px 4px 0px rgba(122, 139, 153, 0.2);
+  --shadow-highlights: 0px 0px 15px 0px rgba(54, 69, 82, 0.2);
+}
+
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --surfaces-white: var(--neutral-900);
+  --surfaces-highlights: var(--neutral-800);
+  --surfaces-strokes: var(--neutral-700);
+  --surfaces-elevation: var(--neutral-500);
+  --surfaces-elevation-20: rgba(54, 69, 82, 0.2);
+  --surfaces-divider: var(--neutral-200);
+  --surfaces-divider-20: rgba(205, 216, 223, 0.2);
+  --surfaces-captions: var(--neutral-100);
+  --surfaces-dark: var(--neutral-50);
+  --text-primary: var(--neutral-50);
+  --text-secondary: var(--neutral-200);
+  --text-contrast: var(--neutral-900);
+  --text-highlight: var(--neutral-900);
+  --button-dark: var(--teal-500);
+  --button-mid: var(--teal-700);
+  --button-light: var(--teal-900);
+  --accent: var(--mint-500);
+  --highlight-rule: var(--teal-300);
+  --topic-leading-surface: var(--teal-300);
+  --topic-leading-stroke: var(--teal-300);
+  --topic-leading-text: var(--neutral-900);
+  --topic-leading-dot: var(--teal-900);
+  --topic-ai-surface: var(--teal-700);
+  --topic-ai-stroke: var(--teal-600);
+  --topic-ai-text: var(--neutral-50);
+  --topic-ai-dot: var(--teal-100);
+  --topic-mentoring-surface: var(--teal-800);
+  --topic-mentoring-stroke: var(--teal-700);
+  --topic-mentoring-text: var(--neutral-50);
+  --topic-mentoring-dot: var(--teal-400);
+  --topic-personal-surface: var(--neutral-700);
+  --topic-personal-stroke: var(--neutral-500);
+  --topic-personal-text: var(--neutral-50);
+  --topic-personal-dot: var(--neutral-200);
+  --shadow-elevation: 0px 4px 4px 0px rgba(54, 69, 82, 0.2);
+  --shadow-highlights: 0px 0px 15px 0px rgba(205, 216, 223, 0.2);
+}
+
+/* Type styles. Use .type-<name>; below 600px (breakpoint-sm) each switches to its *-mobile values. */
+.type-display { font-family: var(--font-serif); font-size: 56px; line-height: 60px; font-weight: 700; font-style: normal; }
+.type-h1 { font-family: var(--font-serif); font-size: 48px; line-height: 48px; font-weight: 700; font-style: normal; }
+.type-h2 { font-family: var(--font-serif); font-size: 32px; line-height: 1.35; font-weight: 600; font-style: normal; }
+.type-h3 { font-family: var(--font-serif); font-size: 24px; line-height: 1.35; font-weight: 600; font-style: normal; }
+.type-h4 { font-family: var(--font-sans); font-size: 24px; line-height: 1.2; font-weight: 400; font-style: normal; }
+.type-body { font-family: var(--font-serif); font-size: 20px; line-height: 1.35; font-weight: 400; font-style: normal; }
+.type-body-long { font-family: var(--font-serif); font-size: 20px; line-height: 1.6; font-weight: 400; font-style: normal; }
+.type-highlights { font-family: var(--font-serif); font-size: 18px; line-height: 1.35; font-weight: 500; font-style: italic; }
+.type-pull-quote { font-family: var(--font-serif); font-size: 32px; line-height: 1.3; font-weight: 500; font-style: italic; }
+.type-button { font-family: var(--font-sans); font-size: 14px; line-height: 1.2; font-weight: 500; font-style: normal; }
+.type-caption { font-family: var(--font-serif); font-size: 14px; line-height: 1.35; font-weight: 400; font-style: normal; }
+.type-caption-mono { font-family: var(--font-mono); font-size: 18px; line-height: 1.35; font-weight: 400; font-style: normal; text-transform: uppercase; }
+
+@media (max-width: 599.98px) {
+  .type-display { font-size: 36px; line-height: 44px; }
+  .type-h1 { font-size: 36px; line-height: 48px; }
+  .type-h2 { font-size: 24px; line-height: 1.35; }
+  .type-h3 { font-size: 20px; line-height: 1.35; }
+  .type-h4 { font-size: 20px; line-height: 1.2; }
+  .type-body { font-size: 16px; line-height: 1.35; }
+  .type-body-long { font-size: 18px; line-height: 1.6; }
+  .type-highlights { font-size: 14px; line-height: 1.35; }
+  .type-pull-quote { font-size: 24px; line-height: 1.3; }
+  .type-button { font-size: 14px; line-height: 1.2; }
+  .type-caption { font-size: 12px; line-height: 1.35; }
+  .type-caption-mono { font-size: 14px; line-height: 1.35; }
+}

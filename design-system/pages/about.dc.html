@@ -1,0 +1,230 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>About · Martín Mato</title>
+<script src="./support.js"></script>
+<link rel="stylesheet" href="ds/martins-web/components/bundle.css">
+<script src="ds/martins-web/components/bundle.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600;700&amp;family=Space+Mono&amp;family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,500;0,8..60,600;0,8..60,700;1,8..60,500&amp;display=swap">
+<style>
+:root{
+--surfaces-white:#fafafa;--surfaces-highlights:#f2f6f8;--surfaces-strokes:#cdd8df;--surfaces-elevation:#7a8b99;--surfaces-elevation-20:rgba(122,139,153,0.2);--surfaces-divider:#364552;
+--text-primary:#121b27;--text-secondary:#364552;--text-contrast:#f2f6f8;--text-highlight:#3d9c9a;
+--button-dark:#013345;--button-mid:#216375;--button-light:#3d9c9a;--accent:#22d48d;
+--teal-900:#013345;--teal-700:#216375;--teal-500:#3d9c9a;--teal-400:#68b6b2;--teal-300:#97cfcc;--teal-100:#e3f4f4;
+--topic-leading-surface:#97cfcc;--topic-leading-stroke:#68b6b2;--topic-leading-text:#121b27;--topic-leading-dot:#013345;
+--topic-ai-surface:#e3f4f4;--topic-ai-stroke:#97cfcc;--topic-ai-text:#121b27;--topic-ai-dot:#216375;
+--topic-mentoring-surface:#fafafa;--topic-mentoring-stroke:#68b6b2;--topic-mentoring-text:#121b27;--topic-mentoring-dot:#3d9c9a;
+--topic-personal-surface:#cdd8df;--topic-personal-stroke:#7a8b99;--topic-personal-text:#121b27;--topic-personal-dot:#364552;
+--font-mono:"Space Mono",ui-monospace,"SFMono-Regular",Menlo,monospace;--font-serif:"Source Serif 4",Georgia,"Times New Roman",serif;--font-sans:"Instrument Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
+--space-xxs:4px;--space-xs:8px;--space-s:12px;--space-m:16px;--space-l:24px;--space-xl:32px;--space-xxl:96px;--space-l-mobile:16px;
+--radius-none:0px;--radius-s:4px;--radius-card:8px;
+--shadow-elevation:0px 4px 4px 0px rgba(122,139,153,0.2);--shadow-highlights:0px 0px 15px 0px rgba(54,69,82,0.2);
+--measure-reading:680px;--measure-page:800px;--container-max:1440px;
+--gutter:96px;--section-half:48px;--page-top:96px
+}
+@media (max-width: 1023px){:root{--gutter:48px}}
+@media (max-width: 599px){:root{--gutter:16px;--section-half:24px;--page-top:48px}}
+body{margin:0;background:#fafafa}
+
+/* One left edge: header, content and footer all start on the container's gutter; backgrounds keep running edge to edge. */
+.wrap{width:100%;max-width:var(--container-max);margin:0 auto;box-sizing:border-box;padding:0 var(--gutter)}
+.mw-header,.mw-footer{padding-left:max(var(--gutter),calc((100% - var(--container-max)) / 2 + var(--gutter)));padding-right:max(var(--gutter),calc((100% - var(--container-max)) / 2 + var(--gutter)))}
+.menu-panel{padding:16px max(var(--gutter),calc((100% - var(--container-max)) / 2 + var(--gutter)))}
+
+/* Text never wider than measure-page */
+.measure{max-width:var(--measure-page)}
+
+/* Type: desktop, then the *-mobile styles below 600 */
+.t-h1{margin:0;font-size:48px;font-weight:700;line-height:48px}
+.t-h2{margin:0;font-size:32px;font-weight:600;line-height:1.35}
+.t-body{font-size:20px;line-height:1.35}
+.t-caption{margin:0;font-size:14px;line-height:1.35;color:var(--text-secondary)}
+/* Card titles sit under a section h2, so they take the h3 step (24 serif SemiBold) */
+.mw-card__title{font-size:24px}
+
+/* Hero: text and portrait side by side, stacked below 768 with the portrait first */
+.hero{display:flex;flex-direction:row;align-items:flex-start;gap:24px}
+.hero-img{width:315px;height:315px;object-fit:cover;object-position:50% 40%;flex-shrink:0;display:block}
+
+/* Rows of three cards: 256px each on desktop = the 800px measure */
+.row3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px;max-width:var(--measure-page)}
+.form-row{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}
+
+/* Topic chips: the whole chip tells topics apart (fill, stroke, dot), never a dark teal fill */
+.topic{display:flex}
+.topic>.mw-nextread{flex:1 1 auto}
+.topic .mw-chip{gap:6px;background:var(--t-surface);border-color:var(--t-stroke);color:var(--t-text)}
+.topic .mw-chip::before{content:"";flex:none;width:8px;height:8px;border-radius:50%;background:var(--t-dot)}
+.topic-personal{--t-surface:var(--topic-personal-surface);--t-stroke:var(--topic-personal-stroke);--t-text:var(--topic-personal-text);--t-dot:var(--topic-personal-dot)}
+.topic-leading{--t-surface:var(--topic-leading-surface);--t-stroke:var(--topic-leading-stroke);--t-text:var(--topic-leading-text);--t-dot:var(--topic-leading-dot)}
+.topic-mentoring{--t-surface:var(--topic-mentoring-surface);--t-stroke:var(--topic-mentoring-stroke);--t-text:var(--topic-mentoring-text);--t-dot:var(--topic-mentoring-dot)}
+.topic-ai{--t-surface:var(--topic-ai-surface);--t-stroke:var(--topic-ai-stroke);--t-text:var(--topic-ai-text);--t-dot:var(--topic-ai-dot)}
+
+hr.rule{width:100%;margin:var(--section-half) 0;border:0;border-top:1px solid var(--surfaces-divider)}
+
+@media (max-width: 767px){
+.hero{flex-direction:column-reverse}
+.hero-img{width:100%;max-width:400px;height:auto;aspect-ratio:1/1}
+.row3{grid-template-columns:minmax(0,1fr)}
+}
+@media (max-width: 599px){
+.t-h1{font-size:36px}
+.t-h2{font-size:24px}
+.t-body{font-size:16px}
+.t-caption{font-size:12px}
+.mw-card__title{font-size:20px}
+.form-row{grid-template-columns:minmax(0,1fr)}
+}
+</style>
+</helmet>
+<div style="min-height: 100vh; display: flex; flex-direction: column; background: var(--surfaces-white); color: var(--text-primary); font-family: var(--font-serif)">
+
+<div style="position: relative; z-index: 1">
+<x-import component-from-global-scope="MartinsWeb.Header" device="{{device}}" home-href="#" links="{{navLinks}}" on-menu="{{toggleMenu}}"></x-import>
+<sc-if value="{{menuOpen}}" hint-placeholder-val="{{false}}">
+<nav class="menu-panel" aria-label="Main (mobile)" style="position: absolute; left: 0; right: 0; top: 100%; display: flex; flex-direction: column; gap: 4px; background: var(--surfaces-white); border-top: 1px solid var(--surfaces-strokes); box-shadow: var(--shadow-elevation)">
+<x-import component-from-global-scope="MartinsWeb.Link" href="#">Blog</x-import>
+<x-import component-from-global-scope="MartinsWeb.Link" href="#" current="{{yes}}">About</x-import>
+<x-import component-from-global-scope="MartinsWeb.Link" href="#contact">Contact</x-import>
+</nav>
+</sc-if>
+</div>
+
+<main class="wrap" style="flex-grow: 1; display: flex; flex-direction: column; padding-top: var(--page-top); padding-bottom: var(--space-xxl)">
+
+<section style="display: flex; flex-direction: column; gap: 32px">
+<div class="measure" style="display: flex; flex-direction: column; gap: 12px">
+<h1 class="t-h1">About Me</h1>
+<p class="t-h2">Engineering Leadership &amp; Organizational Design</p>
+</div>
+<div class="hero">
+<div class="t-body measure" style="flex: 1 1 0; min-width: 0; display: flex; flex-direction: column; gap: 16px">
+<p style="margin: 0">I’m Martín Mato. I’m from Uruguay and I work as a Principal Software Engineer at Kaizen Softworks. I navigate between engineering, product, and strategy to align teams and unify complex platforms.</p>
+<p style="margin: 0">I come from a technical background in .NET, AWS, and React, but today I focus my energy on organizational design and socio-technical architecture.</p>
+</div>
+<img class="hero-img" src="/_blob/78f28c4786c64e136d62d8c4a9cb9136" alt="Portrait of Martín Mato">
+</div>
+<div>
+<x-import component-from-global-scope="MartinsWeb.Button" href="https://www.linkedin.com/" icon="external-link">Connect on LinkedIn</x-import>
+</div>
+</section>
+
+<hr class="rule">
+
+<section style="display: flex; flex-direction: column; gap: 24px">
+<h2 class="t-h2">Approach &amp; Methodology</h2>
+<div class="row3">
+<x-import component-from-global-scope="MartinsWeb.Card" icon="group" title="Team Building">Focusing on continuous improvement and operational excellence. Building teams that naturally iterate towards higher quality and efficiency.</x-import>
+<x-import component-from-global-scope="MartinsWeb.Card" icon="psychology" title="Psychological Safety">Leveraging modern tools while fostering a culture of trust and innovation. Ensuring teams feel secure to experiment and adopt new paradigms.</x-import>
+<x-import component-from-global-scope="MartinsWeb.Card" icon="coach" title="Ontological Coaching">A human-centered approach to professional growth and team dynamics. Cultivating leadership and effective communication from within.</x-import>
+</div>
+</section>
+
+<hr class="rule">
+
+<section style="display: flex; flex-direction: column; gap: 24px">
+<h2 class="t-h2">Highlighted Posts</h2>
+<div class="row3">
+<div class="topic topic-personal">
+<x-import component-from-global-scope="MartinsWeb.NextRead" href="#" tag="Personal" title="The armor I called confidence." date="Oct 25, 2026"></x-import>
+</div>
+<div class="topic topic-leading">
+<x-import component-from-global-scope="MartinsWeb.NextRead" href="#" tag="Leading Teams" title="How we make decisions" date="Aug 17, 2026"></x-import>
+</div>
+<div class="topic topic-ai">
+<x-import component-from-global-scope="MartinsWeb.NextRead" href="#" tag="AI in Teams" title="Build with AI Agents at Full Speed" date="Aug 17, 2026"></x-import>
+</div>
+</div>
+</section>
+
+<hr class="rule">
+
+<section id="contact" class="measure" style="display: flex; flex-direction: column; gap: 24px">
+<div style="display: flex; flex-direction: column; gap: 12px">
+<h2 class="t-h2">Contact</h2>
+<p class="t-caption">Have a question about organizational design, engineering leadership, or a collaboration opportunity? Send me a message and I’ll get back to you.</p>
+</div>
+<sc-if value="{{showForm}}" hint-placeholder-val="{{true}}">
+<form novalidate="" onSubmit="{{submit}}" style="display: flex; flex-direction: column; gap: 24px; padding: 24px; background: var(--surfaces-white); border: 1px solid var(--surfaces-strokes); box-shadow: var(--shadow-elevation)">
+<div style="display: flex; flex-direction: column; gap: 16px">
+<div class="form-row">
+<x-import component-from-global-scope="MartinsWeb.Input" label="Name" name="name" placeholder="Your name" auto-complete="name" value="{{name}}" on-change="{{onName}}"></x-import>
+<x-import component-from-global-scope="MartinsWeb.Input" label="Email" name="email" type="email" placeholder="you@company.com" auto-complete="email" value="{{email}}" on-change="{{onEmail}}"></x-import>
+</div>
+<x-import component-from-global-scope="MartinsWeb.Input" label="Topic" name="topic" placeholder="Speaking, coaching, collaboration, etc." value="{{topic}}" on-change="{{onTopic}}"></x-import>
+<x-import component-from-global-scope="MartinsWeb.Input" label="Message" name="message" size="l" placeholder="Tell me a bit about what you’d like to discuss." value="{{message}}" on-change="{{onMessage}}"></x-import>
+<sc-if value="{{showError}}" hint-placeholder-val="{{false}}">
+<p role="alert" style="margin: 0; font-size: 14px; line-height: 1.35; color: var(--text-primary)">Please add your name, a valid email and a message.</p>
+</sc-if>
+</div>
+<div style="display: flex; flex-wrap: wrap; gap: 16px">
+<x-import component-from-global-scope="MartinsWeb.Button" type="submit">Send message</x-import>
+<x-import component-from-global-scope="MartinsWeb.Button" variant="secondary" on-click="{{clear}}">Clear form</x-import>
+</div>
+</form>
+</sc-if>
+<sc-if value="{{sent}}" hint-placeholder-val="{{false}}">
+<div role="status" style="display: flex; flex-direction: column; align-items: flex-start; gap: 16px; padding: 24px; background: var(--surfaces-white); border: 1px solid var(--surfaces-strokes); box-shadow: var(--shadow-elevation)">
+<p class="t-h2">Thanks, {{firstName}}.</p>
+<p class="t-caption">Your message is on its way. I’ll get back to you at {{email}}.</p>
+<x-import component-from-global-scope="MartinsWeb.Button" variant="secondary" on-click="{{clear}}">Send another message</x-import>
+</div>
+</sc-if>
+</section>
+
+</main>
+
+<x-import component-from-global-scope="MartinsWeb.Footer" device="{{device}}" links="{{footerLinks}}"></x-import>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1280,"height":2600}}'>
+class Component extends DCLogic {
+constructor(props) {
+super(props);
+this.state = { name: '', email: '', topic: '', message: '', tried: false, sent: false, menuOpen: false, device: this.deviceFor() };
+this.onResize = this.onResize.bind(this);
+}
+deviceFor() {
+/* breakpoint-md: the header nav collapses below 768 */
+return (typeof window !== 'undefined' && window.innerWidth < 768) ? 'mobile' : 'desktop';
+}
+componentDidMount() { window.addEventListener('resize', this.onResize); }
+componentWillUnmount() { window.removeEventListener('resize', this.onResize); }
+onResize() {
+var d = this.deviceFor();
+if (d !== this.state.device) this.setState({ device: d, menuOpen: false });
+}
+renderVals() {
+var self = this;
+var s = this.state;
+var valid = s.name.trim() !== '' && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(s.email.trim()) && s.message.trim() !== '';
+return {
+yes: true,
+device: s.device,
+menuOpen: s.menuOpen,
+toggleMenu: function () { self.setState({ menuOpen: !self.state.menuOpen }); },
+navLinks: [{ label: 'Blog', href: '#' }, { label: 'About', href: '#', current: true }, { label: 'Contact', href: '#contact' }],
+footerLinks: [{ label: 'Posts', href: '#' }, { label: 'About', href: '#' }, { label: 'Contact', href: '#contact' }, { label: 'RSS', href: '#' }],
+name: s.name, email: s.email, topic: s.topic, message: s.message,
+firstName: s.name.trim().split(' ')[0] || 'there',
+showForm: !s.sent, sent: s.sent, showError: s.tried && !valid,
+onName: function (e) { self.setState({ name: e.target.value }); },
+onEmail: function (e) { self.setState({ email: e.target.value }); },
+onTopic: function (e) { self.setState({ topic: e.target.value }); },
+onMessage: function (e) { self.setState({ message: e.target.value }); },
+submit: function (e) { if (e && e.preventDefault) e.preventDefault(); self.setState(valid ? { sent: true, tried: false } : { tried: true }); },
+clear: function () { self.setState({ name: '', email: '', topic: '', message: '', tried: false, sent: false }); }
+};
+}
+}
+</script>
+</body>
+</html>

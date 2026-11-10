@@ -1,0 +1,147 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Contact · Martín Mato</title>
+<script src="./support.js"></script>
+<link rel="stylesheet" href="ds/martins-web/components/bundle.css">
+<script src="ds/martins-web/components/bundle.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600;700&amp;family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,500;0,8..60,600;0,8..60,700;1,8..60,500&amp;display=swap">
+<style>
+:root{--surfaces-white:#fafafa;--surfaces-highlights:#f2f6f8;--surfaces-strokes:#cdd8df;--surfaces-elevation:#7a8b99;--surfaces-elevation-20:rgba(122,139,153,0.2);--surfaces-divider:#364552;--text-primary:#121b27;--text-secondary:#364552;--text-contrast:#f2f6f8;--button-dark:#013345;--button-mid:#216375;--button-light:#3d9c9a;--accent:#22d48d;--teal-500:#3d9c9a;--font-serif:"Source Serif 4",Georgia,"Times New Roman",serif;--font-sans:"Instrument Sans",system-ui,-apple-system,"Segoe UI",sans-serif;--space-xxs:4px;--space-xs:8px;--space-s:12px;--space-m:16px;--space-l:24px;--space-xl:32px;--space-xxl:96px;--space-l-mobile:16px;--radius-none:0px;--radius-card:8px;--shadow-elevation:0px 4px 4px 0px rgba(122,139,153,0.2);--shadow-highlights:0px 0px 15px 0px rgba(54,69,82,0.2);--measure-reading:680px;--measure-page:800px}
+body{margin:0;background:#fafafa}
+.page{gap:96px}
+.t-h1{font-size:48px}
+.t-body{font-size:20px}
+.field{width:100%;min-height:44px;box-sizing:border-box;padding:8px 12px;border:1px solid var(--surfaces-elevation);border-radius:0;background:var(--surfaces-white);color:var(--text-primary);font-family:var(--font-serif);font-size:16px}
+.field:focus-visible{outline:1px solid var(--button-mid);outline-offset:2px}
+.lbl{font-family:var(--font-sans);font-weight:500;font-size:14px;line-height:1.2}
+.err{margin:0;font-size:14px;line-height:1.35;color:#9b2c1f}
+@media (max-width: 600px){.page{gap:48px}.t-h1{font-size:36px}.t-body{font-size:16px}}
+</style>
+</helmet>
+<div class="page" style="min-height: 100vh; display: flex; flex-direction: column; background: var(--surfaces-white); color: var(--text-primary); font-family: var(--font-serif)">
+
+<div style="position: relative; z-index: 1">
+<x-import component-from-global-scope="MartinsWeb.Header" device="{{device}}" home-href="Main.dc.html" links="{{navLinks}}" on-menu="{{toggleMenu}}"></x-import>
+<sc-if value="{{menuOpen}}" hint-placeholder-val="{{false}}">
+<nav aria-label="Main (mobile)" style="position: absolute; left: 0; right: 0; top: 100%; display: flex; flex-direction: column; gap: 4px; padding: 16px; background: var(--surfaces-white); border-top: 1px solid var(--surfaces-strokes); box-shadow: var(--shadow-elevation)">
+<x-import component-from-global-scope="MartinsWeb.Link" href="Main.dc.html">Blog</x-import>
+<x-import component-from-global-scope="MartinsWeb.Link" href="About.dc.html">About</x-import>
+<x-import component-from-global-scope="MartinsWeb.Link" href="Contact.dc.html" current="{{yes}}">Contact</x-import>
+</nav>
+</sc-if>
+</div>
+
+<main style="width: 100%; max-width: 832px; margin: 0 auto; box-sizing: border-box; padding: 0 16px; flex-grow: 1; display: flex; flex-direction: column; gap: 48px">
+
+<section style="display: flex; flex-direction: column; gap: 24px">
+<h1 class="t-h1" style="margin: 0; font-weight: 700; line-height: 1.35">Contact</h1>
+<p class="t-body" style="margin: 0; line-height: 1.35">A thought on a post, a story of your own, or a different take? Write me a few lines. And if you think I got something wrong, even better.</p>
+<p style="margin: 0; font-size: 14px; line-height: 1.35; color: var(--text-secondary)">Prefer LinkedIn? <x-import component-from-global-scope="MartinsWeb.Link" href="https://www.linkedin.com/" external="{{yes}}" icon="external-link">Send me a message there</x-import></p>
+</section>
+
+<hr style="width: 100%; margin: 0; border: 0; border-top: 1px solid var(--surfaces-divider)">
+
+<sc-if value="{{showForm}}" hint-placeholder-val="{{true}}">
+<form novalidate="" onSubmit="{{submit}}" style="display: flex; flex-direction: column; gap: 24px">
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 24px 16px">
+<div style="display: flex; flex-direction: column; gap: 8px">
+<label class="lbl" for="c-name">Name</label>
+<input class="field" id="c-name" type="text" autocomplete="name" value="{{name}}" onChange="{{onName}}">
+<sc-if value="{{errName}}" hint-placeholder-val="{{false}}"><p class="err">Tell me who you are.</p></sc-if>
+</div>
+<div style="display: flex; flex-direction: column; gap: 8px">
+<label class="lbl" for="c-email">Email</label>
+<input class="field" id="c-email" type="email" autocomplete="email" value="{{email}}" onChange="{{onEmail}}">
+<sc-if value="{{errEmail}}" hint-placeholder-val="{{false}}"><p class="err">I’ll need a valid email to reply.</p></sc-if>
+</div>
+</div>
+<fieldset style="margin: 0; padding: 0; border: 0; display: flex; flex-direction: column; gap: 8px">
+<legend class="lbl" style="padding: 0; margin-bottom: 8px">What’s it about?</legend>
+<div style="display: flex; flex-wrap: wrap; gap: 8px">
+<sc-for list="{{reasons}}" as="r" hint-placeholder-count="4">
+<x-import component-from-global-scope="MartinsWeb.Chip" selected="{{r.selected}}" on-click="{{r.pick}}">{{r.label}}</x-import>
+</sc-for>
+</div>
+</fieldset>
+<div style="display: flex; flex-direction: column; gap: 8px">
+<label class="lbl" for="c-msg">Message</label>
+<textarea class="field" id="c-msg" rows="6" value="{{message}}" onChange="{{onMessage}}" style="resize: vertical; line-height: 1.6"></textarea>
+<sc-if value="{{errMessage}}" hint-placeholder-val="{{false}}"><p class="err">A couple of lines is enough.</p></sc-if>
+</div>
+<div>
+<x-import component-from-global-scope="MartinsWeb.Button" type="submit">Send Message</x-import>
+</div>
+</form>
+</sc-if>
+
+<sc-if value="{{sent}}" hint-placeholder-val="{{false}}">
+<div role="status" style="display: flex; flex-direction: column; align-items: flex-start; gap: 16px">
+<p style="margin: 0; font-size: 24px; font-style: italic; font-weight: 500; line-height: 1.35">Thanks, {{firstName}}. Your message is on its way.</p>
+<p class="t-body" style="margin: 0; line-height: 1.35">I’ll reply to {{email}} as soon as I can.</p>
+<div style="display: flex; flex-wrap: wrap; gap: 16px; align-items: center">
+<x-import component-from-global-scope="MartinsWeb.Button" href="Post.dc.html">Read the Latest Post</x-import>
+<x-import component-from-global-scope="MartinsWeb.Button" variant="secondary" on-click="{{reset}}">Send Another</x-import>
+</div>
+</div>
+</sc-if>
+
+</main>
+
+<x-import component-from-global-scope="MartinsWeb.Footer" device="{{device}}" links="{{footerLinks}}"></x-import>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1280,"height":1400}}'>
+class Component extends DCLogic {
+constructor(props) {
+super(props);
+this.state = { name: '', email: '', message: '', reason: 'A post', tried: false, sent: false, menuOpen: false, device: (typeof window !== 'undefined' && window.innerWidth <= 600) ? 'mobile' : 'desktop' };
+this.onResize = this.onResize.bind(this);
+}
+componentDidMount() { window.addEventListener('resize', this.onResize); }
+componentWillUnmount() { window.removeEventListener('resize', this.onResize); }
+onResize() {
+var d = window.innerWidth <= 600 ? 'mobile' : 'desktop';
+if (d !== this.state.device) this.setState({ device: d, menuOpen: false });
+}
+renderVals() {
+var self = this;
+var s = this.state;
+var emailOk = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(s.email.trim());
+var reasonNames = ['A post', 'A story of my own', 'Working with Kaizen', 'Just saying hi'];
+return {
+yes: true,
+device: s.device,
+menuOpen: s.menuOpen,
+toggleMenu: function () { self.setState({ menuOpen: !self.state.menuOpen }); },
+navLinks: [{ label: 'Blog', href: 'Main.dc.html' }, { label: 'About', href: 'About.dc.html' }, { label: 'Contact', href: 'Contact.dc.html', current: true }],
+footerLinks: [{ label: 'LinkedIn', href: 'https://www.linkedin.com/', external: true }, { label: 'About', href: 'About.dc.html' }, { label: 'Contact', href: 'Contact.dc.html' }, { label: 'YouTube', href: 'https://www.youtube.com/', external: true }],
+name: s.name, email: s.email, message: s.message,
+firstName: s.name.trim().split(' ')[0] || 'there',
+errName: s.tried && s.name.trim() === '',
+errEmail: s.tried && !emailOk,
+errMessage: s.tried && s.message.trim().length < 3,
+showForm: !s.sent, sent: s.sent,
+reasons: reasonNames.map(function (r) { return { label: r, selected: s.reason === r, pick: function () { self.setState({ reason: r }); } }; }),
+onName: function (e) { self.setState({ name: e.target.value }); },
+onEmail: function (e) { self.setState({ email: e.target.value }); },
+onMessage: function (e) { self.setState({ message: e.target.value }); },
+submit: function (e) {
+if (e && e.preventDefault) e.preventDefault();
+var ok = s.name.trim() !== '' && emailOk && s.message.trim().length >= 3;
+self.setState(ok ? { sent: true, tried: false } : { tried: true });
+},
+reset: function () { self.setState({ name: '', email: '', message: '', reason: 'A post', tried: false, sent: false }); }
+};
+}
+}
+</script>
+</body>
+</html>

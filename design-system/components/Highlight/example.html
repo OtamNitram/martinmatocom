@@ -1,0 +1,12 @@
+<!-- @dsCard group="Content" height=200 -->
+<!doctype html>
+<html><head><meta charset="utf-8"><style>
+body { margin: 0; padding: 24px; background: var(--surfaces-white); color: var(--text-primary); font-family: var(--font-serif); }
+.row { display: flex; flex-wrap: wrap; gap: 16px; align-items: center; }
+.col { display: flex; flex-direction: column; gap: 16px; }
+.lbl { font-family: var(--font-sans); font-size: 12px; color: var(--text-secondary); margin: 0 0 8px; }
+</style></head><body><div id="root"></div>
+<script>
+var h = React.createElement, M = window.MartinsWeb;
+ReactDOM.createRoot(document.getElementById("root")).render(h("div", { style: { maxWidth: 800 } }, h(M.Highlight, null, "Installing an AI bot in a meeting is not the same as installing Big Brother. Or at least, it doesn't have to be.")));
+</script></body></html>

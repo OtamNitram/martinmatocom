@@ -1,0 +1,15 @@
+<!-- @dsCard group="Content" height=330 width=860 -->
+<!doctype html>
+<html><head><meta charset="utf-8"><style>
+body { margin: 0; padding: 24px; background: var(--surfaces-white); color: var(--text-primary); font-family: var(--font-serif); }
+.row { display: flex; flex-wrap: wrap; gap: 16px; align-items: center; }
+.col { display: flex; flex-direction: column; gap: 16px; }
+.lbl { font-family: var(--font-sans); font-size: 12px; color: var(--text-secondary); margin: 0 0 8px; }
+</style></head><body><div id="root"></div>
+<script>
+var h = React.createElement, M = window.MartinsWeb;
+ReactDOM.createRoot(document.getElementById("root")).render(h("div", { className: "row", style: { alignItems: "stretch", flexWrap: "nowrap" } },
+  h(M.Card, { icon: "group", title: "Team Building" }, "Focusing on continuous improvement and operational excellence. Building teams that naturally iterate towards higher quality and efficiency."),
+  h(M.Card, { icon: "psychology", title: "Psychological Safety" }, "Leveraging modern tools while fostering a culture of trust and innovation. Ensuring teams feel secure to experiment and adopt new paradigms."),
+  h(M.Card, { icon: "coach", title: "Ontological Coaching" }, "A human-centered approach to professional growth and team dynamics. Cultivating leadership and effective communication from within.")));
+</script></body></html>

@@ -1,0 +1,23 @@
+<!-- @dsCard group="Blog" height=1000 width=900 -->
+<!doctype html>
+<html><head><meta charset="utf-8"><style>
+body { margin: 0; padding: 24px; background: var(--surfaces-white); color: var(--text-primary); font-family: var(--font-serif); }
+.row { display: flex; flex-wrap: wrap; gap: 16px; align-items: center; }
+.col { display: flex; flex-direction: column; gap: 16px; }
+.lbl { font-family: var(--font-sans); font-size: 12px; color: var(--text-secondary); margin: 0 0 8px; }
+</style></head><body><div id="root"></div>
+<script>
+var h = React.createElement, M = window.MartinsWeb;
+var P = function (t) { return h("p", null, t); };
+ReactDOM.createRoot(document.getElementById("root")).render(h(M.Article, {
+  tags: ["Leading Teams"], date: "Oct 25, 2026", readTime: "5 min read",
+  title: "The armor I called confidence.",
+  closing: h(M.ClosingPrompt, { question: "So, what was the armor you had to take off?" }, "If one of mine does that for you, I'd love to hear it. And if you think I got it wrong, even better.")
+},
+  P("Nine months into my first job as a junior developer, I was called into a meeting nobody wants to have. I was at the top of the layoff list. My manager at the time was the one who gave me the news."),
+  P("Like many kids raised in the 90s, I was taught to solve things on my own. Asking for help felt like weakness. So I made sure I always had an answer, right or not."),
+  h(M.Highlight, null, "My arrogance wasn't confidence. It was the only way I knew to avoid asking for help."),
+  P("I'd be lying if I said I had an epiphany. It took me a while to realize that even though I was surrounded by people, I was alone."),
+  P("That's why I'm writing this blog. To build my own opinions, get comfortable sharing them without the armor, and find out who I am beyond my job title.")
+));
+</script></body></html>

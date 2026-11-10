@@ -1,0 +1,182 @@
+@import url("https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600;700&family=Space+Mono&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,500;0,8..60,600;0,8..60,700;1,8..60,500&display=swap");
+
+/* Martin's Web components. Every value comes from tokens.css (tokens.json). */
+.mw-icon { display: inline-block; flex: none; vertical-align: middle; }
+
+/* Logo: the script m keeps the brand teal; the M follows text-primary so it survives the dark theme. */
+.mw-logo { display: block; flex: none; }
+.mw-logo__m { fill: var(--teal-500); }
+.mw-logo__M { fill: var(--text-primary); }
+
+/* Button: 4px corners (radius-s), 8px padding, 8px icon gap, label in the button style */
+.mw-button {
+  display: inline-flex; align-items: center; justify-content: center; gap: var(--space-xs);
+  padding: var(--space-xs); border: 1px solid transparent; border-radius: var(--radius-s, 4px);
+  font-family: var(--font-sans); font-size: 14px; font-weight: 500; line-height: 1.2;
+  text-decoration: none; cursor: pointer; background: none;
+  transition: background-color .15s ease, color .15s ease, border-color .15s ease;
+}
+.mw-button--primary { background: var(--button-dark); border-color: var(--button-dark); color: var(--text-contrast); }
+/* Hover and focus restate the label colour: a page's own `a:hover { color: … }` (0,1,1) outranks .mw-button--primary (0,1,0)
+   and used to paint the label button-mid on a button-mid fill, so the text vanished on hover. */
+.mw-button--primary:hover { background: var(--button-mid); border-color: var(--button-mid); color: var(--text-contrast); }
+.mw-button--primary:focus-visible { outline: 1px solid var(--button-mid); outline-offset: 3px; background: var(--button-mid); border-color: var(--button-mid); color: var(--text-contrast); }
+.mw-button--secondary { background: transparent; border-color: var(--button-dark); color: var(--button-dark); }
+.mw-button--secondary:hover, .mw-button--secondary:focus-visible { border-color: var(--button-mid); color: var(--button-mid); }
+.mw-button--secondary:focus-visible { outline: 1px solid var(--button-mid); outline-offset: 3px; }
+.mw-button:disabled, .mw-button[aria-disabled="true"] { opacity: .5; cursor: not-allowed; pointer-events: none; }
+
+/* Link: underlined by default, plain on hover, text-secondary once visited */
+.mw-link {
+  display: inline-flex; align-items: center; gap: var(--space-xs); padding: var(--space-xs);
+  font-family: var(--font-sans); font-size: 14px; font-weight: 500; line-height: 1.2;
+  color: var(--text-primary); text-decoration: underline; text-underline-offset: 3px;
+}
+.mw-link:hover { text-decoration: none; }
+.mw-link:focus-visible { outline: 1px solid var(--button-mid); outline-offset: 2px; }
+.mw-link--visited, .mw-link:visited { color: var(--text-secondary); text-decoration: underline; }
+
+/* Chip: topic tag */
+.mw-chip {
+  display: inline-flex; align-items: center; align-self: flex-start;
+  padding: var(--space-xxs) var(--space-xs); border: 1px solid var(--surfaces-elevation); border-radius: var(--radius-s, 4px);
+  background: var(--surfaces-strokes); color: var(--text-primary);
+  font-family: var(--font-serif); font-size: 14px; font-weight: 400; line-height: 1.35;
+}
+
+/* Card: approach / pillar card */
+.mw-card {
+  display: flex; flex-direction: column; gap: 11.4px; padding: var(--space-l);
+  background: var(--surfaces-white); border: 1px solid var(--surfaces-elevation-20); border-radius: var(--radius-card);
+  box-shadow: var(--shadow-elevation); color: var(--text-primary);
+}
+.mw-card__icon {
+  display: flex; align-items: center; justify-content: center; width: 48px; height: 48px; padding: var(--space-s); box-sizing: border-box;
+  background: var(--accent); color: var(--surfaces-highlights);
+}
+.mw-card__title { margin: 0; font-family: var(--font-serif); font-size: 32px; font-weight: 600; line-height: 1.35; color: var(--text-primary); }
+.mw-card__text { margin: 0; font-family: var(--font-serif); font-size: 14px; font-weight: 400; line-height: 1.35; color: var(--text-secondary); }
+
+/* Highlight: editorial pull quote (Nov 2026). A 48x2px highlight-rule above, the sentence in pull-quote.
+   No bar, no quote glyph, no fill: the mint bar and glyph read as playful next to the serif body. */
+/* The space below mirrors the space above: padding-bottom adds the rule's gap (space-l), so the quote sits in the
+   middle of the pause and the next paragraph doesn't start right under it. */
+.mw-highlight { margin: 0; padding: var(--space-m) 0 calc(var(--space-m) + var(--space-l)); }
+.mw-highlight__body { margin: 0; padding: 0; border: 0; }
+.mw-highlight__body::before { content: ""; display: block; width: 48px; height: 2px; margin-bottom: var(--space-l); background: var(--highlight-rule); }
+.mw-highlight__text { margin: 0; font-family: var(--font-serif); font-size: 32px; font-style: italic; font-weight: 500; line-height: 1.3; letter-spacing: -0.005em; color: var(--text-primary); text-wrap: balance; }
+@media (max-width: 600px) { .mw-highlight__text { font-size: 24px; } }
+
+/* NextRead: post teaser card */
+.mw-nextread {
+  display: flex; flex-direction: column; align-items: flex-start; gap: var(--space-s); padding: var(--space-l);
+  background: var(--surfaces-white); border: 1px solid var(--surfaces-strokes); border-radius: var(--radius-none);
+  color: var(--text-primary); text-decoration: none; transition: box-shadow .15s ease;
+}
+.mw-nextread:hover, .mw-nextread--hover { box-shadow: var(--shadow-elevation); }
+.mw-nextread:active, .mw-nextread--active { border: 2px solid var(--button-light); padding: calc(var(--space-l) - 1px); }
+.mw-nextread:focus-visible { outline: 1px solid var(--button-mid); outline-offset: 2px; }
+.mw-nextread__title { font-family: var(--font-sans); font-size: 24px; font-weight: 400; line-height: 1.2; color: var(--text-primary); }
+.mw-nextread__date { font-family: var(--font-serif); font-size: 14px; line-height: 1.35; color: var(--text-secondary); }
+
+/* Header */
+.mw-header {
+  display: flex; align-items: center; gap: 61px; box-sizing: border-box; min-height: 96px;
+  padding: var(--space-l) var(--space-xxl); background: var(--surfaces-white); box-shadow: var(--shadow-elevation);
+}
+.mw-header__brand { display: flex; align-items: center; gap: 0; text-decoration: none; color: var(--text-primary); }
+.mw-header__name { font-family: var(--font-serif); font-size: 30px; font-weight: 700; line-height: 1.35; white-space: nowrap; }
+.mw-header__nav { flex: 1; display: flex; align-items: center; justify-content: flex-end; gap: var(--space-l); }
+.mw-header--mobile { padding: var(--space-l) var(--space-m); justify-content: space-between; gap: var(--space-m); }
+.mw-header__menu { display: flex; align-items: center; justify-content: center; width: 48px; height: 48px; padding: 0; border: 0; background: none; color: var(--button-dark); cursor: pointer; }
+.mw-header__menu:focus-visible { outline: 1px solid var(--button-mid); outline-offset: 2px; }
+
+/* Footer */
+.mw-footer {
+  display: flex; align-items: center; gap: 61px; box-sizing: border-box;
+  padding: var(--space-l) var(--space-xxl); background: var(--surfaces-highlights); border-top: 1px solid var(--surfaces-strokes);
+}
+.mw-footer__copy { font-family: var(--font-serif); font-size: 14px; font-weight: 400; line-height: 1.35; color: var(--text-secondary); white-space: nowrap; }
+.mw-footer__nav { flex: 1; display: flex; align-items: center; justify-content: flex-end; gap: var(--space-l); }
+.mw-footer--mobile { flex-direction: column; gap: var(--space-l); padding: var(--space-l) var(--space-m); }
+.mw-footer--mobile .mw-footer__nav { flex-direction: column; justify-content: center; gap: var(--space-l); }
+.mw-footer__divider { width: 100%; margin: 0; border: 0; border-top: 1px solid var(--surfaces-divider); }
+
+/* Chip as a filter toggle */
+.mw-chip--toggle { cursor: pointer; }
+.mw-chip--toggle:hover { border-color: var(--button-mid); }
+.mw-chip--toggle:focus-visible { outline: 1px solid var(--button-mid); outline-offset: 2px; }
+/* Selected filter: a 2px brand-teal ring, a check and SemiBold text. Never a dark fill or a teal-900 outline:
+   those belong to the primary and secondary buttons. */
+.mw-chip--toggle { gap: var(--space-xs); min-height: 40px; padding: var(--space-xs) 14px; }
+.mw-chip--selected { border-color: var(--teal-500); box-shadow: inset 0 0 0 1px var(--teal-500); font-weight: 600; }
+.mw-chip__check { flex: none; color: var(--button-mid); }
+@media (max-width: 600px) { .mw-chip--toggle { min-height: 44px; } }
+
+/* PostCard: the post block of the blog list (Desktop - Home > Post) */
+.mw-post { display: flex; flex-direction: column; gap: var(--space-l); max-width: 800px; color: var(--text-primary); }
+.mw-post__meta { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-s); }
+.mw-post__date { font-family: var(--font-serif); font-size: 14px; line-height: 1.35; color: var(--surfaces-divider); }
+.mw-post__title { margin: 0; font-family: var(--font-serif); font-size: 32px; font-weight: 600; line-height: 1.35; }
+.mw-post--featured .mw-post__title { font-size: 48px; font-weight: 700; }
+.mw-post--nested .mw-post__title { font-size: 24px; font-weight: 600; line-height: 1.35; }
+@media (max-width: 600px) { .mw-post--nested .mw-post__title { font-size: 20px; } }
+.mw-post__title a { color: inherit; text-decoration: none; }
+.mw-post__title a:hover { text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 6px; }
+.mw-post__title a:focus-visible { outline: 1px solid var(--button-mid); outline-offset: 3px; }
+.mw-post__excerpt { margin: 0; font-family: var(--font-serif); font-size: 20px; line-height: 1.5; color: var(--text-primary);
+  display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
+.mw-post__byline { margin: 0; font-family: var(--font-serif); font-size: 14px; line-height: 1.35; color: var(--text-secondary); }
+.mw-post__actions { display: flex; }
+.mw-post .mw-highlight { padding: var(--space-xs) 0; }
+
+/* TagFilter: topic chips + post count above the list */
+.mw-tagfilter { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: var(--space-m);
+  max-width: 800px; padding-bottom: var(--space-l); border-bottom: 1px solid var(--surfaces-divider); }
+.mw-tagfilter__tags { display: flex; flex-wrap: wrap; gap: var(--space-xs); }
+.mw-tagfilter__count { font-family: var(--font-serif); font-size: 14px; line-height: 1.35; color: var(--text-secondary); }
+
+/* Article: the long-form post page. Body in body-long inside measure-reading. */
+.mw-article { max-width: var(--measure-reading); margin: 0 auto; color: var(--text-primary); }
+.mw-article__head { display: flex; flex-direction: column; gap: var(--space-l); padding-bottom: var(--space-xl); margin-bottom: var(--space-xl); border-bottom: 1px solid var(--surfaces-divider); }
+.mw-article__title { margin: 0; font-family: var(--font-serif); font-size: 48px; font-weight: 700; line-height: 48px; }
+.mw-article__byline { margin: 0; font-family: var(--font-serif); font-size: 14px; line-height: 1.35; color: var(--text-secondary); }
+.mw-article__body { font-family: var(--font-serif); font-size: 20px; font-weight: 400; line-height: 1.6; }
+.mw-article__body > * { margin: 0 0 var(--space-l); }
+.mw-article__body > .mw-highlight { margin: var(--space-xl) 0; }
+.mw-article__body > h2 { margin-top: var(--space-xl); font-size: 32px; font-weight: 600; line-height: 1.35; }
+/* Text links only: a Button inside the body (e.g. a ClosingPrompt's) keeps its own colours. Without :not() the link
+   colour beat .mw-button--primary and painted the label button-dark on button-dark (invisible). */
+.mw-article__body a:not(.mw-button) { color: var(--button-dark); text-underline-offset: 3px; }
+.mw-article__body a:not(.mw-button):hover { color: var(--button-mid); }
+@media (max-width: 600px) {
+  .mw-article__title { font-size: 36px; }
+  .mw-article__body { font-size: 18px; }
+  .mw-article__body > * { margin-bottom: var(--space-l-mobile); }
+  .mw-article__body > .mw-highlight { margin: var(--space-xl-mobile) 0; }
+}
+
+/* ClosingPrompt: the question that ends every post, and one way to answer it */
+.mw-closing { display: flex; flex-direction: column; gap: var(--space-m); margin-top: var(--space-xl); padding-top: var(--space-xl); border-top: 1px solid var(--surfaces-divider); }
+/* The question is set in h3 (24 SemiBold, roman), not italic: next to the pull-quote (32 Medium Italic) an italic
+   question read as a smaller copy of the Highlight. Roman and heavier, it reads as what it is: a direct question. */
+.mw-closing__question { margin: 0; font-family: var(--font-serif); font-size: 24px; font-style: normal; font-weight: 600; line-height: 1.35; color: var(--text-primary); text-wrap: balance; }
+@media (max-width: 600px) { .mw-closing__question { font-size: 20px; } }
+.mw-closing__text { margin: 0; font-family: var(--font-serif); font-size: 20px; line-height: 1.6; color: var(--text-primary); }
+.mw-closing__signoff { margin: 0; font-family: var(--font-serif); font-size: 14px; line-height: 1.35; color: var(--text-secondary); }
+
+/* Input: label above a field, sizes S (single line) and L (multi-line) */
+.mw-input { display: flex; flex-direction: column; gap: var(--space-xs); min-width: 0; }
+.mw-input__label { font-family: var(--font-serif); font-size: 14px; line-height: 1.35; color: var(--text-primary); }
+.mw-input__field {
+  box-sizing: border-box; width: 100%; min-height: 48px; padding: var(--space-xs) var(--space-m);
+  background: var(--surfaces-highlights); border: 1px solid var(--surfaces-strokes); border-radius: var(--radius-s, 4px);
+  font-family: var(--font-serif); font-size: 14px; line-height: 1.35; color: var(--text-primary);
+}
+.mw-input__field::placeholder { color: var(--text-secondary); opacity: 1; }
+.mw-input__field:focus-visible { outline: 1px solid var(--button-mid); outline-offset: 2px; }
+.mw-input--l .mw-input__field { min-height: 144px; resize: vertical; }
+
+/* Eyebrow + headline accent (Home intro) */
+.mw-eyebrow { margin: 0; font-family: var(--font-mono); font-size: 18px; line-height: 1.35; text-transform: uppercase; color: var(--text-primary); }
+.mw-accent-text { color: var(--text-highlight); }

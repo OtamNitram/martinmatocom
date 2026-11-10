@@ -1,0 +1,178 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Archive · Martín Mato</title>
+<script src="./support.js"></script>
+<link rel="stylesheet" href="ds/martins-web/components/bundle.css">
+<script src="ds/martins-web/components/bundle.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600;700&amp;family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,500;0,8..60,600;0,8..60,700;1,8..60,500&amp;display=swap">
+<style>
+:root{--surfaces-white:#fafafa;--surfaces-highlights:#f2f6f8;--surfaces-strokes:#cdd8df;--surfaces-elevation:#7a8b99;--surfaces-elevation-20:rgba(122,139,153,0.2);--surfaces-divider:#364552;--text-primary:#121b27;--text-secondary:#364552;--text-contrast:#f2f6f8;--button-dark:#013345;--button-mid:#216375;--button-light:#3d9c9a;--accent:#22d48d;--teal-500:#3d9c9a;--font-serif:"Source Serif 4",Georgia,"Times New Roman",serif;--font-sans:"Instrument Sans",system-ui,-apple-system,"Segoe UI",sans-serif;--space-xxs:4px;--space-xs:8px;--space-s:12px;--space-m:16px;--space-l:24px;--space-xl:32px;--space-xxl:96px;--space-l-mobile:16px;--radius-none:0px;--radius-card:8px;--shadow-elevation:0px 4px 4px 0px rgba(122,139,153,0.2);--shadow-highlights:0px 0px 15px 0px rgba(54,69,82,0.2);--measure-reading:680px;--measure-page:800px}
+body{margin:0;background:#fafafa}
+.page{gap:96px}
+.t-h1{font-size:48px}
+.t-h2{font-size:32px}
+.t-body{font-size:20px}
+.entry-title{color:var(--text-primary);text-decoration:none}
+.entry-title:hover{text-decoration:underline;text-underline-offset:6px}
+.field:focus-visible{outline:1px solid var(--button-mid);outline-offset:2px}
+@media (max-width: 600px){.page{gap:48px}.t-h1{font-size:36px}.t-h2{font-size:24px}.t-body{font-size:16px}}
+</style>
+</helmet>
+<div class="page" style="min-height: 100vh; display: flex; flex-direction: column; background: var(--surfaces-white); color: var(--text-primary); font-family: var(--font-serif)">
+
+<div style="position: relative; z-index: 1">
+<x-import component-from-global-scope="MartinsWeb.Header" device="{{device}}" home-href="Main.dc.html" links="{{navLinks}}" on-menu="{{toggleMenu}}"></x-import>
+<sc-if value="{{menuOpen}}" hint-placeholder-val="{{false}}">
+<nav aria-label="Main (mobile)" style="position: absolute; left: 0; right: 0; top: 100%; display: flex; flex-direction: column; gap: 4px; padding: 16px; background: var(--surfaces-white); border-top: 1px solid var(--surfaces-strokes); box-shadow: var(--shadow-elevation)">
+<x-import component-from-global-scope="MartinsWeb.Link" href="Main.dc.html" current="{{yes}}">Blog</x-import>
+<x-import component-from-global-scope="MartinsWeb.Link" href="About.dc.html">About</x-import>
+<x-import component-from-global-scope="MartinsWeb.Link" href="Contact.dc.html">Contact</x-import>
+</nav>
+</sc-if>
+</div>
+
+<main style="width: 100%; max-width: 832px; margin: 0 auto; box-sizing: border-box; padding: 0 16px; flex-grow: 1; display: flex; flex-direction: column; gap: 48px">
+
+<section style="display: flex; flex-direction: column; gap: 24px">
+<x-import component-from-global-scope="MartinsWeb.Link" href="Main.dc.html" icon="back" style="align-self: flex-start">Back to the blog</x-import>
+<h1 class="t-h1" style="margin: 0; font-weight: 700; line-height: 1.35">Archive</h1>
+<p class="t-body" style="margin: 0; line-height: 1.35">Every post, newest first. Search by word, or narrow it down by topic and date.</p>
+</section>
+
+<section aria-label="Search and filters" style="display: flex; flex-direction: column; gap: 24px">
+<div style="display: flex; flex-wrap: wrap; align-items: flex-end; gap: 16px">
+<div style="flex: 999 1 300px; min-width: 0; display: flex; flex-direction: column; gap: 8px">
+<label for="search" style="font-family: var(--font-sans); font-weight: 500; font-size: 14px; line-height: 1.2">Search</label>
+<input class="field" id="search" type="search" placeholder="Try &quot;armor&quot; or &quot;decisions&quot;" value="{{q}}" onChange="{{onQ}}" style="width: 100%; min-height: 44px; box-sizing: border-box; padding: 8px 12px; border: 1px solid var(--surfaces-elevation); border-radius: 0; background: var(--surfaces-white); color: var(--text-primary); font-family: var(--font-serif); font-size: 16px">
+</div>
+<div style="flex: 1 1 150px; display: flex; flex-direction: column; gap: 8px">
+<label for="year" style="font-family: var(--font-sans); font-weight: 500; font-size: 14px; line-height: 1.2">Year</label>
+<select class="field" id="year" value="{{year}}" onChange="{{onYear}}" style="min-height: 44px; box-sizing: border-box; padding: 8px 12px; border: 1px solid var(--surfaces-elevation); border-radius: 0; background: var(--surfaces-white); color: var(--text-primary); font-family: var(--font-sans); font-size: 14px">
+<option value="All">Any year</option>
+<option value="2026">2026</option>
+</select>
+</div>
+<div style="flex: 1 1 150px; display: flex; flex-direction: column; gap: 8px">
+<label for="month" style="font-family: var(--font-sans); font-weight: 500; font-size: 14px; line-height: 1.2">Month</label>
+<select class="field" id="month" value="{{month}}" onChange="{{onMonth}}" style="min-height: 44px; box-sizing: border-box; padding: 8px 12px; border: 1px solid var(--surfaces-elevation); border-radius: 0; background: var(--surfaces-white); color: var(--text-primary); font-family: var(--font-sans); font-size: 14px">
+<option value="All">Any month</option>
+<option value="0">January</option>
+<option value="1">February</option>
+<option value="2">March</option>
+<option value="3">April</option>
+<option value="4">May</option>
+<option value="5">June</option>
+<option value="6">July</option>
+<option value="7">August</option>
+<option value="8">September</option>
+<option value="9">October</option>
+<option value="10">November</option>
+<option value="11">December</option>
+</select>
+</div>
+</div>
+<x-import component-from-global-scope="MartinsWeb.TagFilter" tags="{{topics}}" value="{{topic}}" on-change="{{pickTopic}}" count="{{count}}"></x-import>
+</section>
+
+<sc-if value="{{hasResults}}" hint-placeholder-val="{{true}}">
+<div style="display: flex; flex-direction: column; gap: 48px">
+<sc-for list="{{groups}}" as="g" hint-placeholder-count="1">
+<section style="display: flex; flex-direction: column">
+<h2 class="t-h2" style="margin: 0 0 8px; font-weight: 600; line-height: 1.35; color: var(--text-secondary)">{{g.year}}</h2>
+<sc-for list="{{g.items}}" as="p" hint-placeholder-count="4">
+<article style="display: flex; flex-direction: column; gap: 12px; padding: 24px 0; border-bottom: 1px solid var(--surfaces-strokes)">
+<div style="display: flex; flex-wrap: wrap; align-items: center; gap: 12px">
+<x-import component-from-global-scope="MartinsWeb.Chip">{{p.topic}}</x-import>
+<span style="font-size: 14px; line-height: 1.35; color: var(--text-secondary)">{{p.meta}}</span>
+</div>
+<h3 style="margin: 0; font-family: var(--font-sans); font-weight: 400; font-size: 24px; line-height: 1.2"><a class="entry-title" href="{{p.href}}">{{p.title}}</a></h3>
+</article>
+</sc-for>
+</section>
+</sc-for>
+</div>
+</sc-if>
+
+<sc-if value="{{isEmpty}}" hint-placeholder-val="{{false}}">
+<div style="display: flex; flex-direction: column; align-items: flex-start; gap: 24px">
+<p class="t-body" style="margin: 0; line-height: 1.35">Nothing matches that yet. Try another word, or widen the date.</p>
+<x-import component-from-global-scope="MartinsWeb.Button" variant="secondary" on-click="{{clear}}">Show All Posts</x-import>
+</div>
+</sc-if>
+
+</main>
+
+<x-import component-from-global-scope="MartinsWeb.Footer" device="{{device}}" links="{{footerLinks}}"></x-import>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1280,"height":1800}}'>
+class Component extends DCLogic {
+constructor(props) {
+super(props);
+this.state = { q: '', topic: 'All', year: 'All', month: 'All', menuOpen: false, device: (typeof window !== 'undefined' && window.innerWidth <= 600) ? 'mobile' : 'desktop' };
+this.onResize = this.onResize.bind(this);
+}
+componentDidMount() { window.addEventListener('resize', this.onResize); }
+componentWillUnmount() { window.removeEventListener('resize', this.onResize); }
+onResize() {
+var d = window.innerWidth <= 600 ? 'mobile' : 'desktop';
+if (d !== this.state.device) this.setState({ device: d, menuOpen: false });
+}
+renderVals() {
+var self = this;
+var s = this.state;
+var MONTHS = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'June', 'July', 'Aug', 'Sept', 'Oct', 'Nov', 'Dec'];
+var posts = [
+{ title: 'The armor I called confidence.', topic: 'Personal', y: 2026, m: 9, d: 25, read: '4 min read', href: 'Post.dc.html' },
+{ title: 'Use of AI bots in meetings', topic: 'AI in Teams', y: 2026, m: 8, d: 9, read: '[X] min read', href: 'Post.dc.html' },
+{ title: 'Artificial Harmony', topic: 'Leading Teams', y: 2026, m: 8, d: 9, read: '[X] min read', href: 'Post.dc.html' },
+{ title: 'How we make decisions', topic: 'Leading Teams', y: 2026, m: 7, d: 17, read: '[X] min read', href: 'Post.dc.html' },
+{ title: 'Build with AI Agents at Full Speed', topic: 'AI in Teams', y: 2026, m: 7, d: 17, read: '[X] min read', href: 'Post.dc.html' },
+{ title: 'Hypothesis-Driven Development', topic: 'Leading Teams', y: 2026, m: 7, d: 17, read: '[X] min read', href: 'Post.dc.html' }
+];
+var q = s.q.trim().toLowerCase();
+var list = posts.filter(function (p) {
+if (s.topic !== 'All' && p.topic !== s.topic) return false;
+if (s.year !== 'All' && String(p.y) !== s.year) return false;
+if (s.month !== 'All' && String(p.m) !== s.month) return false;
+if (q && (p.title + ' ' + p.topic).toLowerCase().indexOf(q) === -1) return false;
+return true;
+});
+var groups = [];
+list.forEach(function (p) {
+var g = groups.length ? groups[groups.length - 1] : null;
+if (!g || g.year !== p.y) { g = { year: p.y, items: [] }; groups.push(g); }
+g.items.push({ title: p.title, topic: p.topic, href: p.href, meta: MONTHS[p.m] + ' ' + p.d + ', ' + p.y + ' · ' + p.read });
+});
+return {
+yes: true,
+device: s.device,
+menuOpen: s.menuOpen,
+toggleMenu: function () { self.setState({ menuOpen: !self.state.menuOpen }); },
+navLinks: [{ label: 'Blog', href: 'Main.dc.html', current: true }, { label: 'About', href: 'About.dc.html' }, { label: 'Contact', href: 'Contact.dc.html' }],
+footerLinks: [{ label: 'LinkedIn', href: 'https://www.linkedin.com/', external: true }, { label: 'About', href: 'About.dc.html' }, { label: 'Contact', href: 'Contact.dc.html' }, { label: 'YouTube', href: 'https://www.youtube.com/', external: true }],
+topics: ['Personal', 'Leading Teams', 'Mentoring', 'AI in Teams'],
+topic: s.topic, q: s.q, year: s.year, month: s.month,
+pickTopic: function (t) { self.setState({ topic: t }); },
+onQ: function (e) { self.setState({ q: e.target.value }); },
+onYear: function (e) { self.setState({ year: e.target.value }); },
+onMonth: function (e) { self.setState({ month: e.target.value }); },
+clear: function () { self.setState({ q: '', topic: 'All', year: 'All', month: 'All' }); },
+count: list.length,
+groups: groups,
+hasResults: list.length > 0,
+isEmpty: list.length === 0
+};
+}
+}
+</script>
+</body>
+</html>
