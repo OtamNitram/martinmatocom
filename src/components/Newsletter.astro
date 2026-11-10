@@ -13,7 +13,7 @@ const action = import.meta.env.PUBLIC_BUTTONDOWN_ACTION ?? "";
       <h2 id="newsletter-title">Get the next story in your inbox.</h2>
       <p class="band__lead">Stories about leading teams, mentoring and bringing AI into a team, sent when a new one is out. Nothing else.</p>
     </div>
-    <form class="band__form" method="post" action={action || undefined} novalidate data-newsletter data-ready={action ? "true" : "false"}>
+    <form class="band__form" method="post" action={action || undefined} novalidate data-newsletter data-ready={action ? "true" : "false"} data-mode={action ? "fetch" : undefined}>
       <div class="band__row">
         <div class="mw-input">
           <label class="mw-input__label" for="newsletter-email">Email</label>

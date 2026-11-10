@@ -7,7 +7,10 @@ The site is an Astro project in this folder. The design system next to it is the
 ```
 npm run dev
 npm run build
+npm run new-post -- "Sentence case title."
 ```
+
+Copy `.env.example` to `.env` when the newsletter and contact forms have somewhere to send. Without those keys the forms stay on the page and say they are not open yet. The welcome email, the reply-to address and the RSS-to-email draft are set in Buttondown. The contact form is a Formspree endpoint that delivers to your inbox.
 
 ## What's here
 
