@@ -7,6 +7,7 @@ import Chip from "../components/Chip.astro";
 import ClosingPrompt from "../components/ClosingPrompt.astro";
 import Newsletter from "../components/Newsletter.astro";
 import { formatDate, getPosts, readTime, replyHref } from "../lib/posts";
+import { postJsonLd } from "../lib/seo";
 import { site } from "../lib/site";
 
 export async function getStaticPaths() {
@@ -19,7 +20,7 @@ const { Content } = await render(post);
 const minutes = readTime(post.body ?? "");
 ---
 
-<BaseLayout title={post.data.title} description={post.data.description} current="blog">
+<BaseLayout title={post.data.title} description={post.data.description} current="blog" image={`/og/${post.id}.png`} jsonLd={postJsonLd(post)}>
   <div class="page page--post">
     <p class="post-back"><a href="/">All stories</a></p>
     <article class="mw-article">

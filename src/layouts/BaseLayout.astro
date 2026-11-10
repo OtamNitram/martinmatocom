@@ -4,16 +4,22 @@ import "../styles/components.css";
 import "../styles/site.css";
 import Header from "../components/Header.astro";
 import Footer from "../components/Footer.astro";
+import { personJsonLd } from "../lib/seo";
 import { site, type NavKey } from "../lib/site";
 
 interface Props {
   title: string;
   description?: string;
   current?: NavKey;
+  image?: string;
+  jsonLd?: Record<string, unknown>;
 }
 
-const { title, description = site.description, current } = Astro.props;
+const { title, description = site.description, current, image = "/og/site.png", jsonLd } = Astro.props;
 const documentTitle = title === site.name ? site.name : `${title} · ${site.name}`;
+const canonical = new URL(Astro.url.pathname, site.url).href;
+const imageUrl = new URL(image, site.url).href;
+const verification = import.meta.env.PUBLIC_GOOGLE_SITE_VERIFICATION;
 ---
 
 <!doctype html>
@@ -24,7 +30,23 @@ const documentTitle = title === site.name ? site.name : `${title} · ${site.name
     <meta name="generator" content={Astro.generator} />
     <title>{documentTitle}</title>
     <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    <meta name="author" content={site.name} />
+    <meta property="og:title" content={documentTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={imageUrl} />
+    <meta property="og:type" content={jsonLd ? "article" : "website"} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:creator" content={site.xHandle} />
+    <meta name="twitter:title" content={documentTitle} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={imageUrl} />
+    {verification ? <meta name="google-site-verification" content={verification} /> : null}
+    <script type="application/ld+json" set:html={JSON.stringify(personJsonLd())} />
+    {jsonLd ? <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} /> : null}
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="alternate" type="application/rss+xml" title={`${site.name} RSS`} href="/rss.xml" />
     <script is:inline>
       (function () {
         try {
