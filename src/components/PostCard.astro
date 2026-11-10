@@ -23,6 +23,8 @@ const catchPhrase = post.data.highlight ?? post.data.description;
   </Title>
   <p class="mw-post__excerpt">{catchPhrase}</p>
   <div class="mw-post__actions">
-    <Button href={`/${post.id}`}>Read More</Button>
+    <Button href={`/${post.id}`}>
+      Read More<span class="visually-hidden">: {post.data.title}</span>
+    </Button>
   </div>
 </article>

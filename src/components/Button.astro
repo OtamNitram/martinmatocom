@@ -9,6 +9,7 @@ interface Props {
   disabled?: boolean;
   icon?: boolean | IconName;
   external?: boolean;
+  label?: string;
   class?: string;
 }
 
@@ -19,6 +20,7 @@ const {
   disabled = false,
   icon,
   external = false,
+  label,
   class: className,
 } = Astro.props;
 const iconName = icon === true ? "share" : icon;
@@ -32,6 +34,7 @@ const iconName = icon === true ? "share" : icon;
       aria-disabled={disabled ? "true" : undefined}
       target={external ? "_blank" : undefined}
       rel={external ? "noopener noreferrer" : undefined}
+      aria-label={label}
     >
       {iconName ? <Icon name={iconName} /> : null}
       <span class="mw-button__label">
@@ -39,7 +42,7 @@ const iconName = icon === true ? "share" : icon;
       </span>
     </a>
   ) : (
-    <button class:list={["mw-button", `mw-button--${variant}`, className]} type={type} disabled={disabled}>
+    <button class:list={["mw-button", `mw-button--${variant}`, className]} type={type} disabled={disabled} aria-label={label}>
       {iconName ? <Icon name={iconName} /> : null}
       <span class="mw-button__label">
         <slot />

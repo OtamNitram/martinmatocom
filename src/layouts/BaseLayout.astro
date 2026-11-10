@@ -20,6 +20,7 @@ const documentTitle = title === site.name ? site.name : `${title} · ${site.name
 const canonical = new URL(Astro.url.pathname, site.url).href;
 const imageUrl = new URL(image, site.url).href;
 const verification = import.meta.env.PUBLIC_GOOGLE_SITE_VERIFICATION;
+const beacon = import.meta.env.PUBLIC_CF_BEACON_TOKEN;
 ---
 
 <!doctype html>
@@ -67,5 +68,10 @@ const verification = import.meta.env.PUBLIC_GOOGLE_SITE_VERIFICATION;
     <script>
       import "../scripts/shell.ts";
     </script>
+    {
+      beacon ? (
+        <script is:inline defer src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon={`{"token":"${beacon}"}`} />
+      ) : null
+    }
   </body>
 </html>
