@@ -1,0 +1,45 @@
+---
+const action = import.meta.env.PUBLIC_FORMSPREE_ACTION ?? "";
+---
+
+<form class="contact-form" method="post" action={action || undefined} novalidate data-contact data-ready={action ? "true" : "false"}>
+  <div class="contact-form__fields">
+    <div class="contact-form__row">
+      <div class="mw-input">
+        <label class="mw-input__label" for="contact-name">Name</label>
+        <input class="mw-input__field" id="contact-name" name="name" type="text" placeholder="Your name" autocomplete="name" required />
+      </div>
+      <div class="mw-input">
+        <label class="mw-input__label" for="contact-email">Email</label>
+        <input class="mw-input__field" id="contact-email" name="email" type="email" placeholder="you@company.com" autocomplete="email" required />
+      </div>
+    </div>
+    <div class="mw-input">
+      <label class="mw-input__label" for="contact-topic">Topic</label>
+      <input class="mw-input__field" id="contact-topic" name="topic" type="text" placeholder="Speaking, coaching, collaboration, etc." />
+    </div>
+    <div class="mw-input mw-input--l">
+      <label class="mw-input__label" for="contact-message">Message</label>
+      <textarea class="mw-input__field" id="contact-message" name="message" rows="5" placeholder="Tell me a bit about what you’d like to discuss." required></textarea>
+    </div>
+    <p class="contact-form__honeypot" aria-hidden="true">
+      <label for="contact-company">Company</label>
+      <input id="contact-company" name="company" type="text" tabindex="-1" autocomplete="off" />
+    </p>
+    <p class="contact-form__error" data-contact-error role="alert" hidden>Please add your name, a valid email and a message.</p>
+    <p class="contact-form__error" data-contact-closed hidden>The form isn't open yet.</p>
+    <p class="contact-form__note">I read every note. Your address joins a list only if you subscribe.</p>
+  </div>
+  <div class="contact-form__actions">
+    <button class="mw-button mw-button--primary" type="submit">Send message</button>
+    <button class="mw-button mw-button--secondary" type="reset">Clear form</button>
+  </div>
+</form>
+<div class="contact-form contact-form--done" data-contact-done hidden role="status">
+  <p class="type-h2" data-contact-thanks>Thanks.</p>
+  <p class="type-caption" data-contact-address></p>
+  <button class="mw-button mw-button--secondary" type="button" data-contact-reset>Send another message</button>
+</div>
+<script>
+  import "../scripts/contact.ts";
+</script>

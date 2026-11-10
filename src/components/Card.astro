@@ -1,0 +1,19 @@
+---
+import Icon from "./Icon.astro";
+import type { IconName } from "../lib/marks";
+
+interface Props {
+  icon?: IconName;
+  title: string;
+}
+
+const { icon = "group", title } = Astro.props;
+---
+
+<article class="mw-card">
+  <div class="mw-card__icon">
+    <Icon name={icon} size={22} />
+  </div>
+  <h3 class="mw-card__title">{title}</h3>
+  <p class="mw-card__text"><slot /></p>
+</article>

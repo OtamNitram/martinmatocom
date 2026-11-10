@@ -1,15 +1,68 @@
 ---
+import { Image } from "astro:assets";
+import booth from "../../design-system/assets/photos/kaizen-booth-wide.jpg";
 import BaseLayout from "../layouts/BaseLayout.astro";
+import Button from "../components/Button.astro";
+import Card from "../components/Card.astro";
+import ContactForm from "../components/ContactForm.astro";
+import NextRead from "../components/NextRead.astro";
+import { formatDate, getPosts } from "../lib/posts";
+import { site } from "../lib/site";
+
+const highlighted = (await getPosts()).slice(0, 3);
 ---
 
-<BaseLayout title="About Me" current="about">
+<BaseLayout title="About Me" description="Martín Mato is a Principal Software Engineer at Kaizen Softworks, writing from Montevideo." current="about">
   <div class="page">
-    <div class="stack">
-      <h1 class="type-h1">About Me</h1>
-      <p class="type-body">The rest of this page is the next step. Contact already has a place to land.</p>
-      <div id="contact">
-        <h2 class="type-h2">Contact</h2>
+    <section class="about-intro">
+      <div class="measure">
+        <h1 class="type-h1">About Me</h1>
+        <p class="type-h2 about-intro__sub">Engineering Leadership & Organizational Design</p>
       </div>
-    </div>
+      <div class="about-hero">
+        <div class="about-hero__copy">
+          <p>I’m Martín Mato. I’m from Uruguay and I work as a Principal Software Engineer at Kaizen Softworks. I navigate between engineering, product, and strategy to align teams and unify complex platforms.</p>
+          <p>I come from a technical background in .NET, AWS, and React, but today I focus my energy on organizational design and socio-technical architecture.</p>
+        </div>
+        <Image class="about-hero__photo" src={booth} alt="Martín Mato at the Kaizen Softworks booth" width={640} height={480} />
+      </div>
+      <div>
+        <Button href={site.linkedin} icon="external-link" external>Connect on LinkedIn</Button>
+      </div>
+    </section>
+
+    <hr class="rule" />
+
+    <section class="about-section">
+      <h2 class="type-h2">Approach & Methodology</h2>
+      <div class="card-row">
+        <Card icon="group" title="Team Building">Focusing on continuous improvement and operational excellence. Building teams that naturally iterate towards higher quality and efficiency.</Card>
+        <Card icon="psychology" title="Psychological Safety">Leveraging modern tools while fostering a culture of trust and innovation. Ensuring teams feel secure to experiment and adopt new paradigms.</Card>
+        <Card icon="coach" title="Ontological Coaching">A human-centered approach to professional growth and team dynamics. Cultivating leadership and effective communication from within.</Card>
+      </div>
+    </section>
+
+    <hr class="rule" />
+
+    <section class="about-section">
+      <h2 class="type-h2">Highlighted Posts</h2>
+      <div class="card-row">
+        {
+          highlighted.map((post) => (
+            <NextRead href={`/${post.id}`} title={post.data.title} topic={post.data.topic} date={formatDate(post.data.date)} />
+          ))
+        }
+      </div>
+    </section>
+
+    <hr class="rule" />
+
+    <section id="contact" class="about-contact">
+      <div>
+        <h2 class="type-h2">Contact</h2>
+        <p class="type-caption">Have a question about organizational design, engineering leadership, or a collaboration opportunity? Send me a message and I’ll get back to you.</p>
+      </div>
+      <ContactForm />
+    </section>
   </div>
 </BaseLayout>
