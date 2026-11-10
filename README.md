@@ -12,6 +12,17 @@ npm run new-post -- "Sentence case title."
 
 Copy `.env.example` to `.env` when the newsletter and contact forms have somewhere to send. Without those keys the forms stay on the page and say they are not open yet. The welcome email, the reply-to address and the RSS-to-email draft are set in Buttondown. The contact form is a Formspree endpoint that delivers to your inbox.
 
+## Deploy
+
+The site is static. Cloudflare Pages builds `npm run build` and publishes `dist`.
+
+1. In Cloudflare, create a Pages project from `OtamNitram/martinmatocom`, production branch `main`, build command `npm run build`, output directory `dist`. Node 22 or newer.
+2. Add the same keys from `.env.example` as Pages environment variables, including `PUBLIC_CF_BEACON_TOKEN` from Web Analytics. The beacon is omitted until that token exists, so there is no cookie banner.
+3. Attach `martinmato.com` and redirect `www` to the apex. `public/_redirects` and `public/_headers` ship with the build.
+4. In Google Search Console, add the property `https://martinmato.com` and put the HTML-tag value in `PUBLIC_GOOGLE_SITE_VERIFICATION`. Bing Webmaster can use the same sitemap: `https://martinmato.com/sitemap-index.xml`.
+
+`npm run lighthouse` checks the built site. GitHub runs the same check on every push to `main`.
+
 ## What's here
 
 ```
