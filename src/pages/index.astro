@@ -1,6 +1,12 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
+import PostList from "../components/PostList.astro";
+import { getPosts, pageCount, postsForPage } from "../lib/posts";
 import { site } from "../lib/site";
+
+const posts = await getPosts();
+const pagePosts = postsForPage(posts, 1);
+const nextHref = pageCount(posts.length) > 1 ? "/page/2" : undefined;
 ---
 
 <BaseLayout title={site.name} current="blog">
@@ -8,7 +14,8 @@ import { site } from "../lib/site";
     <div class="page__intro">
       <p class="type-caption-mono">Talking Dev</p>
       <h1 class="type-h1">Stories about leading teams, <span class="mw-accent-text">without the armor</span></h1>
-      <p class="type-body">{site.description}</p>
+      <p class="type-body">Personal essays on leading teams, mentoring people and bringing AI into my team. Nothing here is a rule, and all of it is up for debate.</p>
     </div>
+    <PostList posts={pagePosts} total={pagePosts.length} featured nextHref={nextHref} />
   </div>
 </BaseLayout>

@@ -1,12 +1,80 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
+import Chip from "../components/Chip.astro";
+import { formatDate, getPosts, readTime, topics } from "../lib/posts";
+
+const posts = await getPosts();
+const years = [...new Set(posts.map((post) => post.data.date.getUTCFullYear()))];
+const months = ["Jan", "Feb", "Mar", "Apr", "May", "June", "July", "Aug", "Sept", "Oct", "Nov", "Dec"];
+const groups = years.map((year) => ({
+  year,
+  posts: posts.filter((post) => post.data.date.getUTCFullYear() === year),
+}));
 ---
 
-<BaseLayout title="Archive" current="archive">
+<BaseLayout title="Archive" description="Every story, newest first." current="archive">
   <div class="page">
-    <div class="stack">
-      <h1 class="type-h1">Archive</h1>
-      <p class="type-body">The list of every story lands here with the posts.</p>
+    <div class="page__intro">
+      <p class="type-caption-mono">Archive</p>
+      <h1 class="type-h1">Every story</h1>
     </div>
+    <form class="archive-tools" data-archive>
+      <div class="mw-input">
+        <label class="mw-input__label" for="archive-search">Search</label>
+        <input class="mw-input__field" id="archive-search" type="search" placeholder={'Try "armor" or "decisions"'} data-archive-search />
+      </div>
+      <div class="archive-tools__selects">
+        <div class="mw-input">
+          <label class="mw-input__label" for="archive-year">Year</label>
+          <select class="mw-input__field" id="archive-year" data-archive-year>
+            <option value="All">All</option>
+            {years.map((year) => <option value={String(year)}>{year}</option>)}
+          </select>
+        </div>
+        <div class="mw-input">
+          <label class="mw-input__label" for="archive-month">Month</label>
+          <select class="mw-input__field" id="archive-month" data-archive-month>
+            <option value="All">All</option>
+            {months.map((month, index) => <option value={String(index)}>{month}</option>)}
+          </select>
+        </div>
+      </div>
+      <div class="mw-tagfilter">
+        <div class="mw-tagfilter__tags" role="group" aria-label="Filter posts by topic">
+          <Chip toggle selected>All</Chip>
+          {topics.map((topic) => <Chip toggle topic={topic}>{topic}</Chip>)}
+        </div>
+        <span class="mw-tagfilter__count" data-count>{posts.length} posts</span>
+      </div>
+      <div class="archive-groups">
+        {
+          groups.map((group) => (
+            <section class="archive-year">
+              <h2 class="type-h2">{group.year}</h2>
+              <ul class="archive-list">
+                {group.posts.map((post) => (
+                  <li
+                    data-archive-item
+                    data-topic={post.data.topic}
+                    data-year={String(post.data.date.getUTCFullYear())}
+                    data-month={String(post.data.date.getUTCMonth())}
+                    data-search={`${post.data.title} ${post.data.topic} ${post.data.description} ${post.data.highlight ?? ""} ${post.body ?? ""}`.toLowerCase()}
+                  >
+                    <a href={`/${post.id}`}>{post.data.title}</a>
+                    <span>
+                      {formatDate(post.data.date)} · {readTime(post.body ?? "")}
+                    </span>
+                  </li>
+                ))}
+              </ul>
+            </section>
+          ))
+        }
+      </div>
+      <p class="type-body post-list__empty" data-empty hidden>No stories match that.</p>
+    </form>
   </div>
 </BaseLayout>
+<script>
+  import "../scripts/archive.ts";
+</script>

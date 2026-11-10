@@ -1,0 +1,28 @@
+---
+import Chip from "./Chip.astro";
+import Button from "./Button.astro";
+import { formatDate, readTime, type Post } from "../lib/posts";
+
+interface Props {
+  post: Post;
+  featured?: boolean;
+}
+
+const { post, featured = false } = Astro.props;
+const Title = featured ? "h2" : "h3";
+const catchPhrase = post.data.highlight ?? post.data.description;
+---
+
+<article class:list={["mw-post", featured && "mw-post--featured"]} data-topic={post.data.topic}>
+  <div class="mw-post__meta">
+    <Chip topic={post.data.topic}>{post.data.topic}</Chip>
+    <span class="mw-post__date">{formatDate(post.data.date)} · {readTime(post.body ?? "")}</span>
+  </div>
+  <Title class="mw-post__title">
+    <a href={`/${post.id}`}>{post.data.title}</a>
+  </Title>
+  <p class="mw-post__excerpt">{catchPhrase}</p>
+  <div class="mw-post__actions">
+    <Button href={`/${post.id}`}>Read More</Button>
+  </div>
+</article>

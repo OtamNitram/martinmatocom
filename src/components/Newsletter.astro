@@ -1,0 +1,37 @@
+---
+/**
+ * The one dark band. Colours are the light-theme primitives on purpose:
+ * semantic tokens invert in dark mode, and this band has to stay the dark one.
+ */
+const action = import.meta.env.PUBLIC_BUTTONDOWN_ACTION ?? "";
+---
+
+<section id="newsletter" class="band" aria-labelledby="newsletter-title">
+  <div class="band__inner">
+    <div class="band__copy">
+      <p class="type-caption-mono">Newsletter</p>
+      <h2 id="newsletter-title">Get the next story in your inbox.</h2>
+      <p class="band__lead">Stories about leading teams, mentoring and bringing AI into a team, sent when a new one is out. Nothing else.</p>
+    </div>
+    <form class="band__form" method="post" action={action || undefined} novalidate data-newsletter data-ready={action ? "true" : "false"}>
+      <div class="band__row">
+        <div class="mw-input">
+          <label class="mw-input__label" for="newsletter-email">Email</label>
+          <input class="mw-input__field" id="newsletter-email" name="email" type="email" placeholder="you@company.com" autocomplete="email" required />
+        </div>
+        <button class="mw-button mw-button--primary band__submit" type="submit">Subscribe</button>
+      </div>
+      <p class="band__note" data-newsletter-note hidden>I read every reply. Your address joins the list only after you confirm it.</p>
+      <p class="band__error" data-newsletter-error role="alert" hidden>Please add a valid email.</p>
+      <p class="band__error" data-newsletter-closed hidden>The list isn't open yet.</p>
+    </form>
+    <div class="band__done" data-newsletter-done hidden role="status">
+      <p class="band__thanks">You're in.</p>
+      <p class="band__lead" data-newsletter-address></p>
+      <button class="mw-button mw-button--secondary band__another" type="button" data-newsletter-reset>Use another email</button>
+    </div>
+  </div>
+</section>
+<script>
+  import "../scripts/newsletter.ts";
+</script>

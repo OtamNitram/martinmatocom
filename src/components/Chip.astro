@@ -1,0 +1,33 @@
+---
+import type { Topic } from "../lib/posts";
+
+interface Props {
+  topic?: Topic;
+  toggle?: boolean;
+  selected?: boolean;
+}
+
+const { topic, toggle = false, selected = false } = Astro.props;
+const isToggle = toggle || selected;
+---
+
+{
+  isToggle ? (
+    <button
+      type="button"
+      class:list={["mw-chip", "mw-chip--toggle", selected && "mw-chip--selected"]}
+      data-topic={topic ?? "All"}
+      aria-pressed={selected ? "true" : "false"}
+    >
+      <svg class="mw-chip__check" aria-hidden="true" width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M2.5 6.2 5 8.5l4.5-5" />
+      </svg>
+      <slot />
+    </button>
+  ) : (
+    <span class="mw-chip" data-topic={topic}>
+      <span class="mw-chip__dot" aria-hidden="true" />
+      <slot />
+    </span>
+  )
+}
