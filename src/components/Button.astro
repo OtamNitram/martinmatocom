@@ -1,0 +1,45 @@
+---
+import Icon from "./Icon.astro";
+import type { IconName } from "../lib/marks";
+
+interface Props {
+  variant?: "primary" | "secondary";
+  href?: string;
+  type?: "button" | "submit" | "reset";
+  disabled?: boolean;
+  icon?: boolean | IconName;
+  class?: string;
+}
+
+const {
+  variant = "primary",
+  href,
+  type = "button",
+  disabled = false,
+  icon,
+  class: className,
+} = Astro.props;
+const iconName = icon === true ? "share" : icon;
+---
+
+{
+  href ? (
+    <a
+      class:list={["mw-button", `mw-button--${variant}`, className]}
+      href={disabled ? undefined : href}
+      aria-disabled={disabled ? "true" : undefined}
+    >
+      {iconName ? <Icon name={iconName} /> : null}
+      <span class="mw-button__label">
+        <slot />
+      </span>
+    </a>
+  ) : (
+    <button class:list={["mw-button", `mw-button--${variant}`, className]} type={type} disabled={disabled}>
+      {iconName ? <Icon name={iconName} /> : null}
+      <span class="mw-button__label">
+        <slot />
+      </span>
+    </button>
+  )
+}

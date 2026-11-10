@@ -1,0 +1,47 @@
+---
+import Logo from "./Logo.astro";
+import Link from "./Link.astro";
+import Button from "./Button.astro";
+import Icon from "./Icon.astro";
+import { nav, site, type NavKey } from "../lib/site";
+
+interface Props {
+  current?: NavKey;
+}
+
+const { current } = Astro.props;
+---
+
+<div class="site-header">
+  <header class="mw-header">
+    <a class="mw-header__brand" href="/">
+      <Logo />
+      <span class="mw-header__name">{site.name}</span>
+    </a>
+    <nav class="mw-header__nav" aria-label="Main">
+      {
+        nav.map((item) => (
+          <Link href={item.href} current={item.label !== "Contact" && item.key === current}>
+            {item.label}
+          </Link>
+        ))
+      }
+      <button class="mw-link site-theme" type="button" data-theme-toggle aria-pressed="false">Dark</button>
+      <Button href="#newsletter">Subscribe</Button>
+    </nav>
+    <button class="mw-header__menu" type="button" data-menu-button aria-expanded="false" aria-controls="site-menu" aria-label="Open menu">
+      <Icon name="menu" size={24} />
+    </button>
+  </header>
+  <nav id="site-menu" class="site-menu" data-menu hidden aria-label="Main">
+    {
+      nav.map((item) => (
+        <a href={item.href} aria-current={item.label !== "Contact" && item.key === current ? "page" : undefined}>
+          {item.label}
+        </a>
+      ))
+    }
+    <button class="site-menu__theme" type="button" data-theme-toggle aria-pressed="false">Dark</button>
+    <Button href="#newsletter">Subscribe</Button>
+  </nav>
+</div>

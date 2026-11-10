@@ -1,0 +1,17 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Button from "../components/Button.astro";
+---
+
+<BaseLayout title="Page not found">
+  <div class="page">
+    <div class="stack">
+      <p class="type-caption-mono">404</p>
+      <h1 class="type-h1">This page is not here.</h1>
+      <p class="type-body">The story may have moved. The blog is still where it was.</p>
+      <div>
+        <Button href="/" variant="secondary">Back to the blog</Button>
+      </div>
+    </div>
+  </div>
+</BaseLayout>

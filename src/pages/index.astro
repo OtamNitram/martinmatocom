@@ -1,16 +1,14 @@
 ---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import { site } from "../lib/site";
 ---
 
-<html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<link rel="icon" href="/favicon.ico" />
-		<meta name="viewport" content="width=device-width" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Astro</title>
-	</head>
-	<body>
-		<h1>Astro</h1>
-	</body>
-</html>
+<BaseLayout title={site.name} current="blog">
+  <div class="page">
+    <div class="page__intro">
+      <p class="type-caption-mono">Talking Dev</p>
+      <h1 class="type-h1">Stories about leading teams, <span class="mw-accent-text">without the armor</span></h1>
+      <p class="type-body">{site.description}</p>
+    </div>
+  </div>
+</BaseLayout>

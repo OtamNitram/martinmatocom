@@ -1,0 +1,23 @@
+---
+import { LOGO } from "../lib/marks";
+
+interface Props {
+  height?: number;
+  label?: string;
+  class?: string;
+}
+
+const { height = 48, label = "Martín Mato", class: className } = Astro.props;
+const width = Math.round((height * 57) / 48);
+---
+
+<svg
+  class:list={["mw-logo", className]}
+  height={height}
+  width={width}
+  viewBox="0 0 57 48"
+  role="img"
+  aria-label={label}
+>
+  {LOGO.map((part) => <path d={part.d} class={part.part === "m" ? "mw-logo__m" : "mw-logo__M"} />)}
+</svg>
