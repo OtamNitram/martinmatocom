@@ -8,14 +8,12 @@ export const site = {
   x: "https://x.com/otamnitram",
   xHandle: "@otamnitram",
   github: "https://github.com/OtamNitram",
-  authorLine: "Principal Software Engineer. Writes from Montevideo, Uruguay.",
   jobTitle: "Principal Software Engineer",
   worksFor: "Kaizen Softworks",
   location: "Montevideo",
-  postsPerPage: 2,
 } as const;
 
-export type NavKey = "blog" | "about" | "contact" | "archive";
+export type NavKey = "blog" | "about" | "contact";
 
 export const nav = [
   { key: "blog" as const, label: "Blog", href: "/" },
