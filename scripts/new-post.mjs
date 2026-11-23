@@ -14,7 +14,7 @@ const slug = title
   .replace(/[^a-z0-9]+/g, "-")
   .replace(/^-|-$/g, "");
 
-const reserved = new Set(["about", "archive", "contact", "page", "rss.xml", "llms.txt", "og"]);
+const reserved = new Set(["about", "contact", "library", "rss.xml", "llms.txt", "llms-full.txt", "og", "404"]);
 if (!slug || reserved.has(slug)) {
   console.error(`"${slug || title}" can't be a post address.`);
   process.exit(1);
@@ -32,13 +32,20 @@ title: ${JSON.stringify(title)}
 description: ""
 date: ${today}
 topic: Personal
+highlight: ""
 closingQuestion: ""
+# image: ./images/${slug}.jpg
+# imageAlt: ""
+# replyPlaceholder: ""
+# linkedinUrl: ""
 draft: true
 ---
 
 Write the story here. One paragraph is enough to start.
 
-> The sentence the post turns on.
+## A chapter title, if the story has parts
+
+Each "##" becomes a numbered chapter, with a table of contents and the reading tracker.
 `;
 
 fs.mkdirSync(path.dirname(file), { recursive: true });

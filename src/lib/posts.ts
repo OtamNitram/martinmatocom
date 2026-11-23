@@ -49,6 +49,20 @@ export async function getPosts() {
   return all.filter(isListed).sort((a, b) => b.data.date.getTime() - a.data.date.getTime());
 }
 
+/** "Keep reading" under a post: the same topic first, then the newest, never the post itself. */
+export async function relatedPosts(post: Post, count = 2) {
+  const others = (await getPosts()).filter((other) => other.id !== post.id);
+  const sameTopic = others.filter((other) => other.data.topic === post.data.topic);
+  const rest = others.filter((other) => other.data.topic !== post.data.topic);
+  return [...sameTopic, ...rest].slice(0, count);
+}
+
+/** Minutes to read, as a number (about 200 words a minute). */
+export function readMinutes(text: string) {
+  const words = text.trim().split(/\s+/).filter(Boolean).length;
+  return Math.max(1, Math.round(words / 200));
+}
+
 /** The three posts About suggests to a new reader: those marked startHere, else the newest. */
 export async function startPosts() {
   const posts = await getPosts();

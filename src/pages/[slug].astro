@@ -3,11 +3,12 @@ import { Image } from "astro:assets";
 import { render } from "astro:content";
 import portrait from "../../design-system/assets/photos/portrait-headshot.jpg";
 import BaseLayout from "../layouts/BaseLayout.astro";
-import Chip from "../components/Chip.astro";
-import ClosingPrompt from "../components/ClosingPrompt.astro";
-import { formatDate, getPosts, readTime, replyHref } from "../lib/posts";
+import PostIcon from "../components/PostIcon.astro";
+import TopicTag from "../components/TopicTag.astro";
+import { catchPhrase, formatDate, getPosts, readMinutes, readTime, relatedPosts } from "../lib/posts";
 import { postJsonLd } from "../lib/seo";
 import { site } from "../lib/site";
+import "../styles/post.css";
 
 export async function getStaticPaths() {
   const posts = await getPosts();
@@ -15,36 +16,276 @@ export async function getStaticPaths() {
 }
 
 const { post } = Astro.props;
-const { Content } = await render(post);
-const minutes = readTime(post.body ?? "");
+const { Content, headings } = await render(post);
+const chapters = headings.filter((heading) => heading.depth === 2);
+const hasChapters = chapters.length > 0;
+const minutes = readMinutes(post.body ?? "");
+const related = await relatedPosts(post);
+const url = new URL(`/${post.id}`, site.url).href;
+const title = post.data.title;
+const pad = (n: number) => String(n).padStart(2, "0");
+
+const share = {
+  whatsapp: `https://wa.me/?text=${encodeURIComponent(`${title} ${url}`)}`,
+  linkedin: `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(url)}`,
+  x: `https://x.com/intent/post?url=${encodeURIComponent(url)}&text=${encodeURIComponent(title)}`,
+  email: `mailto:?subject=${encodeURIComponent(title)}&body=${encodeURIComponent(url)}`,
+};
+const replyAction = import.meta.env.PUBLIC_FORMSPREE_ACTION ?? "";
+const shared = Boolean(post.data.linkedinUrl);
 ---
 
-<BaseLayout title={post.data.title} description={post.data.description} current="blog" image={`/og/${post.id}.png`} jsonLd={postJsonLd(post)}>
-  <div class="page page--post">
-    <p class="post-back"><a href="/">All stories</a></p>
-    <article class="mw-article">
-      <header class="mw-article__head">
-        <div class="mw-post__meta">
-          <Chip topic={post.data.topic}>{post.data.topic}</Chip>
-          <span class="mw-post__date">
-            <time datetime={post.data.date.toISOString()}>{formatDate(post.data.date)}</time>
-            {" · "}
-            {minutes}
-          </span>
+<BaseLayout title={title} description={post.data.description} current="blog" image={`/og/${post.id}.png`} jsonLd={postJsonLd(post)}>
+  <div class="progress" aria-hidden="true"></div>
+
+  <div
+    class="read"
+    data-post
+    data-minutes={minutes}
+    data-url={url}
+    data-title={title}
+    data-chapters={chapters.length}
+  >
+    <div class="f-layout">
+      {
+        hasChapters && (
+          <aside class="f-left" aria-label="In this story">
+            <p class="f-side-lbl">In this story</p>
+            <ol class="f-toc">
+              {chapters.map((chapter, index) => (
+                <li>
+                  <a href={`#${chapter.slug}`} data-toc-link={chapter.slug}>
+                    <span class="n">{pad(index + 1)}</span>
+                    <span>{chapter.text}</span>
+                  </a>
+                </li>
+              ))}
+            </ol>
+            <div class="f-prog" aria-hidden="true">
+              <i />
+            </div>
+            <p class="f-left-meta" data-left-meta>
+              0% read · about {minutes} min left
+            </p>
+          </aside>
+        )
+      }
+
+      <article class="col">
+        <header class="c-top">
+          <div class="kicker">
+            <span class="tag">{post.data.topic}</span>
+            <span><time datetime={post.data.date.toISOString()}>{formatDate(post.data.date)}</time> · {readTime(post.body ?? "")}</span>
+          </div>
+          <h1 class="title">{title}</h1>
+          <div class="f-author">
+            <Image src={portrait} alt="Martín Mato" width={112} height={112} />
+            <span class="who">
+              <span class="by">Written by <b>{site.name}</b></span>
+              <span class="role">{site.jobTitle} at {site.worksFor} · <a href="/about">About me</a></span>
+            </span>
+          </div>
+        </header>
+
+        {
+          post.data.image && (
+            <figure class="post-photo">
+              <Image
+                src={post.data.image}
+                alt={post.data.imageAlt ?? ""}
+                widths={[480, 721]}
+                sizes="(max-width: 767px) 100vw, 680px"
+                loading="eager"
+                fetchpriority="high"
+              />
+            </figure>
+          )
+        }
+
+        {
+          hasChapters && (
+            <details class="c-toc" id="c-toc">
+              <summary>
+                <span>
+                  In this story · {chapters.length} {chapters.length === 1 ? "part" : "parts"}
+                </span>
+                <span class="c-pm" aria-hidden="true" />
+              </summary>
+              <ol>
+                {chapters.map((chapter) => (
+                  <li>
+                    <a href={`#${chapter.slug}`}>{chapter.text}</a>
+                  </li>
+                ))}
+              </ol>
+            </details>
+          )
+        }
+
+        <div class:list={["prose", hasChapters && "prose--chapters"]} id="prose">
+          <Content />
         </div>
-        <h1 class="mw-article__title">{post.data.title}</h1>
-      </header>
-      <div class="mw-article__body">
-        <figure class="author">
-          <Image src={portrait} alt="Portrait of Martín Mato" width={200} height={250} />
-          <figcaption>
-            <span class="author__name">{site.name}</span>
-            <span class="author__role">{site.authorLine}</span>
-          </figcaption>
-        </figure>
-        <Content />
-      </div>
-      <ClosingPrompt question={post.data.closingQuestion} href={replyHref(post)} />
-    </article>
+
+        <aside class="f-sign" aria-label="About the author">
+          <Image src={portrait} alt="Martín Mato" width={192} height={192} />
+          <div>
+            <p class="hi">Thanks for reading. I’m Martín.</p>
+            <p class="bio">I lead teams for clients in the US, coach people, and bring AI into how we work. This blog is where I think out loud.</p>
+            <a href="/about">More about me →</a>
+          </div>
+        </aside>
+
+        <section class="c-end" id="c-end" aria-labelledby="c-end-title">
+          <p class="eyebrow-cm">Continue the conversation</p>
+          <h2 id="c-end-title">{post.data.closingQuestion}</h2>
+          <div class="c-opts">
+            <button type="button" class="c-opt" data-open-reply>
+              <span class="ic"><PostIcon name="mail" /></span>
+              <b>Write to me</b>
+              <span>Private, straight to my inbox. I answer every one.</span>
+            </button>
+            {
+              shared ? (
+                <a class="c-opt li-on" href={post.data.linkedinUrl} target="_blank" rel="noopener">
+                  <span class="ic">
+                    <PostIcon name="linkedin" />
+                  </span>
+                  <b>Join the conversation</b>
+                  <span>Read what others shared on LinkedIn and add your story.</span>
+                  <span class="li-badge">On LinkedIn</span>
+                </a>
+              ) : (
+                <a class="c-opt" href={site.linkedin} target="_blank" rel="noopener">
+                  <span class="ic">
+                    <PostIcon name="linkedin" />
+                  </span>
+                  <b>Talk on LinkedIn</b>
+                  <span>Message me, or comment where I shared the story.</span>
+                </a>
+              )
+            }
+            <button type="button" class="c-opt" data-open-share>
+              <span class="ic"><PostIcon name="share" /></span>
+              <b>Send it to someone</b>
+              <span>WhatsApp, LinkedIn, email or a copied link.</span>
+            </button>
+          </div>
+        </section>
+      </article>
+
+      <aside class="f-right" aria-label="About the author">
+        <Image src={portrait} alt="" width={112} height={112} />
+        <p class="nm">{site.name}</p>
+        <p class="rl">{site.jobTitle} · {site.location}</p>
+        <button type="button" class="f-side-btn main" data-open-reply>Write to me</button>
+        <button type="button" class="f-side-btn" data-open-share>Share</button>
+        <a class="f-side-link" href="/about">About me</a>
+      </aside>
+    </div>
   </div>
+
+  {
+    related.length > 0 && (
+      <section class="more" aria-labelledby="related-title">
+        <div class="more-in">
+          <div class="more-head">
+            <div class="more-head__copy">
+              <p class="rail-label">Keep reading</p>
+              <h2 id="related-title">More stories, same honesty.</h2>
+            </div>
+            <a class="all" href="/#latest">
+              All stories <span aria-hidden="true">→</span>
+            </a>
+          </div>
+          <div class="more-grid">
+            {related.map((other) => (
+              <a class="story" href={`/${other.id}`}>
+                <TopicTag topic={other.data.topic} />
+                <span class="story-t">{other.data.title}</span>
+                <span class="story-p">{catchPhrase(other)}</span>
+                <span class="story-m">
+                  {formatDate(other.data.date)} · {readTime(other.body ?? "")}
+                </span>
+                <span class="story-cta">
+                  Read story <span aria-hidden="true">→</span>
+                </span>
+              </a>
+            ))}
+          </div>
+        </div>
+      </section>
+    )
+  }
+
+  <div class="b-fade hide" aria-hidden="true" data-fade></div>
+  <nav class="b-bar hide" aria-label="Story actions" data-bar>
+    <a class="d-me" href={hasChapters ? "#c-toc" : "#main"} data-bar-me>
+      <Image class="d-ava" src={portrait} alt="" width={72} height={72} />
+      <span class="d-where">
+        <span class="n" data-bar-where>Martín · 0%</span>
+        <span class="t" data-bar-title>{hasChapters ? chapters[0].text : title}</span>
+        <span class="d-track" aria-hidden="true"><i></i></span>
+      </span>
+    </a>
+    <button type="button" class="main" data-open-reply aria-label="Reply">
+      <PostIcon name="chat" />
+      <span class="lbl-long">Reply</span>
+    </button>
+    <button type="button" data-open-share aria-label="Share">
+      <PostIcon name="share" />
+      <span class="lbl-long">Share</span>
+    </button>
+  </nav>
+
+  <dialog class="sheet" id="share-sheet" aria-labelledby="share-title">
+    <div class="sheet-h">
+      <h2 id="share-title">Share this story</h2>
+      <button type="button" class="icon-btn" aria-label="Close" data-close-sheet><PostIcon name="close" /></button>
+    </div>
+    <div class="grid">
+      <button type="button" class="wide" data-copy-link><PostIcon name="link" /><span data-copy-label>Copy link</span></button>
+      <a href={share.whatsapp} target="_blank" rel="noopener"><PostIcon name="whatsapp" />WhatsApp</a>
+      <a href={share.linkedin} target="_blank" rel="noopener"><PostIcon name="linkedin" />LinkedIn</a>
+      <a href={share.x} target="_blank" rel="noopener"><PostIcon name="x" />X</a>
+      <a href={share.email}><PostIcon name="mail" />Email</a>
+    </div>
+  </dialog>
+
+  <dialog class="sheet" id="reply-sheet" aria-labelledby="reply-title">
+    <div class="sheet-h">
+      <span class="sheet-who">
+        <Image src={portrait} alt="" width={80} height={80} />
+        <h2 id="reply-title">Write to Martín</h2>
+      </span>
+      <button type="button" class="icon-btn" aria-label="Close" data-close-sheet><PostIcon name="close" /></button>
+    </div>
+    <form
+      class="reply-form"
+      method="post"
+      action={replyAction || undefined}
+      novalidate
+      data-reply-form
+      data-ready={replyAction ? "true" : "false"}
+    >
+      <p class="note">It goes to my inbox, not to a public comment thread.</p>
+      <label for="reply-message">Your story or your take</label>
+      <textarea id="reply-message" name="message" placeholder={post.data.replyPlaceholder ?? "Your story, or where you see it differently…"}></textarea>
+      <label for="reply-email">Your email, so I can answer</label>
+      <input id="reply-email" name="email" type="email" autocomplete="email" />
+      <input type="hidden" name="_subject" value={`Re: ${title}`} />
+      <input type="hidden" name="post" value={url} />
+      <p class="note reply-error" role="alert" data-reply-error hidden>Add a couple of lines and a valid email.</p>
+      <div class="reply-actions">
+        <button type="submit" class="btn-p">Send</button>
+        <a class="btn-o" href={site.linkedin} target="_blank" rel="noopener"><PostIcon name="linkedin" />Or on LinkedIn</a>
+      </div>
+    </form>
+    <p class="reply-done" data-reply-done hidden></p>
+  </dialog>
+
+  <div class="toast" role="status" data-toast hidden></div>
 </BaseLayout>
+
+<script>
+  import "../scripts/post.ts";
+</script>

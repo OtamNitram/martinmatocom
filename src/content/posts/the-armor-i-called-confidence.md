@@ -5,12 +5,16 @@ date: 2026-10-25
 topic: Personal
 highlight: "My arrogance wasn’t confidence. It was the only way I knew to avoid asking for help."
 closingQuestion: "So, what was the armor you had to take off?"
+image: ./images/the-armor-i-called-confidence.jpg
+imageAlt: "Martín writing in his notebook at the dining table at night, under a warm lamp"
+replyPlaceholder: "The armor I had to take off was…"
+startHere: 1
 draft: false
 ---
 
-Nine months into my first job as a junior developer, I was called into a meeting nobody wants to have. I was at the top of the layoff list. My manager at the time was the one who gave me the news. Even though I reacted politely, I was angry. I asked for the specific reason, although part of me didn’t want to hear it. I tried to defend myself, but the decision had already been made. I thought the company was unfair, the world was unfair and all the other things I imagine you’ve heard before. I was blaming everyone and everything instead of looking at my part of the problem.
+Nine months into my first job as a junior developer, I was called into a meeting nobody wants to have. I was at the top of the layoff list. My manager at the time was the one who gave me the news. Even though I reacted politely, I was angry. I asked for the specific reason, even though part of me didn’t want to hear it. I tried to defend myself, but the decision had already been made. I thought the company was unfair, the world was unfair and all the other things I imagine you’ve heard before. I was blaming everyone and everything instead of looking at my part of the problem.
 
-So, what was my part? My team was a small one at an e-banking solutions company. The SDLC process was far from perfect, and the onboarding wasn’t ideal either. But I worked the only way I knew: sit down, put on my headphones and code. It was me, the code and the process. Sometimes other people’s answers just weren’t enough for me. Taking off my headphones to ask for help felt like too much friction, so I’d just Google it. I finished every day exhausted, bored and sometimes angry. My isolation and lack of motivation were what put me on that list.
+So, what was my part? My team was a small one at an e-banking solutions company. The SDLC process was far from perfect, and the onboarding wasn’t ideal either. But I worked in the only way I knew: sit down, put on my headphones and code. It was me, the code and the process. Sometimes other people’s answers just weren’t enough for me. Taking off my headphones to ask for help felt like too much friction, so I’d just Google it. Every day I finished exhausted, bored and sometimes angry. My isolation and lack of motivation were the things that put me on that list.
 
 A few weeks later, my old company called, the one where I had spent four years going from QA to test lead. This time they wanted me on a dev team. After some onboarding, and without any experience leading developers, I found myself in charge of a small team of analysts. It was my test lead experience that drove that decision. I knew in that moment that I had to change something and work on my people skills. I thrived in that position: I got things done on time, had a good relationship with my team and received high praise and recognition from my client. I thought I had learned the lesson.
 
@@ -18,7 +22,7 @@ Then I joined Kaizen. It’s a horizontal company: no bosses, no titles to lean 
 
 Like many kids raised in the 90s, I was taught to solve things on my own. Asking for help felt like weakness. So I made sure I always had an answer, right or not.
 
-> My arrogance wasn’t confidence. It was the only way I knew to avoid asking for help.
+My arrogance wasn’t confidence. It was the only way I knew to avoid asking for help.
 
 I’d be lying if I said I had an epiphany. It took me a while to realize that even though I was surrounded by people, I was alone. First, I had to get through the shame of having become that arrogant person. Then, I had to break the armor and let people in, to be vulnerable enough to accept help. I needed help. I needed guidance. And I needed to stop solving everything on my own.
 
