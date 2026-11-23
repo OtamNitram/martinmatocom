@@ -1,3 +1,92 @@
 ---
-return Astro.redirect("/about#contact");
+import BaseLayout from "../layouts/BaseLayout.astro";
+import ContactForm from "../components/ContactForm.astro";
+import Icon from "../components/Icon.astro";
+import { getPosts } from "../lib/posts";
+import { site } from "../lib/site";
+
+const [latest] = await getPosts();
 ---
+
+<BaseLayout
+  title="Contact"
+  description="Write to Martín Mato: a thought on a post, a story of your own, or a different take."
+  current="contact"
+>
+  <div class="contact-page">
+    <section class="contact-page__intro">
+      <h1 class="contact-page__title">Contact</h1>
+      <p class="contact-page__lead">
+        A thought on a post, a story of your own, or a different take? Write me a few lines. And if you think I got something wrong, even better.
+      </p>
+      <p class="contact-page__alt">
+        Prefer LinkedIn?
+        <a class="mw-link" href={site.linkedin} target="_blank" rel="noopener noreferrer me">
+          <Icon name="external-link" />
+          <span>Send me a message there</span>
+        </a>
+      </p>
+    </section>
+
+    <hr class="contact-page__rule" />
+
+    <ContactForm variant="page" latestHref={latest ? `/${latest.id}` : "/"} />
+  </div>
+</BaseLayout>
+
+<style>
+  /* Contact: design-system/pages/contact.dc.html. Everything in the 800px column. */
+  .contact-page {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-xl);
+    padding: var(--section) var(--side);
+  }
+
+  .contact-page > :global(*) {
+    max-width: var(--measure-page);
+  }
+
+  .contact-page__intro {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-l);
+  }
+
+  .contact-page__title {
+    margin: 0;
+    font-size: 48px;
+    font-weight: 700;
+    line-height: 48px;
+  }
+
+  .contact-page__lead {
+    margin: 0;
+    font-size: 20px;
+    line-height: 1.35;
+  }
+
+  .contact-page__alt {
+    margin: 0;
+    color: var(--text-secondary);
+    font-size: 14px;
+    line-height: 1.35;
+  }
+
+  .contact-page__rule {
+    width: 100%;
+    margin: 0;
+    border: 0;
+    border-top: 1px solid var(--surfaces-divider);
+  }
+
+  @media (max-width: 599px) {
+    .contact-page__title {
+      font-size: 36px;
+    }
+
+    .contact-page__lead {
+      font-size: 16px;
+    }
+  }
+</style>
