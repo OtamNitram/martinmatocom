@@ -1,68 +1,180 @@
 ---
 import { Image } from "astro:assets";
-import booth from "../../design-system/assets/photos/kaizen-booth-wide.jpg";
+import night from "../../design-system/assets/photos/about-night-notebook.jpg";
 import BaseLayout from "../layouts/BaseLayout.astro";
-import Button from "../components/Button.astro";
-import Card from "../components/Card.astro";
 import ContactForm from "../components/ContactForm.astro";
-import NextRead from "../components/NextRead.astro";
-import { formatDate, getPosts } from "../lib/posts";
+import TopicTag from "../components/TopicTag.astro";
+import { catchPhrase, formatDate, readTime, startPosts } from "../lib/posts";
 import { site } from "../lib/site";
+import "../styles/about.css";
 
-const highlighted = (await getPosts()).slice(0, 3);
+const start = await startPosts();
+
+const story = [
+  {
+    when: "2008 · Before code",
+    title: "The long way in",
+    text: "I fixed PCs, answered phones at a call center, and spent four years in QA before I wrote code for a living.",
+  },
+  {
+    when: "2016 · First job as a developer",
+    title: "Laid off for working alone",
+    text: "Seven months into my first job as a junior developer, I was at the top of the layoff list. I blamed everyone and everything instead of looking at my part.",
+    link: { href: "/the-armor-i-called-confidence", label: "Read the full story →" },
+  },
+  {
+    when: "2017 · From QA to tech lead",
+    title: "My first team",
+    text: "Leading a team for the first time taught me to listen before fixing. For a while, it stuck.",
+  },
+  {
+    when: "2018 · A new job",
+    title: "A company with no bosses",
+    text: "Here every decision is earned through conversation. I slipped back into knowing it all, until my colleagues were honest enough to tell me.",
+  },
+  {
+    when: "Today",
+    title: "Where I am now",
+    text: "I lead teams for clients in the US, mentor people who are starting to lead, and bring AI into how we work. I still write code when it’s needed. It keeps me close to what the team actually deals with.",
+    today: true,
+  },
+];
+
+const ideas = [
+  {
+    title: "Team building",
+    text: "Continuous improvement, done by the team itself. I try to build teams that iterate toward quality on their own, not because someone asks them to.",
+  },
+  {
+    title: "Psychological safety",
+    text: "People only try new things, AI included, when they feel safe to get it wrong. The hard part isn’t the tool. It’s adoption, trust, and knowing where to draw the line.",
+  },
+  {
+    title: "Ontological coaching",
+    text: "A human-centered way to grow as a professional. I lean on it when I listen, give feedback or lead.",
+  },
+];
 ---
 
-<BaseLayout title="About Me" description="Martín Mato is a Principal Software Engineer at Kaizen Softworks, writing from Montevideo." current="about">
-  <div class="page">
-    <section class="about-intro">
-      <div class="measure">
-        <h1 class="type-h1">About Me</h1>
-        <p class="type-h2 about-intro__sub">Engineering Leadership & Organizational Design</p>
+<BaseLayout
+  title="About"
+  description="Martín Mato leads software teams from Montevideo, Uruguay. How he got here, how he works, and where to start reading."
+  current="about"
+>
+  <section class="about-hero">
+    <Image
+      class="about-hero__photo"
+      src={night}
+      alt="Martín writing in his notebook at the dining table at night, under a warm lamp"
+      widths={[480, 721]}
+      sizes="(max-width: 767px) 100vw, 50vw"
+      loading="eager"
+      fetchpriority="high"
+    />
+    <div class="about-hero__text">
+      <p class="eyebrow">Hi, I’m Martín</p>
+      <h1 class="about-hero__title">I lead software teams. <span class="about-hero__accent">Here I write about it.</span></h1>
+      <p class="lead about-hero__lead">I still catch myself trying to have every answer. I write here about that, and about what happens when I ask instead.</p>
+      <div class="about-hero__actions">
+        <a class="mw-button mw-button--primary" href="#contact">Let’s talk</a>
+        <a class="about-link" href={site.linkedin} rel="me">Connect on LinkedIn ↗</a>
       </div>
-      <div class="about-hero">
-        <div class="about-hero__copy">
-          <p>I’m Martín Mato. I’m from Uruguay and I work as a Principal Software Engineer at Kaizen Softworks. I navigate between engineering, product, and strategy to align teams and unify complex platforms.</p>
-          <p>I come from a technical background in .NET, AWS, and React, but today I focus my energy on organizational design and socio-technical architecture.</p>
-        </div>
-        <Image class="about-hero__photo" src={booth} alt="Martín Mato at the Kaizen Softworks booth" width={640} height={480} />
+    </div>
+  </section>
+
+  <section class="about-story" aria-labelledby="story-title">
+    <div class="about-section-head">
+      <h2 id="story-title" class="h2">How I got here</h2>
+      <p class="lead about-muted">The short version, including the parts I’m not proud of.</p>
+    </div>
+    <ol class="about-timeline">
+      {
+        story.map((step) => (
+          <li class:list={["about-step", step.today && "about-step--today"]}>
+            <span class="about-step__dot" aria-hidden="true" />
+            <span class="about-meta">{step.when}</span>
+            <h3 class="about-step__title">{step.title}</h3>
+            <p class="about-step__text">{step.text}</p>
+            {step.link ? (
+              <a class="about-link" href={step.link.href}>
+                {step.link.label}
+              </a>
+            ) : null}
+          </li>
+        ))
+      }
+    </ol>
+  </section>
+
+  <section class="about-work" aria-labelledby="work-title">
+    <div class="about-work__grid">
+      <div class="about-work__head">
+        <h2 id="work-title" class="h2">How I work</h2>
+        <p class="lead about-muted">Three ideas I keep coming back to.</p>
       </div>
-      <div>
-        <Button href={site.linkedin} icon="external-link" external>Connect on LinkedIn</Button>
-      </div>
-    </section>
-
-    <hr class="rule" />
-
-    <section class="about-section">
-      <h2 class="type-h2">Approach & Methodology</h2>
-      <div class="card-row">
-        <Card icon="group" title="Team Building">Focusing on continuous improvement and operational excellence. Building teams that naturally iterate towards higher quality and efficiency.</Card>
-        <Card icon="psychology" title="Psychological Safety">Leveraging modern tools while fostering a culture of trust and innovation. Ensuring teams feel secure to experiment and adopt new paradigms.</Card>
-        <Card icon="coach" title="Ontological Coaching">A human-centered approach to professional growth and team dynamics. Cultivating leadership and effective communication from within.</Card>
-      </div>
-    </section>
-
-    <hr class="rule" />
-
-    <section class="about-section">
-      <h2 class="type-h2">Highlighted Posts</h2>
-      <div class="card-row">
+      <ol class="about-work__list">
         {
-          highlighted.map((post) => (
-            <NextRead href={`/${post.id}`} title={post.data.title} topic={post.data.topic} date={formatDate(post.data.date)} />
+          ideas.map((idea, index) => (
+            <li class="about-idea">
+              <span class="about-idea__num" aria-hidden="true">
+                {String(index + 1).padStart(2, "0")}
+              </span>
+              <h3 class="about-step__title">{idea.title}</h3>
+              <p class="about-step__text">{idea.text}</p>
+            </li>
           ))
         }
+      </ol>
+    </div>
+  </section>
+
+  {
+    start.length > 0 && (
+      <section class="about-start" aria-labelledby="start-title">
+        <div class="about-section-head">
+          <h2 id="start-title" class="h2">
+            Where to start
+          </h2>
+          <p class="lead about-muted">If you’re new here, start with one of these.</p>
+        </div>
+        <div class="about-start__grid">
+          {start.map((post) => (
+            <article class="about-card">
+              <div class="about-meta about-card__meta">
+                <TopicTag topic={post.data.topic} />
+                <span>
+                  <time datetime={post.data.date.toISOString()}>{formatDate(post.data.date)}</time> · {readTime(post.body ?? "")}
+                </span>
+              </div>
+              <h3 class="about-step__title">
+                <a class="about-card__title" href={`/${post.id}`}>
+                  {post.data.title}
+                </a>
+              </h3>
+              <p class="about-card__catch">{catchPhrase(post)}</p>
+              <div class="about-card__foot">
+                <span class="about-card__more" aria-hidden="true">
+                  Keep reading <span class="about-card__arrow">→</span>
+                </span>
+              </div>
+            </article>
+          ))}
+        </div>
+      </section>
+    )
+  }
+
+  <section id="contact" class="band" aria-labelledby="contact-title" slot="ending">
+    <div class="contact-band">
+      <div class="contact-band__copy">
+        <p class="eyebrow band__eyebrow">Let’s talk</p>
+        <h2 id="contact-title" class="band__title">Got a story like mine? Tell me about it.</h2>
+        <p class="lead band__lead">I’m still figuring out how to put these ideas into practice. If you’re in the same spot, want to compare notes, or think I got something wrong, write to me.</p>
+        <p class="contact-band__alt">Or find me on <a href={site.linkedin}>LinkedIn</a>.</p>
       </div>
-    </section>
-
-    <hr class="rule" />
-
-    <section id="contact" class="about-contact">
       <div>
-        <h2 class="type-h2">Contact</h2>
-        <p class="type-caption">Have a question about organizational design, engineering leadership, or a collaboration opportunity? Send me a message and I’ll get back to you.</p>
+        <ContactForm variant="band" />
       </div>
-      <ContactForm />
-    </section>
-  </div>
+    </div>
+  </section>
 </BaseLayout>

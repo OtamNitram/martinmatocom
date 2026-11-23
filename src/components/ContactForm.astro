@@ -1,45 +1,147 @@
 ---
+/**
+ * The contact form, in two looks from the canvas:
+ * - "band": inside About's dark ending (Name and Email side by side, Message, one combined error line).
+ * - "page": the Contact page (topic chips, an error under each field, links after sending).
+ * Both post to Formspree (PUBLIC_FORMSPREE_ACTION); without it the form says it is not open yet.
+ */
+import "../styles/contact-form.css";
+
+interface Props {
+  variant?: "band" | "page";
+  /** "Read the latest post" after sending (page variant). */
+  latestHref?: string;
+}
+
+const { variant = "band", latestHref = "/" } = Astro.props;
 const action = import.meta.env.PUBLIC_FORMSPREE_ACTION ?? "";
+const id = (name: string) => `${variant}-contact-${name}`;
+const topics = ["A post", "A story of my own", "Just saying hi"];
+
+const done =
+  variant === "band"
+    ? { thanks: "Thanks, {first}.", address: "Your message is on its way. I’ll get back to you at {email}." }
+    : { thanks: "Thanks, {first}. Your message is on its way.", address: "I’ll reply to {email} as soon as I can." };
 ---
 
-<form class="contact-form" method="post" action={action || undefined} novalidate data-contact data-ready={action ? "true" : "false"} data-mode={action ? "fetch" : undefined}>
-  <div class="contact-form__fields">
-    <div class="contact-form__row">
-      <div class="mw-input">
-        <label class="mw-input__label" for="contact-name">Name</label>
-        <input class="mw-input__field" id="contact-name" name="name" type="text" placeholder="Your name" autocomplete="name" required />
-      </div>
-      <div class="mw-input">
-        <label class="mw-input__label" for="contact-email">Email</label>
-        <input class="mw-input__field" id="contact-email" name="email" type="email" placeholder="you@company.com" autocomplete="email" required />
-      </div>
-    </div>
-    <div class="mw-input">
-      <label class="mw-input__label" for="contact-topic">Topic</label>
-      <input class="mw-input__field" id="contact-topic" name="topic" type="text" placeholder="Speaking, coaching, collaboration, etc." />
-    </div>
-    <div class="mw-input mw-input--l">
-      <label class="mw-input__label" for="contact-message">Message</label>
-      <textarea class="mw-input__field" id="contact-message" name="message" rows="5" placeholder="Tell me a bit about what you’d like to discuss." required></textarea>
-    </div>
-    <p class="contact-form__honeypot" aria-hidden="true">
-      <label for="contact-company">Company</label>
-      <input id="contact-company" name="company" type="text" tabindex="-1" autocomplete="off" />
+<div class:list={["cform", `cform--${variant}`]} data-contact-root>
+  <form
+    class="cform__form"
+    method="post"
+    action={action || undefined}
+    novalidate
+    data-contact
+    data-variant={variant}
+    data-ready={action ? "true" : "false"}
+    data-mode={action ? "fetch" : undefined}
+  >
+    {
+      variant === "band" ? (
+        <div class="cform__fields">
+          <div class="cform__row">
+            <div class="mw-input">
+              <label class="mw-input__label" for={id("name")}>Name</label>
+              <input class="mw-input__field" id={id("name")} name="name" type="text" placeholder="Your name" autocomplete="name" required />
+            </div>
+            <div class="mw-input">
+              <label class="mw-input__label" for={id("email")}>Email</label>
+              <input class="mw-input__field" id={id("email")} name="email" type="email" placeholder="you@company.com" autocomplete="email" required />
+            </div>
+          </div>
+          <div class="mw-input mw-input--l">
+            <label class="mw-input__label" for={id("message")}>Message</label>
+            <textarea class="mw-input__field" id={id("message")} name="message" rows="5" placeholder="What’s on your mind?" required />
+          </div>
+          <p class="band__msg" data-contact-error role="alert" hidden>
+            Please add your name, a valid email and a message.
+          </p>
+          <p class="band__msg" data-contact-closed hidden>
+            The form isn’t open yet.
+          </p>
+        </div>
+      ) : (
+        <>
+          <div class="cform__grid">
+            <div class="cform__field">
+              <label class="cform__label" for={id("name")}>Name</label>
+              <input class="cform__input" id={id("name")} name="name" type="text" autocomplete="name" required aria-describedby={id("name-error")} />
+              <p class="cform__err" id={id("name-error")} data-error-for="name" hidden>
+                Add your name.
+              </p>
+            </div>
+            <div class="cform__field">
+              <label class="cform__label" for={id("email")}>Email</label>
+              <input class="cform__input" id={id("email")} name="email" type="email" autocomplete="email" required aria-describedby={id("email-error")} />
+              <p class="cform__err" id={id("email-error")} data-error-for="email" hidden>
+                I’ll need a valid email to reply.
+              </p>
+            </div>
+          </div>
+          <fieldset class="cform__topics">
+            <legend class="cform__label">What’s it about?</legend>
+            <div class="cform__chips">
+              {topics.map((topic, index) => (
+                <label class="mw-chip mw-chip--toggle cform__chip">
+                  <input class="visually-hidden" type="radio" name="topic" value={topic} checked={index === 0} />
+                  <svg class="mw-chip__check" aria-hidden="true" width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M2.5 6.2 5 8.5l4.5-5" />
+                  </svg>
+                  {topic}
+                </label>
+              ))}
+            </div>
+          </fieldset>
+          <div class="cform__field">
+            <label class="cform__label" for={id("message")}>Message</label>
+            <textarea class="cform__input cform__textarea" id={id("message")} name="message" rows="6" required aria-describedby={id("message-error")} />
+            <p class="cform__err" id={id("message-error")} data-error-for="message" hidden>
+              A couple of lines is enough.
+            </p>
+          </div>
+          <p class="cform__err" data-contact-error role="alert" hidden />
+          <p class="cform__err" data-contact-closed hidden>
+            The form isn’t open yet.
+          </p>
+        </>
+      )
+    }
+    <p class="cform__honeypot" aria-hidden="true">
+      <label for={id("company")}>Company</label>
+      <input id={id("company")} name="company" type="text" tabindex="-1" autocomplete="off" />
     </p>
-    <p class="contact-form__error" data-contact-error role="alert" hidden>Please add your name, a valid email and a message.</p>
-    <p class="contact-form__error" data-contact-closed hidden>The form isn't open yet.</p>
-    <p class="contact-form__note">I read every note. Your address joins a list only if you subscribe.</p>
+    <div>
+      <button class="mw-button mw-button--primary" type="submit">Send message</button>
+    </div>
+  </form>
+
+  <div class="cform__done" data-contact-done data-thanks={done.thanks} data-address={done.address} hidden role="status">
+    {
+      variant === "band" ? (
+        <>
+          <p class="band__thanks" data-contact-thanks />
+          <p class="lead band__lead" data-contact-address />
+          <button class="mw-button mw-button--secondary" type="button" data-contact-reset>
+            Send another message
+          </button>
+        </>
+      ) : (
+        <>
+          <p class="cform__thanks" data-contact-thanks />
+          <p class="cform__address" data-contact-address />
+          <div class="cform__actions">
+            <a class="mw-button mw-button--primary" href={latestHref}>
+              Read the latest post
+            </a>
+            <button class="mw-button mw-button--secondary" type="button" data-contact-reset>
+              Send another message
+            </button>
+          </div>
+        </>
+      )
+    }
   </div>
-  <div class="contact-form__actions">
-    <button class="mw-button mw-button--primary" type="submit">Send message</button>
-    <button class="mw-button mw-button--secondary" type="reset">Clear form</button>
-  </div>
-</form>
-<div class="contact-form contact-form--done" data-contact-done hidden role="status">
-  <p class="type-h2" data-contact-thanks>Thanks.</p>
-  <p class="type-caption" data-contact-address></p>
-  <button class="mw-button mw-button--secondary" type="button" data-contact-reset>Send another message</button>
 </div>
+
 <script>
   import "../scripts/contact.ts";
 </script>

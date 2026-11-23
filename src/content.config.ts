@@ -14,6 +14,8 @@ export const posts = defineCollection({
     highlight: z.string().optional(),
     closingQuestion: z.string(),
     linkedinUrl: z.string().url().optional(),
+    /** Position (1-3) in About's "Where to start"; posts without it are left out unless none has it. */
+    startHere: z.number().int().min(1).max(3).optional(),
     draft: z.boolean().default(false),
   }),
 });

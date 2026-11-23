@@ -1,0 +1,187 @@
+/* Contact form: About's dark band (design-system/pages/about.dc.html) and the Contact page (contact.dc.html). */
+
+.cform__form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-l);
+}
+
+.cform__form[hidden],
+.cform__done[hidden] {
+  display: none;
+}
+
+.cform__honeypot {
+  position: absolute;
+  left: -9999px;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+}
+
+/* ===== Band: on the dark ending ===== */
+.cform__fields {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-m);
+}
+
+.cform__row {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--space-m);
+}
+
+.cform--band .cform__done:not([hidden]) {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--space-s);
+}
+
+@media (max-width: 599px) {
+  .cform__row {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+/* ===== Page: filled fields, an error under each one ===== */
+.cform__grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: var(--space-l) var(--space-m);
+}
+
+.cform__field {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+}
+
+.cform__label {
+  color: var(--text-primary);
+  font-family: var(--font-sans);
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1.2;
+}
+
+.cform__input {
+  width: 100%;
+  min-height: 48px;
+  padding: var(--space-xs) var(--space-m);
+  border: 1px solid var(--surfaces-strokes);
+  border-radius: var(--radius-s);
+  background: var(--surfaces-highlights);
+  color: var(--text-primary);
+  font-family: var(--font-serif);
+  font-size: 16px;
+}
+
+.cform__input:focus-visible {
+  outline: 1px solid var(--button-mid);
+  outline-offset: 2px;
+}
+
+.cform__textarea {
+  line-height: 1.6;
+  resize: vertical;
+}
+
+.cform__err {
+  margin: 0;
+  color: #9b2c1f;
+  font-size: 14px;
+  line-height: 1.35;
+}
+
+:root[data-theme="dark"] .cform__err {
+  color: #f2a99b;
+}
+
+.cform__err[hidden] {
+  display: none;
+}
+
+.cform__topics {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+.cform__topics legend {
+  margin-bottom: var(--space-xs);
+  padding: 0;
+}
+
+.cform__chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-xs);
+}
+
+/* Topic chips are radios: the selected one gets the brand-teal ring, a check and SemiBold. */
+.cform__chip .mw-chip__check {
+  display: none;
+}
+
+.cform__chip:has(input:checked) {
+  border-color: var(--teal-500);
+  box-shadow: inset 0 0 0 1px var(--teal-500);
+  font-weight: 600;
+}
+
+.cform__chip:has(input:checked) .mw-chip__check {
+  display: block;
+}
+
+.cform__chip:has(input:focus-visible) {
+  outline: 1px solid var(--button-mid);
+  outline-offset: 2px;
+}
+
+:root[data-theme="dark"] .cform__chip {
+  border-color: var(--surfaces-strokes);
+  background: var(--surfaces-highlights);
+}
+
+:root[data-theme="dark"] .cform__chip:has(input:checked) {
+  border-color: var(--teal-500);
+}
+
+.cform--page .cform__done:not([hidden]) {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--space-m);
+}
+
+.cform__thanks {
+  margin: 0;
+  font-size: 24px;
+  font-style: italic;
+  font-weight: 500;
+  line-height: 1.35;
+}
+
+.cform__address {
+  margin: 0;
+  font-size: 20px;
+  line-height: 1.35;
+}
+
+.cform__actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-m);
+}
+
+@media (max-width: 599px) {
+  .cform__address {
+    font-size: 16px;
+  }
+}

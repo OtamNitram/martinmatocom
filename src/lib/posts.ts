@@ -49,6 +49,13 @@ export async function getPosts() {
   return all.filter(isListed).sort((a, b) => b.data.date.getTime() - a.data.date.getTime());
 }
 
+/** The three posts About suggests to a new reader: those marked startHere, else the newest. */
+export async function startPosts() {
+  const posts = await getPosts();
+  const marked = posts.filter((post) => post.data.startHere).sort((a, b) => (a.data.startHere ?? 0) - (b.data.startHere ?? 0));
+  return (marked.length ? marked : posts).slice(0, 3);
+}
+
 export function pageCount(total: number) {
   return Math.max(1, Math.ceil(total / site.postsPerPage));
 }

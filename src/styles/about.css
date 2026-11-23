@@ -1,0 +1,423 @@
+/* About: design-system/pages/about.dc.html */
+
+.about-link {
+  align-self: flex-start;
+  padding: var(--space-xxs) 0;
+  color: var(--text-primary);
+  font-family: var(--font-sans);
+  font-size: 14px;
+  font-weight: 500;
+  text-underline-offset: 3px;
+}
+
+.about-muted {
+  color: var(--text-secondary);
+}
+
+.about-meta {
+  font-family: var(--font-mono);
+  font-size: 14px;
+  text-transform: uppercase;
+  color: var(--text-secondary);
+}
+
+.about-section-head {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+  max-width: var(--measure-page);
+}
+
+.about-step__title {
+  margin: 0;
+  font-size: 24px;
+  font-weight: 600;
+  line-height: 1.35;
+}
+
+.about-step__text {
+  margin: 0;
+  font-size: 20px;
+  line-height: 1.6;
+}
+
+/* ===== 1 · Hero: text left, the photo fading in on the right; its box starts 96px before the text ends ===== */
+.about-hero {
+  --header-h: 96px;
+  --hero-text-w: min(var(--measure-hero), 55%);
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  min-height: 640px;
+  margin-top: calc(-1 * var(--header-h));
+  padding-top: var(--header-h);
+  overflow: hidden;
+}
+
+.about-hero__photo {
+  position: absolute;
+  top: 0;
+  right: 0;
+  left: calc(var(--side) + var(--hero-text-w) - 96px);
+  width: calc(100% - (var(--side) + var(--hero-text-w) - 96px));
+  height: 100%;
+  object-fit: cover;
+  object-position: 50% 62%;
+  -webkit-mask-image:
+    linear-gradient(to right, transparent 0%, rgba(0, 0, 0, 0.55) 28%, #000 55%),
+    linear-gradient(to bottom, rgba(0, 0, 0, 0.1) 0%, rgba(0, 0, 0, 0.18) 8%, rgba(0, 0, 0, 0.45) 18%, rgba(0, 0, 0, 0.8) 28%, #000 38%, #000 45%, rgba(0, 0, 0, 0.6) 70%, transparent 100%);
+  -webkit-mask-composite: source-in;
+  mask-image:
+    linear-gradient(to right, transparent 0%, rgba(0, 0, 0, 0.55) 28%, #000 55%),
+    linear-gradient(to bottom, rgba(0, 0, 0, 0.1) 0%, rgba(0, 0, 0, 0.18) 8%, rgba(0, 0, 0, 0.45) 18%, rgba(0, 0, 0, 0.8) 28%, #000 38%, #000 45%, rgba(0, 0, 0, 0.6) 70%, transparent 100%);
+  mask-composite: intersect;
+}
+
+.about-hero__text {
+  position: relative;
+  z-index: 1;
+  box-sizing: content-box;
+  display: flex;
+  flex-grow: 1;
+  flex-direction: column;
+  justify-content: center;
+  gap: var(--space-l);
+  max-width: var(--hero-text-w);
+  padding: var(--space-xl) var(--side) var(--section);
+}
+
+.about-hero__title {
+  margin: 0;
+  font-size: 48px;
+  font-weight: 700;
+  line-height: 48px;
+  text-wrap: balance;
+}
+
+.about-hero__accent {
+  color: var(--text-highlight);
+}
+
+.about-hero__lead {
+  max-width: var(--measure-lead);
+}
+
+.about-hero__actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-l);
+  padding-top: var(--space-xs);
+}
+
+@media (max-width: 767px) {
+  .about-hero {
+    min-height: auto;
+    margin-top: 0;
+    padding-top: 0;
+  }
+
+  .about-hero__photo {
+    position: relative;
+    left: auto;
+    width: 100%;
+    height: 420px;
+    object-position: 50% 72%;
+    -webkit-mask-image: linear-gradient(to bottom, #000 60%, transparent 100%);
+    mask-image: linear-gradient(to bottom, #000 60%, transparent 100%);
+  }
+
+  .about-hero__text {
+    max-width: none;
+    margin-top: -120px;
+  }
+}
+
+@media (max-width: 599px) {
+  .about-hero__title {
+    font-size: 36px;
+    line-height: 48px;
+  }
+}
+
+/* ===== 2 · How I got here: steps hanging from a rail ===== */
+.about-story {
+  --indent: var(--space-xl);
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+  padding: var(--section) var(--side);
+}
+
+.about-timeline {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 48px;
+  max-width: var(--measure-page);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.about-timeline::before {
+  content: "";
+  position: absolute;
+  top: 11px;
+  bottom: 11px;
+  left: 0;
+  width: 1px;
+  background: var(--surfaces-strokes);
+}
+
+.about-step {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+  padding-left: var(--indent);
+}
+
+.about-step__dot {
+  position: absolute;
+  top: 6px;
+  left: -5px;
+  width: 11px;
+  height: 11px;
+  border: 2px solid var(--teal-500);
+  border-radius: 50%;
+  background: var(--surfaces-white);
+}
+
+.about-step--today .about-step__dot {
+  top: 5px;
+  left: -6px;
+  width: 13px;
+  height: 13px;
+  border: 0;
+  background: var(--teal-500);
+}
+
+/* ===== 3 · How I work: tinted band, title column next to a numbered list ===== */
+.about-work {
+  padding: var(--section) var(--side);
+  background: var(--surfaces-highlights);
+}
+
+.about-work__grid {
+  display: grid;
+  grid-template-columns: 300px minmax(0, 1fr);
+  gap: var(--space-xxl);
+  align-items: start;
+}
+
+.about-work__head {
+  position: sticky;
+  top: var(--space-xl);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+}
+
+.about-work__list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xl);
+  max-width: 640px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.about-idea {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+}
+
+.about-idea__num {
+  color: var(--button-mid);
+  font-family: var(--font-mono);
+  font-size: 14px;
+  letter-spacing: 0.04em;
+}
+
+/* ===== 4 · Where to start: three identical teasers ===== */
+.about-start {
+  display: flex;
+  flex-direction: column;
+  gap: 48px;
+  padding: var(--section) var(--side);
+}
+
+.about-start__grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 48px;
+  max-width: 1088px;
+}
+
+.about-card {
+  position: relative;
+  isolation: isolate;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-s);
+  cursor: pointer;
+}
+
+.about-card::before {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  inset: calc(-1 * var(--space-m));
+  border-radius: var(--radius-s);
+  background: transparent;
+  transition: background-color 0.15s ease;
+}
+
+.about-card:hover::before,
+.about-card:focus-within::before {
+  background: var(--surfaces-highlights);
+}
+
+.about-card:focus-within::before {
+  box-shadow: inset 0 0 0 1px var(--button-mid);
+}
+
+.about-card__meta {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--space-xs);
+}
+
+.about-card__title {
+  color: var(--text-primary);
+  text-decoration: none;
+}
+
+.about-card__title::after {
+  content: "";
+  position: absolute;
+  inset: calc(-1 * var(--space-m));
+}
+
+.about-card__title:focus-visible {
+  outline: none;
+}
+
+.about-card:hover .about-card__title {
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 6px;
+}
+
+.about-card__catch {
+  margin: 0;
+  font-size: 18px;
+  line-height: 1.6;
+}
+
+.about-card__foot {
+  display: flex;
+  margin-top: auto;
+  padding-top: var(--space-xxs);
+}
+
+.about-card__more {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: var(--space-xxs) 0;
+  color: var(--button-dark);
+  font-family: var(--font-sans);
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1.2;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+:root[data-theme="dark"] .about-card__more,
+:root[data-theme="dark"] .about-idea__num {
+  color: var(--button-mid);
+}
+
+.about-card__arrow {
+  display: inline-block;
+  transition: transform 0.15s ease;
+}
+
+.about-card:hover .about-card__more {
+  color: var(--button-mid);
+}
+
+.about-card:hover .about-card__arrow {
+  transform: translateX(3px);
+}
+
+/* ===== 5 · Contact: the dark band that closes the page ===== */
+.contact-band {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 64px;
+  align-items: start;
+  max-width: 1088px;
+}
+
+.contact-band__copy {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.contact-band__alt {
+  margin: 0;
+  color: var(--neutral-200);
+  font-size: 14px;
+  line-height: 1.35;
+}
+
+/* On desktop the canvas keeps the story in a 608px column (its old photo column stays empty). */
+@media (min-width: 1024px) {
+  .about-story > * {
+    max-width: 608px;
+  }
+}
+
+@media (max-width: 1023px) {
+  .about-work__grid {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 40px;
+  }
+
+  .about-work__head {
+    position: static;
+  }
+
+  .contact-band {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 40px;
+  }
+}
+
+@media (max-width: 767px) {
+  .about-start__grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+@media (max-width: 599px) {
+  .about-story {
+    --indent: 20px;
+  }
+
+  .about-step__title {
+    font-size: 20px;
+  }
+
+  .about-step__text {
+    font-size: 18px;
+  }
+}
