@@ -1,6 +1,7 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
 import { bookGroups, books, coverOf } from "../data/library";
+import { libraryNodes } from "../lib/seo";
 import "../styles/library.css";
 
 const groupId = (group: string) => `g-${group.toLowerCase().replace(/&/g, "and").replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "")}`;
@@ -10,6 +11,7 @@ const groups = bookGroups.map((group) => ({ group, id: groupId(group), books: bo
 <BaseLayout
   title="Library"
   description="Books Martín Mato keeps going back to: on leading teams, conversations, AI and product, and habits."
+  jsonLd={libraryNodes(books)}
 >
   <div class="library-page">
     <section class="lib-intro">

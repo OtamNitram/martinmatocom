@@ -4,6 +4,7 @@ import ContactForm from "../components/ContactForm.astro";
 import Icon from "../components/Icon.astro";
 import { getPosts } from "../lib/posts";
 import { site } from "../lib/site";
+import { contactNodes } from "../lib/seo";
 
 const [latest] = await getPosts();
 ---
@@ -12,6 +13,7 @@ const [latest] = await getPosts();
   title="Contact"
   description="Write to Martín Mato: a thought on a post, a story of your own, or a different take."
   current="contact"
+  jsonLd={contactNodes()}
 >
   <div class="contact-page">
     <section class="contact-page__intro">

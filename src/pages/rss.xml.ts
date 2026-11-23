@@ -15,7 +15,9 @@ export async function GET(context: APIContext) {
       pubDate: post.data.date,
       description: post.data.description,
       link: `/${post.id}`,
-      content: markdownToHtml(post.body ?? ""),
+      categories: [post.data.topic],
+      author: `${site.email} (${site.name})`,
+      content: `${markdownToHtml(post.body ?? "")}<p><em>${post.data.closingQuestion}</em></p>`,
     })),
     customData: `<language>en</language>`,
   });

@@ -1,7 +1,7 @@
 export const site = {
   name: "Martín Mato",
   description:
-    "Personal essays about leading teams, mentoring and bringing AI into a team. Written from Montevideo.",
+    "Stories by Martín Mato about leading software teams, mentoring and bringing AI into a team. Written from Montevideo, Uruguay.",
   url: "https://martinmato.com",
   email: "hi@martinmato.com",
   linkedin: "https://www.linkedin.com/in/martinmato/",

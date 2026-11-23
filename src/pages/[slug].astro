@@ -1,12 +1,12 @@
 ---
-import { Image } from "astro:assets";
+import { Image, getImage } from "astro:assets";
 import { render } from "astro:content";
 import portrait from "../../design-system/assets/photos/portrait-headshot.jpg";
 import BaseLayout from "../layouts/BaseLayout.astro";
 import PostIcon from "../components/PostIcon.astro";
 import TopicTag from "../components/TopicTag.astro";
 import { catchPhrase, formatDate, getPosts, readMinutes, readTime, relatedPosts } from "../lib/posts";
-import { postJsonLd } from "../lib/seo";
+import { postNodes } from "../lib/seo";
 import { site } from "../lib/site";
 import "../styles/post.css";
 
@@ -33,9 +33,23 @@ const share = {
 };
 const replyAction = import.meta.env.PUBLIC_FORMSPREE_ACTION ?? "";
 const shared = Boolean(post.data.linkedinUrl);
+const ogImage = `/og/${post.id}.png`;
+const photo = post.data.image ? await getImage({ src: post.data.image, width: 721, format: "jpg" }) : undefined;
+const jsonLd = postNodes(post, {
+  wordCount: (post.body ?? "").trim().split(/\s+/).filter(Boolean).length,
+  images: [new URL(ogImage, site.url).href, ...(photo ? [new URL(photo.src, site.url).href] : [])],
+});
 ---
 
-<BaseLayout title={title} description={post.data.description} current="blog" image={`/og/${post.id}.png`} jsonLd={postJsonLd(post)}>
+<BaseLayout
+  title={title}
+  description={post.data.description}
+  current="blog"
+  image={ogImage}
+  imageAlt={`${title} A story by ${site.name}.`}
+  jsonLd={jsonLd}
+  article={{ published: post.data.date, modified: post.data.updated ?? post.data.date, section: post.data.topic }}
+>
   <div class="progress" aria-hidden="true"></div>
 
   <div

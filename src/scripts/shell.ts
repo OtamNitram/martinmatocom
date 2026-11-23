@@ -16,6 +16,7 @@ function paintTheme() {
 function setTheme(next: "dark" | "light") {
   if (next === "dark") root.setAttribute("data-theme", "dark");
   else root.removeAttribute("data-theme");
+  document.querySelector("meta[data-theme-color]")?.setAttribute("content", next === "dark" ? "#121b27" : "#fafafa");
   try {
     localStorage.setItem("theme", next);
   } catch {

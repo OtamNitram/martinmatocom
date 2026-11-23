@@ -6,6 +6,7 @@ import ContactForm from "../components/ContactForm.astro";
 import TopicTag from "../components/TopicTag.astro";
 import { catchPhrase, formatDate, readTime, startPosts } from "../lib/posts";
 import { site } from "../lib/site";
+import { profileNodes } from "../lib/seo";
 import "../styles/about.css";
 
 const start = await startPosts();
@@ -60,6 +61,7 @@ const ideas = [
   title="About"
   description="Martín Mato leads software teams from Montevideo, Uruguay. How he got here, how he works, and where to start reading."
   current="about"
+  jsonLd={profileNodes()}
 >
   <section class="about-hero">
     <Image

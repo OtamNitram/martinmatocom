@@ -6,6 +6,7 @@ import BaseLayout from "../layouts/BaseLayout.astro";
 import TopicTag from "../components/TopicTag.astro";
 import { catchPhrase, formatDate, getPosts, readTime, topicOrder, topicSlug, type Topic } from "../lib/posts";
 import { site } from "../lib/site";
+import { blogNodes } from "../lib/seo";
 import { books, coverOf, featuredBooks } from "../data/library";
 import "../styles/home.css";
 
@@ -19,7 +20,7 @@ const plural = (n: number) => `${n} ${n === 1 ? "post" : "posts"}`;
 const allCount = posts.length === 1 ? "Showing 1 story" : `Showing all ${posts.length} stories`;
 ---
 
-<BaseLayout title={site.name} current="blog">
+<BaseLayout title="Stories about leading software teams" current="blog" jsonLd={blogNodes(posts)}>
   <section class="home-hero">
     <Image
       class="home-hero__photo"
