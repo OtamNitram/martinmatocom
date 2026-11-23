@@ -11,115 +11,458 @@
 <x-dc>
 <helmet>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600;700&amp;family=Space+Mono&amp;family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,500;0,8..60,600;0,8..60,700;1,8..60,500&amp;display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600;700&amp;family=Space+Mono&amp;family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,500;0,8..60,600;0,8..60,700;1,8..60,400;1,8..60,500&amp;display=swap">
 <style>
-:root{--surfaces-white:#fafafa;--surfaces-highlights:#f2f6f8;--surfaces-strokes:#cdd8df;--surfaces-elevation:#7a8b99;--surfaces-elevation-20:rgba(122,139,153,0.2);--surfaces-divider:#364552;--text-primary:#121b27;--text-secondary:#364552;--text-contrast:#f2f6f8;--button-dark:#013345;--button-mid:#216375;--button-light:#3d9c9a;--accent:#22d48d;--teal-500:#3d9c9a;--text-highlight:#3d9c9a;--font-mono:"Space Mono",ui-monospace,"SFMono-Regular",Menlo,monospace;--font-serif:"Source Serif 4",Georgia,"Times New Roman",serif;--font-sans:"Instrument Sans",system-ui,-apple-system,"Segoe UI",sans-serif;--space-xxs:4px;--space-xs:8px;--space-s:12px;--space-m:16px;--space-l:24px;--space-xl:32px;--space-xxl:96px;--space-l-mobile:16px;--radius-none:0px;--radius-card:8px;--shadow-elevation:0px 4px 4px 0px rgba(122,139,153,0.2);--shadow-highlights:0px 0px 15px 0px rgba(54,69,82,0.2);--measure-reading:680px;--measure-page:800px}
 body{margin:0;background:#fafafa}
-.page{gap:32px}
-.t-h1{font-size:48px}
-.t-body{font-size:20px}
-.t-eyebrow{font-size:18px}
-@media (max-width: 600px){.page{gap:32px}.t-h1{font-size:36px}.t-body{font-size:16px}.t-eyebrow{font-size:14px}.intro-top{padding-top:48px !important}}
+:root{--surfaces-white:#fafafa;--surfaces-highlights:#f2f6f8;--surfaces-strokes:#cdd8df;--surfaces-elevation:#7a8b99;--surfaces-divider:#364552;--text-primary:#121b27;--text-secondary:#364552;--text-contrast:#f2f6f8;--button-dark:#013345;--button-mid:#216375;--button-light:#3d9c9a;--accent:#22d48d;--teal-500:#3d9c9a;--font-mono:"Space Mono",ui-monospace,"SFMono-Regular",Menlo,monospace;--font-serif:"Source Serif 4",Georgia,"Times New Roman",serif;--font-sans:"Instrument Sans",system-ui,-apple-system,"Segoe UI",sans-serif;--space-xxs:4px;--space-xs:8px;--space-s:12px;--space-m:16px;--space-l:24px;--space-xl:32px;--space-xxl:96px;--space-l-mobile:16px;--radius-none:0px;--radius-s:4px;--radius-card:8px;--surfaces-elevation-20:rgba(122,139,153,0.2);--shadow-elevation:0px 4px 4px 0px rgba(122,139,153,0.2);--measure-reading:680px;--gutter:96px;--container:1440px;--side:max(var(--gutter),calc((100% - var(--container)) / 2 + var(--gutter)))}
+@media (max-width: 1023px){:root{--gutter:48px}.book-grid{grid-template-columns:repeat(3,minmax(0,1fr)) !important}}
+@media (max-width: 599px){:root{--gutter:16px}.book-grid{grid-template-columns:repeat(2,minmax(0,1fr)) !important;gap:32px 16px !important}}
+.measure{max-width:800px}
+
+a{color:#121b27}
+a:hover{color:#216375}
+a:focus-visible{outline:1px solid #216375;outline-offset:3px}
+.btn:hover{background:#216375 !important}
+.btn-s:hover,.btn-s:focus-visible{border-color:#216375 !important;color:#216375 !important}
+.nav a{text-decoration:underline;text-underline-offset:3px}
+.nav a:hover{text-decoration:none}
+.post-title{text-decoration:none}
+.topic{transition:border-color .15s ease}
+.topic:hover{border-color:var(--hue) !important}
+.topic:focus-visible{outline:1px solid #216375;outline-offset:-2px}
+.topic-row::-webkit-scrollbar{display:none}
+.carousel .topic-row{-webkit-mask-image:linear-gradient(to right,#000 calc(100% - 96px),transparent);mask-image:linear-gradient(to right,#000 calc(100% - 96px),transparent)}
+.carousel[data-start="false"] .topic-row{-webkit-mask-image:linear-gradient(to right,transparent,#000 96px,#000 calc(100% - 96px),transparent);mask-image:linear-gradient(to right,transparent,#000 96px,#000 calc(100% - 96px),transparent)}
+.carousel[data-start="false"][data-end="true"] .topic-row{-webkit-mask-image:linear-gradient(to right,transparent,#000 96px);mask-image:linear-gradient(to right,transparent,#000 96px)}
+.edge-arrow{position:absolute;top:50%;transform:translateY(-50%);display:flex;align-items:center;justify-content:center;width:28px;height:28px;padding:0;border:0;border-radius:4px;background:rgba(250,250,250,0.9);color:#364552;cursor:pointer;opacity:.8;transition:opacity .2s ease,color .15s ease,background-color .15s ease}
+.edge-left{left:0}.edge-right{right:0}
+.edge-arrow:hover,.edge-arrow:focus-visible{opacity:1;color:#013345;background:rgba(1,51,69,0.06)}
+.edge-arrow:focus-visible{outline:1px solid #216375;outline-offset:2px}
+.carousel[data-start="true"] .edge-left,.carousel[data-end="true"] .edge-right{opacity:0;pointer-events:none}
+.book:hover .book-title,.lib-link:hover{text-decoration:underline;text-underline-offset:4px}
+.book:hover > div{transform:translateY(-2px);transition:transform .15s ease}
+.book:focus-visible{outline:1px solid #216375;outline-offset:4px}
+.sr{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+.chip-f .chk{display:none}
+.chip-f[aria-pressed="true"]{box-shadow:inset 0 0 0 1px #3d9c9a;border-color:#3d9c9a !important;font-weight:600}
+.chip-f[aria-pressed="true"] .chk{color:#216375}
+.chip-f[aria-pressed="true"] .chk{display:block}
+.chip-f:hover{border-color:#216375 !important}
+.chip-f:focus-visible{outline:1px solid #216375;outline-offset:2px}
+.post[hidden],.empty[hidden],.thread[hidden]{display:none !important}
+.card{isolation:isolate;cursor:pointer}
+.card::before{content:"";position:absolute;z-index:-1;top:-16px;bottom:-16px;left:16px;right:-16px;border-radius:4px;background:transparent;transition:background-color .15s ease}
+.card:hover::before,.card:focus-within::before{background:#f2f6f8}
+.card .post-title::after{content:"";position:absolute;inset:-16px -16px -16px 16px}
+.card .post-title:focus-visible{outline:none}
+.card:focus-within::before{box-shadow:inset 0 0 0 1px #216375}
+.card:hover .post-title{text-decoration:underline;text-decoration-thickness:1px;text-underline-offset:6px}
+.read-more{align-self:flex-start;margin-top:4px;display:inline-flex;align-items:center;gap:6px;padding:4px 0;font-family:"Instrument Sans",system-ui,sans-serif;font-weight:500;font-size:14px;line-height:1.2;color:#013345;text-decoration:underline;text-underline-offset:3px}
+.read-more .arr{display:inline-block;transition:transform .15s ease;text-decoration:none}
+.card:hover .read-more{color:#216375}
+.card:hover .read-more .arr{transform:translateX(3px)}
+.logo-anim .m-trace{stroke-dasharray:1 3;stroke-dashoffset:1.05;animation:m-write 1.5s cubic-bezier(.55,.1,.35,1) .35s forwards}
+.logo-anim .m-full{opacity:0;animation:m-settle .25s ease 1.8s forwards}
+@keyframes m-write{to{stroke-dashoffset:0}}
+@keyframes m-settle{to{opacity:1}}
+@media (prefers-reduced-motion: reduce){.logo-anim .m-trace{animation:none;stroke-dashoffset:0}.logo-anim .m-full{animation:none;opacity:1}}
+.post-title:hover{text-decoration:underline;text-decoration-thickness:1px;text-underline-offset:6px}
+@media (max-width: 767px){
+.hero{min-height:auto !important;padding-top:24px !important}
+.hero-photo{position:relative !important;width:100% !important;height:420px !important;-webkit-mask-image:linear-gradient(to bottom,#000 60%,transparent 100%) !important;mask-image:linear-gradient(to bottom,#000 60%,transparent 100%) !important}
+.hero-text{margin-top:-120px !important}
+.hero-h1{font-size:36px !important;line-height:44px !important}
+.thread{gap:40px !important}
+.post{padding-left:20px !important}
+header .nav{display:none !important}
+footer{flex-direction:column;align-items:flex-start !important}
+footer .nav{flex-wrap:wrap;gap:8px 16px !important}
+.h3{font-size:20px !important}
+.intro{padding-top:40px !important;padding-bottom:48px !important}
+.intro-photo{width:88px !important;height:88px !important}
+.topics{padding-top:24px !important;padding-bottom:48px !important}
+.topics h2{font-size:24px !important}
+.topics-inner{margin-left:0 !important}
+.chip-f{min-height:44px !important}
+.library-inner{margin-left:0 !important}
+
+.library{padding-bottom:48px !important}
+.edge-arrow{display:none !important}
+.topics-inner{margin-right:calc(-1 * var(--side)) !important}
+.topic{flex:0 0 auto !important}
+}
+
+/* ================= Site kit: shared by Blog, About, Post and Contact =================
+   Header, dark ending (band + footer), type and spacing from the design system, light/dark theme.
+   Rhythm: every section pads 48 top and bottom (24 on phones), so two sections meet at one xxl (96 / 48). */
+:root{--section:48px}
+@media (max-width: 599px){:root{--section:24px}}
+.site-header{background:#fafafa}
+.theme-btn{display:inline-flex;align-items:center;justify-content:center;width:44px;height:44px;margin-left:auto;padding:0;border:1px solid #cdd8df;border-radius:4px;background:transparent;color:#013345;cursor:pointer}
+.theme-btn:hover{border-color:#216375;color:#216375}
+.theme-btn:focus-visible{outline:2px solid #216375;outline-offset:2px}
+header .nav + .theme-btn{margin-left:0}
+@media (min-width: 768px){.site-header{gap:16px !important}.site-header .nav{margin-left:auto}}
+.menu-btn{display:none;align-items:center;justify-content:center;width:48px;height:48px;padding:0;border:0;border-radius:4px;background:none;color:#013345;cursor:pointer}
+.menu-btn:hover{color:#216375}
+.menu-btn:focus-visible{outline:1px solid #216375;outline-offset:2px}
+.menu-panel{display:none}
+.menu-panel a{display:block;padding:14px 0;border-bottom:1px solid #cdd8df;font-family:var(--font-sans);font-weight:500;font-size:16px;line-height:1.2;color:#121b27;text-decoration:none}
+.menu-panel a[aria-current="page"]{color:#216375}
+.menu-panel a.btn{margin-top:16px;padding:12px 16px;border:0;border-radius:4px;background:#013345;color:#f2f6f8;text-align:center}
+.nav a{text-decoration:underline;text-underline-offset:3px}
+.nav a:hover{text-decoration:none}
+.btn:hover{background:#216375 !important}
+.logo-anim .m-trace{stroke-dasharray:1 3;stroke-dashoffset:1.05;animation:m-write 1.5s cubic-bezier(.55,.1,.35,1) .35s forwards}
+.logo-anim .m-full{opacity:0;animation:m-settle .25s ease 1.8s forwards}
+@keyframes m-write{to{stroke-dashoffset:0}}
+@keyframes m-settle{to{opacity:1}}
+@media (prefers-reduced-motion: reduce){.logo-anim .m-trace{animation:none;stroke-dashoffset:0}.logo-anim .m-full{animation:none;opacity:1}}
+.band{width:100%;box-sizing:border-box;padding:var(--section) var(--side)}
+.dark{background:#013345;color:#f2f6f8}
+.dark a{color:#f2f6f8}
+.dark a:hover{color:#97cfcc}
+footer.dark a:focus-visible{outline-color:#97cfcc}
+.dark .mw-input__label{color:#f2f6f8}
+.dark .mw-button--primary{background:#3d9c9a;border-color:#3d9c9a;color:#121b27}
+.dark .mw-button--primary:hover,.dark .mw-button--primary:focus-visible{background:#68b6b2;border-color:#68b6b2}
+.dark .mw-button--secondary{border-color:#97cfcc;color:#f2f6f8}
+.dark .mw-button{min-height:48px;padding:12px 16px}
+.news{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:64px;align-items:end;max-width:1088px}
+.sub-row{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:16px;align-items:end}
+.dark-end{flex-grow:1;display:flex;flex-direction:column;background:linear-gradient(to bottom,#013345 0%,#013345 62%,#00222e 100%);color:#f2f6f8}
+.dark-end > .dark{background:transparent}
+.dark-end > footer{margin-top:auto}
+/* Type, from the design system */
+.eyebrow{margin:0;font-family:var(--font-mono);font-size:18px;line-height:1.35;text-transform:uppercase;letter-spacing:0}
+.lead{margin:0;font-size:20px;line-height:1.35}
+.h2{margin:0;font-size:32px;font-weight:600;line-height:1.35}
+.hero-h1{font-size:48px !important;line-height:48px !important}
+.meta{font-size:14px !important;letter-spacing:0 !important}
+@media (max-width: 1023px){.news{grid-template-columns:minmax(0,1fr);gap:40px;align-items:start}}
+@media (max-width: 767px){
+header .nav{display:none !important}
+.menu-btn{display:flex}
+.menu-panel{position:absolute;left:0;right:0;top:100%;display:flex;flex-direction:column;padding:8px var(--side) 24px;background:#fafafa;border-top:1px solid #cdd8df;box-shadow:0px 4px 4px 0px rgba(122,139,153,0.2)}
+footer{flex-direction:column;align-items:flex-start !important}
+footer .nav{flex-wrap:wrap;gap:8px 16px !important}
+}
+@media (max-width: 599px){
+.eyebrow{font-size:14px}
+.lead{font-size:16px}
+.h2{font-size:24px}
+.hero-h1{font-size:36px !important;line-height:48px !important}
+.sub-row{grid-template-columns:minmax(0,1fr)}
+}
+
+/* ===== Dark theme: design system dark tokens. Same structure, inverted surfaces. ===== */
+.theme-dark{--surfaces-white:#121b27;--surfaces-highlights:#212d38;--surfaces-strokes:#364552;--surfaces-divider:#cdd8df;--text-primary:#fafafa;--text-secondary:#cdd8df;--button-dark:#3d9c9a;--button-mid:#97cfcc;--text-contrast:#121b27;background:#121b27 !important;color:#fafafa !important}
+.theme-dark a{color:#fafafa}
+.theme-dark a:not(.mw-button):hover{color:#97cfcc}
+.theme-dark a:focus-visible,.theme-dark button:focus-visible{outline-color:#97cfcc}
+.theme-dark .site-header{background:#121b27 !important;box-shadow:0 1px 0 #364552 !important}
+.theme-dark .site-header a[style]{color:#fafafa !important}
+.theme-dark .site-header a.btn{background:#3d9c9a !important;color:#121b27 !important}
+.theme-dark .site-header svg path[fill="#121b27"]{fill:#fafafa}
+.theme-dark .menu-btn{color:#fafafa}
+.theme-dark .menu-panel{background:#121b27;border-top-color:#364552;box-shadow:none}
+.theme-dark .menu-panel a{color:#fafafa;border-bottom-color:#364552}
+.theme-dark .menu-panel a.btn{background:#3d9c9a;color:#121b27}
+.theme-dark .theme-btn{border-color:#364552;color:#fafafa}
+.theme-dark .theme-btn:hover{border-color:#97cfcc;color:#97cfcc}
+/* inline colours written for the light theme */
+.theme-dark [style*="background: #fafafa"],.theme-dark [style*="background: rgb(250, 250, 250)"],.theme-dark [style*="background-color: rgb(250, 250, 250)"]{background:#121b27 !important}
+.theme-dark [style*="background: #f2f6f8"],.theme-dark [style*="background: rgb(242, 246, 248)"],.theme-dark [style*="background-color: rgb(242, 246, 248)"]{background:#212d38 !important}
+.theme-dark [style*="background: #cdd8df"],.theme-dark [style*="background: rgb(205, 216, 223)"],.theme-dark [style*="background-color: rgb(205, 216, 223)"]{background:#364552 !important}
+.theme-dark [style*="background: #364552"],.theme-dark [style*="background: rgb(54, 69, 82)"],.theme-dark [style*="background-color: rgb(54, 69, 82)"]{background:#cdd8df !important}
+.theme-dark [style*="background: #013345"],.theme-dark [style*="background: rgb(1, 51, 69)"],.theme-dark [style*="background-color: rgb(1, 51, 69)"]{background:#3d9c9a !important;color:#121b27 !important}
+.theme-dark [style*="color: #121b27"],.theme-dark [style*="color: rgb(18, 27, 39)"]{color:#fafafa !important}
+.theme-dark [style*="color: #364552"],.theme-dark [style*="color: rgb(54, 69, 82)"]{color:#cdd8df !important}
+.theme-dark [style*="border: 1px solid #013345"],.theme-dark [style*="border: 1px solid rgb(1, 51, 69)"]{border-color:#97cfcc !important;color:#97cfcc !important}
+.theme-dark .dark-end [style*="background: #013345"],.theme-dark .dark-end [style*="background: rgb(1, 51, 69)"],.theme-dark .dark-end [style*="background-color: rgb(1, 51, 69)"]{background:transparent !important;color:inherit !important}
+/* chips, covers, cards */
+.theme-dark .chip-f,.theme-dark .tchip,.theme-dark .chip{background:#212d38 !important;border-color:#364552 !important;color:#fafafa !important}
+.theme-dark .chip-f[aria-pressed="true"]{border-color:#3d9c9a !important}
+.theme-dark .cover{color:#121b27 !important}
+.theme-dark .cover[style*="background: #013345"],.theme-dark .cover[style*="background: rgb(1, 51, 69)"],.theme-dark .cover[style*="background-color: rgb(1, 51, 69)"]{background:#013345 !important;color:#f2f6f8 !important}
+.theme-dark .cover[style*="background: #cdd8df"],.theme-dark .cover[style*="background: rgb(205, 216, 223)"],.theme-dark .cover[style*="background-color: rgb(205, 216, 223)"]{background:#cdd8df !important}
+.theme-dark .card:hover::before,.theme-dark .card:focus-within::before{background:#212d38}
+.theme-dark .card .post-title{color:#fafafa}
+.theme-dark .read-more,.theme-dark .num{color:#97cfcc}
+.theme-dark .meta,.theme-dark .flap-text{color:#cdd8df}
+.theme-dark .flap-text strong{color:#fafafa}
+.theme-dark .story::before{background:#364552}
+.theme-dark .field{background:#212d38;border-color:#364552;color:#fafafa}
+.theme-dark .lbl{color:#fafafa}
+.theme-dark .err{color:#f2a99b}
+
+/* Blog: section rhythm */
+.hero-text{padding-bottom:var(--section) !important}
+.intro{padding-top:var(--section) !important;padding-bottom:var(--section) !important}
+#latest{padding-top:var(--section) !important;padding-bottom:var(--section) !important}
+.library{padding-top:var(--section) !important;padding-bottom:var(--section) !important}
+@media (max-width: 767px){.hero{padding-top:0 !important}.hero > .site-header{order:-1}}
+
+/* phones: logo on one line, footer links aligned with the copyright, closing headlines at phone size */
+@media (max-width: 599px){
+.site-header > a > span{font-size:24px !important;white-space:nowrap}
+footer .nav{margin-left:-8px}
+#news-title,#contact-title{font-size:32px !important;line-height:1.15 !important}
+}
+@media (max-width: 599px){
+.intro p{font-size:16px !important}
+.post > p{font-size:18px !important}
+#library-title{font-size:24px !important}
+.library p.measure{font-size:16px !important}
+}
 </style>
 </helmet>
-<div class="page" style="gap: 32px; min-height: 100vh; display: flex; flex-direction: column; background: var(--surfaces-white); color: var(--text-primary); font-family: var(--font-serif)">
+<div class="{{themeCls}}" style="min-height: 100vh; background: #fafafa; color: #121b27; font-family: var(--font-serif); display: flex; flex-direction: column">
 
-<div style="position: relative; z-index: 1">
-<x-import component-from-global-scope="MartinsWeb.Header" device="{{device}}" home-href="Main.dc.html" links="{{navLinks}}" on-menu="{{toggleMenu}}"></x-import>
+<section class="hero" style="position: relative; min-height: 640px; overflow: hidden; display: flex; flex-direction: column">
+<img class="hero-photo" src="/_blob/be0b5ffe756bb5aba1d78a4ba01b2517" alt="" style="position: absolute; top: 0; right: 0; width: 64%; height: 100%; object-fit: cover; object-position: 60% 45%; -webkit-mask-image: linear-gradient(to right, transparent 0%, rgba(0,0,0,0.55) 28%, #000 55%), linear-gradient(to bottom, rgba(0,0,0,0.1) 0%, rgba(0,0,0,0.18) 8%, rgba(0,0,0,0.45) 18%, rgba(0,0,0,0.8) 28%, #000 38%, #000 45%, rgba(0,0,0,0.6) 70%, transparent 100%); -webkit-mask-composite: source-in; mask-image: linear-gradient(to right, transparent 0%, rgba(0,0,0,0.55) 28%, #000 55%), linear-gradient(to bottom, rgba(0,0,0,0.1) 0%, rgba(0,0,0,0.18) 8%, rgba(0,0,0,0.45) 18%, rgba(0,0,0,0.8) 28%, #000 38%, #000 45%, rgba(0,0,0,0.6) 70%, transparent 100%); mask-composite: intersect">
+
+<header class="site-header" style="position: relative; z-index: 2; display: flex; align-items: center; justify-content: space-between; gap: 24px; padding: 24px var(--side); background: #fafafa; box-shadow: 0px 4px 4px 0px rgba(122,139,153,0.2)">
+<a href="Main.dc.html" style="display: flex; align-items: center; text-decoration: none; color: #121b27">
+<svg class="logo-anim" width="57" height="48" viewBox="0 0 57 48" fill="none" aria-hidden="true" style="display: block">
+<defs><mask id="m-write-post" maskUnits="userSpaceOnUse" x="0" y="0" width="57" height="48"><path class="m-trace" d="M26.7 35.6 C26.8 29 27.4 21 28.7 14.4 C30.4 19.4 31.8 14.8 34.2 14.8 C36.9 15 36.4 24 34.9 31.6 C35.7 26 37.5 21.2 39.7 20.3 C41.7 20.2 41.2 26 40.8 30 C40.5 33 40.5 35.4 41.4 34.9 C42 34.6 42.5 33.4 42.7 32.6" pathLength="1" stroke="#fff" stroke-width="5.2" stroke-linecap="round" stroke-linejoin="round" fill="none"></path></mask></defs>
+<path class="m-ink" d="M32.746 12C33.737 12.013 34.746 12.003 35.737 12.003L41.145 12.003L41.141 17.533L41.14 19.005C41.14 19.225 41.15 19.621 41.122 19.825C41.296 20.004 41.516 20.173 41.645 20.394C41.969 20.948 42.109 21.668 42.127 22.31C42.185 24.299 41.695 26.284 41.227 28.203C41.192 28.346 41.157 28.489 41.134 28.634C41.156 28.856 41.149 29.195 41.148 29.426L41.145 30.72C41.144 31.737 41.174 32.9 41.144 33.907C41.397 33.699 41.64 33.19 41.793 32.895C41.87 32.743 41.927 32.556 42.035 32.424C42.369 32.018 42.847 32.629 42.732 32.988C42.431 33.925 41.865 34.926 41.042 35.489C40.678 35.738 40.151 35.853 39.728 35.763C39.529 35.722 39.245 35.571 39.157 35.553C38.608 35.572 37.997 35.56 37.444 35.56L34.428 35.56C34.428 34.056 34.404 32.477 34.436 30.979C33.95 30.66 33.559 30.423 33.694 29.746C33.776 29.334 33.884 28.925 33.974 28.514C34.155 27.679 34.322 26.841 34.475 26C34.851 23.865 35.082 21.707 35.165 19.54C35.201 18.605 35.234 17.656 35.089 16.731C35.045 16.446 34.934 15.729 34.518 15.879C33.769 16.148 33.229 17.129 32.82 17.777C31.491 20.152 30.64 22.954 29.876 25.559C29.332 27.415 28.749 29.504 28.344 31.38C28.179 32.118 28.046 32.862 27.945 33.611C27.883 34.079 27.879 34.654 27.757 35.074C27.644 35.464 27.302 35.867 26.893 35.957C26.605 36.02 26.384 36.028 26.111 35.882C25.96 35.8 25.846 35.597 25.785 35.556C25.569 35.179 25.632 34.522 25.638 34.096C25.649 33.373 25.675 32.651 25.716 31.93C25.843 29.687 26.047 27.449 26.326 25.221C26.427 24.388 26.522 23.498 26.649 22.672C26.701 22.499 26.72 22.24 26.744 22.054L26.873 21.05C27.056 19.678 27.254 18.308 27.467 16.94C27.542 16.442 27.625 15.945 27.714 15.449C27.775 15.106 27.871 14.386 28.095 14.118C28.761 13.263 30.318 14.006 30.484 14.882C30.536 15.156 30.262 16.493 30.206 16.835L29.835 19.103C29.801 19.302 29.674 19.886 29.699 20.053C29.805 19.834 29.943 19.446 30.033 19.211L30.594 17.718L31.998 13.983C32.236 13.351 32.491 12.619 32.746 12Z" fill="#3d9c9a" mask="url(#m-write-post)"></path>
+<path class="m-full" d="M32.746 12C33.737 12.013 34.746 12.003 35.737 12.003L41.145 12.003L41.141 17.533L41.14 19.005C41.14 19.225 41.15 19.621 41.122 19.825C41.296 20.004 41.516 20.173 41.645 20.394C41.969 20.948 42.109 21.668 42.127 22.31C42.185 24.299 41.695 26.284 41.227 28.203C41.192 28.346 41.157 28.489 41.134 28.634C41.156 28.856 41.149 29.195 41.148 29.426L41.145 30.72C41.144 31.737 41.174 32.9 41.144 33.907C41.397 33.699 41.64 33.19 41.793 32.895C41.87 32.743 41.927 32.556 42.035 32.424C42.369 32.018 42.847 32.629 42.732 32.988C42.431 33.925 41.865 34.926 41.042 35.489C40.678 35.738 40.151 35.853 39.728 35.763C39.529 35.722 39.245 35.571 39.157 35.553C38.608 35.572 37.997 35.56 37.444 35.56L34.428 35.56C34.428 34.056 34.404 32.477 34.436 30.979C33.95 30.66 33.559 30.423 33.694 29.746C33.776 29.334 33.884 28.925 33.974 28.514C34.155 27.679 34.322 26.841 34.475 26C34.851 23.865 35.082 21.707 35.165 19.54C35.201 18.605 35.234 17.656 35.089 16.731C35.045 16.446 34.934 15.729 34.518 15.879C33.769 16.148 33.229 17.129 32.82 17.777C31.491 20.152 30.64 22.954 29.876 25.559C29.332 27.415 28.749 29.504 28.344 31.38C28.179 32.118 28.046 32.862 27.945 33.611C27.883 34.079 27.879 34.654 27.757 35.074C27.644 35.464 27.302 35.867 26.893 35.957C26.605 36.02 26.384 36.028 26.111 35.882C25.96 35.8 25.846 35.597 25.785 35.556C25.569 35.179 25.632 34.522 25.638 34.096C25.649 33.373 25.675 32.651 25.716 31.93C25.843 29.687 26.047 27.449 26.326 25.221C26.427 24.388 26.522 23.498 26.649 22.672C26.701 22.499 26.72 22.24 26.744 22.054L26.873 21.05C27.056 19.678 27.254 18.308 27.467 16.94C27.542 16.442 27.625 15.945 27.714 15.449C27.775 15.106 27.871 14.386 28.095 14.118C28.761 13.263 30.318 14.006 30.484 14.882C30.536 15.156 30.262 16.493 30.206 16.835L29.835 19.103C29.801 19.302 29.674 19.886 29.699 20.053C29.805 19.834 29.943 19.446 30.033 19.211L30.594 17.718L31.998 13.983C32.236 13.351 32.491 12.619 32.746 12Z" fill="#3d9c9a"></path>
+<path d="M32.747 12C33.737 12.013 34.746 12.003 35.738 12.003L41.145 12.003L41.141 17.533L41.14 19.005C41.14 19.225 41.15 19.621 41.122 19.825C40.733 19.582 40.317 19.496 39.869 19.605C38.866 19.847 38.283 20.71 37.765 21.516C38.013 19.505 38.1 16.847 36.784 15.163C36.389 14.658 35.875 14.271 35.224 14.196C34.528 14.116 33.876 14.423 33.346 14.852C31.433 16.396 30.021 20.781 29.203 23.112L29.528 21.038C29.57 20.785 29.639 20.286 29.699 20.053C29.806 19.834 29.944 19.446 30.033 19.211L30.594 17.718L31.999 13.983C32.237 13.351 32.491 12.619 32.747 12Z" fill="#121b27"></path>
+<path d="M34.437 30.979C34.707 31.097 34.988 31.149 35.271 31.037C35.657 30.883 35.874 30.49 36.027 30.127C36.431 29.162 36.587 28.121 36.893 27.128C37.279 25.871 38.847 21.566 39.998 21.041C40.025 21.028 40.046 21.026 40.075 21.027C40.269 21.253 39.83 22.74 39.734 23.076L39.442 24.137C38.703 26.832 37.848 29.83 37.88 32.658C37.891 33.64 38.284 35.011 39.158 35.553C38.609 35.572 37.998 35.56 37.444 35.56L34.429 35.56C34.429 34.056 34.404 32.477 34.437 30.979Z" fill="#121b27"></path>
+<path d="M41.135 28.634C41.157 28.855 41.15 29.195 41.149 29.426L41.146 30.72C41.145 31.736 41.175 32.9 41.145 33.906C41.068 34.009 40.965 34.103 40.868 34.186C40.746 34.289 40.488 34.493 40.317 34.46C40.259 34.449 40.22 34.415 40.192 34.364C40.132 34.259 40.12 34.106 40.107 33.988C39.96 32.63 40.765 30.018 41.135 28.634Z" fill="#121b27"></path>
+<path d="M14.251 12.004L22.648 12.001C22.839 12.542 23.063 13.107 23.266 13.646L24.529 17.003C25.237 18.886 25.923 20.798 26.65 22.672C26.522 23.498 26.427 24.387 26.326 25.22C26.047 27.449 25.843 29.687 25.716 31.93C25.675 32.651 25.649 33.373 25.639 34.096C25.632 34.522 25.569 35.179 25.786 35.556C25.313 35.569 24.803 35.56 24.327 35.561C24.189 35.065 24.036 34.56 23.882 34.068C22.882 30.858 21.976 27.603 20.964 24.398C20.931 24.739 20.951 25.349 20.952 25.714L20.952 28.029L20.959 35.561L14.25 35.562C14.271 34.702 14.252 33.759 14.253 32.893L14.252 27.475L14.251 12.004Z" fill="#121b27"></path>
+</svg>
+<span style="font-weight: 700; font-size: 30px; line-height: 1.35">Martín Mato</span>
+</a>
+<nav class="nav" aria-label="Main" style="display: flex; align-items: center; gap: 24px; font-family: var(--font-sans); font-weight: 500; font-size: 14px">
+<a href="Main.dc.html" aria-current="page" style="padding: 8px; color: #121b27">Blog</a>
+<a href="About.dc.html" style="padding: 8px; color: #121b27">About</a>
+<a href="Contact.dc.html" style="padding: 8px; color: #121b27">Contact</a>
+<a class="btn" href="#newsletter" style="padding: 8px; border-radius: 4px; background: #013345; color: #f2f6f8; text-decoration: none">Subscribe</a>
+</nav>
+<button type="button" class="theme-btn" aria-label="{{themeLabel}}" title="{{themeLabel}}" onClick="{{toggleTheme}}"><sc-if value="{{isDark}}" hint-placeholder-val="{{false}}"><svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4"></circle><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"></path></svg></sc-if><sc-if value="{{isLight}}" hint-placeholder-val="{{true}}"><svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 14.5A8 8 0 1 1 9.5 4a6.5 6.5 0 0 0 10.5 10.5z"></path></svg></sc-if></button>
+<button type="button" class="menu-btn" aria-label="{{menuLabel}}" aria-expanded="{{menuExpanded}}" aria-controls="mobile-menu" onClick="{{toggleMenu}}">
+<svg width="34" height="28" viewBox="0 0 34 28" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round" aria-hidden="true"><path d="M3 4h28M3 14h28M3 24h28"></path></svg>
+</button>
 <sc-if value="{{menuOpen}}" hint-placeholder-val="{{false}}">
-<nav aria-label="Main (mobile)" style="position: absolute; left: 0; right: 0; top: 100%; display: flex; flex-direction: column; gap: 4px; padding: 16px; background: var(--surfaces-white); border-top: 1px solid var(--surfaces-strokes); box-shadow: var(--shadow-elevation)">
-<x-import component-from-global-scope="MartinsWeb.Link" href="Main.dc.html" current="{{yes}}">Blog</x-import>
-<x-import component-from-global-scope="MartinsWeb.Link" href="About.dc.html">About</x-import>
-<x-import component-from-global-scope="MartinsWeb.Link" href="About.dc.html#contact">Contact</x-import>
+<nav id="mobile-menu" class="menu-panel" aria-label="Main (mobile)">
+<a href="Main.dc.html" aria-current="page" onClick="{{closeMenu}}">Blog</a>
+<a href="About.dc.html" onClick="{{closeMenu}}">About</a>
+<a href="Contact.dc.html" onClick="{{closeMenu}}">Contact</a>
+<a class="btn" href="#newsletter" onClick="{{closeMenu}}">Subscribe</a>
 </nav>
 </sc-if>
+</header>
+
+
+
+<div class="hero-text" style="position: relative; z-index: 1; flex-grow: 1; display: flex; flex-direction: column; justify-content: center; gap: 24px; max-width: 700px; padding: 32px var(--side) 72px">
+<p class="eyebrow">Talking Dev</p>
+<h1 class="hero-h1" style="margin: 0; font-size: 56px; font-weight: 700; line-height: 60px">What leading software teams <span style="position: relative; white-space: nowrap; color: rgb(61, 156, 154)">keeps teaching me.</span></h1>
+<p class="lead" style="max-width: 600px">What I keep learning, and what catches my attention, about being part of a software team and leading one. <em>None of it is a rule, and all of it is up for debate.</em></p>
+<div style="display: flex; flex-wrap: wrap; align-items: center; gap: 24px; padding-top: 8px">
+<a class="btn" href="#latest" style="display: inline-flex; padding: 8px; border-radius: 4px; background: #013345; color: #f2f6f8; text-decoration: none; font-family: 'Instrument Sans', system-ui, sans-serif; font-weight: 500; font-size: 14px">Read the latest story</a>
+<a href="About.dc.html" style="font-family: 'Instrument Sans', system-ui, sans-serif; font-weight: 500; font-size: 14px; text-underline-offset: 3px">More about me</a>
 </div>
-
-<main style="width: 100%; max-width: 832px; margin: 0 auto; box-sizing: border-box; padding: 0 16px; flex-grow: 1; display: flex; flex-direction: column; gap: 32px">
-
-<section class="intro-top" style="display: flex; flex-direction: column; gap: 16px; padding-top: 96px; padding-bottom: 32px">
-<p class="t-eyebrow" style="margin: 0; font-family: var(--font-mono); line-height: 1.35; text-transform: uppercase; color: var(--text-primary)">Talking Dev</p>
-<h1 class="t-h1" style="margin: 0; font-weight: 700; line-height: 48px">Stories about leading teams,<br><span style="color: var(--text-highlight)">without the armor</span></h1>
-<p class="t-body" style="margin: 0; line-height: 1.35">Personal essays on leading teams, mentoring people and bringing AI into my team. Nothing here is a rule, and all of it is up for debate.</p>
+</div>
 </section>
 
-<x-import component-from-global-scope="MartinsWeb.TagFilter" tags="{{topics}}" value="{{topic}}" on-change="{{pickTopic}}" count="{{count}}"></x-import>
+<section class="intro" aria-label="About the author" style="box-sizing: border-box; width: 100%; padding: 20px var(--side) 64px">
+<div style="display: flex; align-items: center; gap: 24px; max-width: 680px">
+<img class="intro-photo" src="/_blob/e8403d4a42b5308da27509675d23c3a7" alt="Martín Mato" style="flex-shrink: 0; width: 124px; height: 124px; border-radius: 50%; object-fit: cover; object-position: 50% 30%">
+<div style="display: flex; flex-direction: column; gap: 8px">
+<p style="margin: 0; font-size: 16px; line-height: 1.3"><strong style="font-weight: 600">Martín Mato</strong> <span style="color: #364552">· Principal Software Engineer</span></p><p style="margin: 0; font-size: 20px; line-height: 1.5">Hi, I’m Martín. I lead software teams from Montevideo, Uruguay.</p>
 
-<sc-if value="{{hasPosts}}" hint-placeholder-val="{{true}}">
-<div style="display: flex; flex-direction: column; gap: 32px">
-<sc-for list="{{posts}}" as="p" hint-placeholder-count="3">
-<sc-if value="{{p.notFirst}}" hint-placeholder-val="{{false}}">
-<hr style="width: 100%; margin: 0; border: 0; border-top: 1px solid var(--surfaces-divider)">
-</sc-if>
-<x-import component-from-global-scope="MartinsWeb.PostCard" title="{{p.title}}" href="{{p.href}}" tags="{{p.tags}}" date="{{p.date}}" read-time="{{p.readTime}}" excerpt="{{p.excerpt}}" highlight="{{p.highlight}}" featured="{{p.featured}}"></x-import>
-</sc-for>
+<p style="margin: 0; display: flex; flex-wrap: wrap; gap: 0 16px; font-family: 'Instrument Sans', system-ui, sans-serif; font-weight: 500; font-size: 14px">
+<a href="Contact.dc.html" style="padding: 4px 0; text-underline-offset: 3px">Contact</a>
+<a href="https://www.linkedin.com/" style="padding: 4px 0; text-underline-offset: 3px">LinkedIn</a>
+<a href="mailto:[your-email]" style="padding: 4px 0; text-underline-offset: 3px">Email</a>
+</p>
 </div>
-</sc-if>
-
-<sc-if value="{{isEmpty}}" hint-placeholder-val="{{false}}">
-<div style="display: flex; flex-direction: column; align-items: flex-start; gap: 24px">
-<p class="t-body" style="margin: 0; line-height: 1.35">Nothing here yet on this topic. Try All.</p>
-<x-import component-from-global-scope="MartinsWeb.Button" variant="secondary" on-click="{{showAll}}">Show All Posts</x-import>
 </div>
-</sc-if>
+</section>
 
-<div style="display: flex; justify-content: center; padding-bottom: 32px">
-<x-import component-from-global-scope="MartinsWeb.Button" variant="secondary" href="Archive.dc.html">Older Entries</x-import>
+
+
+<main id="latest" aria-labelledby="latest-title" style="width: 100%; box-sizing: border-box; padding: 72px var(--side) 72px">
+<div class="thread-wrap stories" style="max-width: 760px; display: flex; flex-direction: column; gap: 40px; padding-bottom: 8px">
+<h2 id="latest-title" class="h2">Latest stories</h2>
+<div class="filters" style="display: flex; flex-direction: column; gap: 12px; margin-top: -24px">
+<p id="filter-label" style="margin: 0; font-size: 16px; line-height: 1.35; color: #364552">Topics</p>
+<div role="group" aria-labelledby="filter-label" style="display: flex; flex-wrap: wrap; gap: 8px">
+<button type="button" class="chip-f" data-t="all" data-l="All" aria-pressed="{{p_all}}" onClick="{{pick_all}}" style="--bd: #7a8b99; display: inline-flex; align-items: center; gap: 8px; min-height: 40px; padding: 8px 14px; box-sizing: border-box; border-radius: 4px; background: #f2f6f8; border: 1px solid #7a8b99; color: #121b27; font-family: 'Source Serif 4', Georgia, serif; font-size: 14px; line-height: 1.35; cursor: pointer"><svg class="chk" aria-hidden="true" width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 6.2 5 8.5l4.5-5"></path></svg><span>All <span aria-hidden="true" style="color: #364552">· 3</span><span class="sr">, 3 posts</span></span></button>
+<button type="button" class="chip-f" data-t="leading" data-l="Leading Teams" aria-pressed="{{p_leading}}" onClick="{{pick_leading}}" style="--bd: #68b6b2; display: inline-flex; align-items: center; gap: 8px; min-height: 40px; padding: 8px 14px; box-sizing: border-box; border-radius: 4px; background: #97cfcc; border: 1px solid #68b6b2; color: #121b27; font-family: 'Source Serif 4', Georgia, serif; font-size: 14px; line-height: 1.35; cursor: pointer"><svg class="chk" aria-hidden="true" width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 6.2 5 8.5l4.5-5"></path></svg><span class="dot" aria-hidden="true" style="width: 8px; height: 8px; border-radius: 50%; background: #013345; flex-shrink: 0"></span><span>Leading Teams <span aria-hidden="true" style="color: #364552">· 1</span><span class="sr">, 1 post</span></span></button>
+<button type="button" class="chip-f" data-t="ai" data-l="AI in Teams" aria-pressed="{{p_ai}}" onClick="{{pick_ai}}" style="--bd: #97cfcc; display: inline-flex; align-items: center; gap: 8px; min-height: 40px; padding: 8px 14px; box-sizing: border-box; border-radius: 4px; background: #e3f4f4; border: 1px solid #97cfcc; color: #121b27; font-family: 'Source Serif 4', Georgia, serif; font-size: 14px; line-height: 1.35; cursor: pointer"><svg class="chk" aria-hidden="true" width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 6.2 5 8.5l4.5-5"></path></svg><span class="dot" aria-hidden="true" style="width: 8px; height: 8px; border-radius: 50%; background: #216375; flex-shrink: 0"></span><span>AI in Teams <span aria-hidden="true" style="color: #364552">· 1</span><span class="sr">, 1 post</span></span></button>
+<button type="button" class="chip-f" data-t="mentoring" data-l="Mentoring" aria-pressed="{{p_mentoring}}" onClick="{{pick_mentoring}}" style="--bd: #68b6b2; display: inline-flex; align-items: center; gap: 8px; min-height: 40px; padding: 8px 14px; box-sizing: border-box; border-radius: 4px; background: #fafafa; border: 1px solid #68b6b2; color: #121b27; font-family: 'Source Serif 4', Georgia, serif; font-size: 14px; line-height: 1.35; cursor: pointer"><svg class="chk" aria-hidden="true" width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 6.2 5 8.5l4.5-5"></path></svg><span class="dot" aria-hidden="true" style="width: 8px; height: 8px; border-radius: 50%; background: #3d9c9a; flex-shrink: 0"></span><span>Mentoring <span aria-hidden="true" style="color: #364552">· 0</span><span class="sr">, 0 posts</span></span></button>
+<button type="button" class="chip-f" data-t="personal" data-l="Personal" aria-pressed="{{p_personal}}" onClick="{{pick_personal}}" style="--bd: #7a8b99; display: inline-flex; align-items: center; gap: 8px; min-height: 40px; padding: 8px 14px; box-sizing: border-box; border-radius: 4px; background: #cdd8df; border: 1px solid #7a8b99; color: #121b27; font-family: 'Source Serif 4', Georgia, serif; font-size: 14px; line-height: 1.35; cursor: pointer"><svg class="chk" aria-hidden="true" width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 6.2 5 8.5l4.5-5"></path></svg><span class="dot" aria-hidden="true" style="width: 8px; height: 8px; border-radius: 50%; background: #364552; flex-shrink: 0"></span><span>Personal <span aria-hidden="true" style="color: #364552">· 1</span><span class="sr">, 1 post</span></span></button>
 </div>
-
+<p class="count" role="status" aria-live="polite" style="margin: 4px 0 0; font-family: 'Space Mono', ui-monospace, monospace; font-size: 14px; text-transform: uppercase; color: #364552">{{countText}}</p>
+</div>
+<div class="thread" style="position: relative; display: {{d_thread}}; flex-direction: column; gap: 56px; padding: 0">
+<span aria-hidden="true" style="position: absolute; left: 0; top: 11px; bottom: 0; width: 1px; background: #cdd8df"></span>
+<article class="post card" data-t="personal" style="position: relative; display: {{d_personal}}; flex-direction: column; gap: 12px; padding-left: 32px">
+<span aria-hidden="true" style="position: absolute; left: -5px; top: 6px; width: 11px; height: 11px; border-radius: 50%; background: #fafafa; border: 2px solid #3d9c9a; box-sizing: border-box"></span>
+<div style="display: flex; flex-wrap: wrap; align-items: center; gap: 8px 16px; font-family: 'Space Mono', ui-monospace, monospace; font-size: 14px; text-transform: uppercase; color: #364552">
+<span class="tchip" style="border-radius: 4px; display: inline-flex; align-items: center; gap: 8px; padding: 4px 8px; background: #cdd8df; border: 1px solid #7a8b99; color: #121b27; font-family: 'Source Serif 4', Georgia, serif; font-size: 14px; line-height: 1.35; text-transform: none"><span aria-hidden="true" style="width: 8px; height: 8px; border-radius: 50%; background: #364552; flex-shrink: 0"></span>Personal</span>
+<span>Oct 25, 2026 · 4 min read</span>
+</div>
+<h3 class="h3" style="margin: 4px 0 0; font-size: 24px; font-weight: 600; line-height: 1.35"><a class="post-title" href="Post.dc.html" style="color: #121b27">The armor I called confidence.</a></h3>
+<p style="margin: 0; font-size: 20px; line-height: 1.6">My arrogance wasn’t confidence. It was the only way I knew to avoid asking for help.</p>
+<span class="read-more" aria-hidden="true">Keep reading <span class="arr">→</span></span>
+</article>
+<article class="post card" data-t="ai" style="position: relative; display: {{d_ai}}; flex-direction: column; gap: 12px; padding-left: 32px">
+<span aria-hidden="true" style="position: absolute; left: -5px; top: 6px; width: 11px; height: 11px; border-radius: 50%; background: #fafafa; border: 2px solid #3d9c9a; box-sizing: border-box"></span>
+<div style="display: flex; flex-wrap: wrap; align-items: center; gap: 8px 16px; font-family: 'Space Mono', ui-monospace, monospace; font-size: 14px; text-transform: uppercase; color: #364552">
+<span class="tchip" style="border-radius: 4px; display: inline-flex; align-items: center; gap: 8px; padding: 4px 8px; background: #e3f4f4; border: 1px solid #97cfcc; color: #121b27; font-family: 'Source Serif 4', Georgia, serif; font-size: 14px; line-height: 1.35; text-transform: none"><span aria-hidden="true" style="width: 8px; height: 8px; border-radius: 50%; background: #216375; flex-shrink: 0"></span>AI in Teams</span>
+<span>Sept 9, 2026 · [X] min read</span>
+</div>
+<h3 class="h3" style="margin: 4px 0 0; font-size: 24px; font-weight: 600; line-height: 1.35"><a class="post-title" href="#" style="color: #121b27">Use of AI bots in meetings</a></h3>
+<p style="margin: 0; font-size: 20px; line-height: 1.6">Installing an AI bot in a meeting is not the same as installing Big Brother. Or at least, it doesn’t have to be.</p>
+<span class="read-more" aria-hidden="true">Keep reading <span class="arr">→</span></span>
+</article>
+<article class="post card" data-t="leading" style="position: relative; display: {{d_leading}}; flex-direction: column; gap: 12px; padding-left: 32px">
+<span aria-hidden="true" style="position: absolute; left: -5px; top: 6px; width: 11px; height: 11px; border-radius: 50%; background: #fafafa; border: 2px solid #3d9c9a; box-sizing: border-box"></span>
+<div style="display: flex; flex-wrap: wrap; align-items: center; gap: 8px 16px; font-family: 'Space Mono', ui-monospace, monospace; font-size: 14px; text-transform: uppercase; color: #364552">
+<span class="tchip" style="border-radius: 4px; display: inline-flex; align-items: center; gap: 8px; padding: 4px 8px; background: #97cfcc; border: 1px solid #68b6b2; color: #121b27; font-family: 'Source Serif 4', Georgia, serif; font-size: 14px; line-height: 1.35; text-transform: none"><span aria-hidden="true" style="width: 8px; height: 8px; border-radius: 50%; background: #013345; flex-shrink: 0"></span>Leading Teams</span>
+<span>Sept 9, 2026 · [X] min read</span>
+</div>
+<h3 class="h3" style="margin: 4px 0 0; font-size: 24px; font-weight: 600; line-height: 1.35"><a class="post-title" href="#" style="color: #121b27">Artificial Harmony</a></h3>
+<p style="margin: 0; font-size: 20px; line-height: 1.6">The state a team falls into when it simply lacks the tools to face conflict.</p>
+<span class="read-more" aria-hidden="true">Keep reading <span class="arr">→</span></span>
+</article>
+</div>
+<p class="empty" style="display: {{d_empty}}; margin: 0; font-size: 18px; line-height: 1.6; color: #364552">Nothing here yet. I haven’t written about this topic, but it’s on the list. <button type="button" onClick="{{pick_all}}" style="padding: 0; border: 0; background: none; font: inherit; color: #121b27; text-decoration: underline; text-underline-offset: 3px; cursor: pointer">See all stories</button></p>
+<div style="display: flex; flex-direction: column; align-items: flex-start; gap: 16px; margin-top: 8px">
+<a class="btn-s" href="#" style="border-radius: 4px; display: inline-flex; align-items: center; padding: 8px; border: 1px solid #013345; color: #013345; text-decoration: none; font-family: 'Instrument Sans', system-ui, sans-serif; font-weight: 500; font-size: 14px; line-height: 1.2">Older entries</a>
+<p class="measure" style="margin: 0; font-size: 18px; line-height: 1.6; color: #364552">If one of these stories reminded you of your own, <a href="Contact.dc.html" style="color: #121b27; text-underline-offset: 3px">tell me about it</a>.</p>
+</div>
+</div>
 </main>
 
-<x-import component-from-global-scope="MartinsWeb.Footer" device="{{device}}" links="{{footerLinks}}"></x-import>
+
+<section class="library" aria-labelledby="library-title" style="box-sizing: border-box; width: 100%; padding: 24px var(--side) 96px">
+<div class="library-inner" style="display: flex; flex-direction: column; gap: 32px">
+<div style="display: flex; flex-direction: column; gap: 8px">
+<h2 id="library-title" class="measure" style="margin: 0; font-size: 32px; font-weight: 600; line-height: 1.35"><a class="lib-link" href="Library.dc.html" style="color: #121b27; text-decoration: none">Library</a></h2>
+<p class="measure" style="margin: 0; font-size: 20px; line-height: 1.5; color: #364552">Books I keep going back to.</p>
+</div>
+<div class="book-grid" style="display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 40px 32px">
+<a class="book" href="Library.dc.html#book-multipliers" style="display: flex; flex-direction: column; gap: 12px; text-decoration: none; color: #121b27">
+<div class="book-cover" aria-hidden="true" style="aspect-ratio: 2 / 3; overflow: hidden; background: #f2f6f8; box-shadow: 0 4px 4px rgba(122,139,153,0.2)"><img src="/_blob/ce4f0c31d8f65c85c490604b1caf9963" alt="" style="display: block; width: 100%; height: 100%; object-fit: cover"></div>
+<span class="book-title" style="font-size: 20px; line-height: 1.35">Multipliers</span>
+<span style="margin-top: -8px; font-size: 14px; line-height: 1.35; color: #364552">Liz Wiseman</span>
+</a>
+<a class="book" href="Library.dc.html#book-coaching-el-arte-de-soplar-brasas" style="display: flex; flex-direction: column; gap: 12px; text-decoration: none; color: #121b27">
+<div class="book-cover" aria-hidden="true" style="aspect-ratio: 2 / 3; overflow: hidden; background: #f2f6f8; box-shadow: 0 4px 4px rgba(122,139,153,0.2)"><img src="/_blob/21d0a5e1cffa7a053b9ee7beb63163ae" alt="" style="display: block; width: 100%; height: 100%; object-fit: cover"></div>
+<span class="book-title" style="font-size: 20px; line-height: 1.35">Coaching: el arte de soplar brasas</span>
+<span style="margin-top: -8px; font-size: 14px; line-height: 1.35; color: #364552">Leonardo Wolk</span>
+</a>
+<a class="book" href="Library.dc.html#book-the-thin-book-of-trust" style="display: flex; flex-direction: column; gap: 12px; text-decoration: none; color: #121b27">
+<div class="book-cover" aria-hidden="true" style="aspect-ratio: 2 / 3; overflow: hidden; background: #f2f6f8; box-shadow: 0 4px 4px rgba(122,139,153,0.2)"><img src="/_blob/f476f323a92c4b628f318aeb1e4d6201" alt="" style="display: block; width: 100%; height: 100%; object-fit: cover"></div>
+<span class="book-title" style="font-size: 20px; line-height: 1.35">The Thin Book of Trust</span>
+<span style="margin-top: -8px; font-size: 14px; line-height: 1.35; color: #364552">Charles Feltman</span>
+</a>
+<a class="book" href="Library.dc.html#book-storyworthy" style="display: flex; flex-direction: column; gap: 12px; text-decoration: none; color: #121b27">
+<div class="book-cover" aria-hidden="true" style="aspect-ratio: 2 / 3; overflow: hidden; background: #f2f6f8; box-shadow: 0 4px 4px rgba(122,139,153,0.2)"><img src="/_blob/b43f494f90ee24f1865f27dfee5e3657" alt="" style="display: block; width: 100%; height: 100%; object-fit: cover"></div>
+<span class="book-title" style="font-size: 20px; line-height: 1.35">Storyworthy</span>
+<span style="margin-top: -8px; font-size: 14px; line-height: 1.35; color: #364552">Matthew Dicks</span>
+</a>
+</div>
+<a href="Library.dc.html" style="align-self: flex-start; padding: 4px 0; font-family: 'Instrument Sans', system-ui, sans-serif; font-weight: 500; font-size: 14px; color: #121b27; text-underline-offset: 3px">See all 22 books →</a>
+</div>
+</section>
+
+
+<div class="dark-end">
+<section id="newsletter" aria-labelledby="news-title" class="band dark">
+<div class="news">
+<div style="display: flex; flex-direction: column; gap: 20px">
+<p class="eyebrow" style="color: #97cfcc">Newsletter</p>
+<h2 id="news-title" style="margin: 0; font-size: 44px; font-weight: 700; line-height: 1.15">Get the next story in your inbox.</h2>
+<p class="lead" style="color: #cdd8df">When I publish a new story, I’ll send it to you. Nothing else.</p>
+</div>
+<div>
+<sc-if value="{{showForm}}" hint-placeholder-val="{{true}}">
+<form novalidate="" onSubmit="{{submit}}" style="display: flex; flex-direction: column; gap: 12px">
+<div class="sub-row">
+<x-import component-from-global-scope="MartinsWeb.Input" label="Email" name="email" type="email" placeholder="you@company.com" auto-complete="email" value="{{email}}" on-change="{{onEmail}}"></x-import>
+<x-import component-from-global-scope="MartinsWeb.Button" type="button" on-click="{{submit}}">Subscribe</x-import>
+</div>
+<sc-if value="{{showError}}" hint-placeholder-val="{{false}}">
+<p role="alert" style="margin: 0; font-size: 14px; line-height: 1.35; color: #f2f6f8">Please add a valid email.</p>
+</sc-if>
+</form>
+</sc-if>
+<sc-if value="{{subscribed}}" hint-placeholder-val="{{false}}">
+<div role="status" style="display: flex; flex-direction: column; align-items: flex-start; gap: 12px">
+<p style="margin: 0; font-size: 28px; font-weight: 600; line-height: 1.35">You’re in.</p>
+<p class="lead" style="color: #cdd8df">The next story will reach you at {{email}}.</p>
+<x-import component-from-global-scope="MartinsWeb.Button" variant="secondary" on-click="{{reset}}">Use another email</x-import>
+</div>
+</sc-if>
+</div>
+</div>
+</section>
+
+<footer class="dark" style="display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 16px; padding: 24px var(--side) 32px">
+<p style="margin: 0; font-size: 14px; color: #cdd8df">© 2026 Martín Mato</p>
+<nav class="nav" aria-label="Footer" style="display: flex; gap: 24px; font-family: var(--font-sans); font-weight: 500; font-size: 14px">
+<a href="Main.dc.html" style="padding: 8px">Blog</a>
+<a href="About.dc.html" style="padding: 8px">About</a>
+<a href="Contact.dc.html" style="padding: 8px">Contact</a>
+<a href="#" style="padding: 8px">RSS</a>
+</nav>
+</footer>
+</div>
 
 </div>
 </x-dc>
-<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1280,"height":2700}}'>
+<script type="text/x-dc" data-dc-script data-props='{"theme":{"editor":"enum","options":["auto","light","dark"],"default":"auto","section":"Preview"},"$preview":{"width":1280,"height":3200}}'>
 class Component extends DCLogic {
 constructor(props) {
 super(props);
-this.state = { topic: 'All', menuOpen: false, device: (typeof window !== 'undefined' && window.innerWidth <= 600) ? 'mobile' : 'desktop' };
-this.onResize = this.onResize.bind(this);
-}
-componentDidMount() { window.addEventListener('resize', this.onResize); }
-componentWillUnmount() { window.removeEventListener('resize', this.onResize); }
-onResize() {
-var d = window.innerWidth <= 600 ? 'mobile' : 'desktop';
-if (d !== this.state.device) this.setState({ device: d, menuOpen: false });
+this.state = { email: '', tried: false, subscribed: false, menuOpen: false, topic: 'all' };
+this.state.theme = (function (pt) {
+if (pt === 'dark' || pt === 'light') return pt;
+try { var ls = window.localStorage.getItem('mm-theme'); if (ls === 'dark' || ls === 'light') return ls; } catch (e) {}
+return 'light';
+})(props && props.theme);
 }
 renderVals() {
 var self = this;
 var s = this.state;
-var all = [
-{ title: 'The armor I called confidence.', href: 'Post.dc.html', topic: 'Personal', date: 'Oct 25, 2026', readTime: '4 min read',
-excerpt: 'Nine months into my first job as a junior developer, I was called into a meeting nobody wants to have. I was at the top of the layoff list. I was blaming everyone and everything instead of looking at my part of the problem.',
-highlight: 'My arrogance wasn’t confidence. It was the only way I knew to avoid asking for help.' },
-{ title: 'Use of AI bots in meetings', href: 'Post.dc.html', topic: 'AI in Teams', date: 'Sept 9, 2026', readTime: '[X] min read',
-excerpt: 'Installing an AI bot in a meeting is not the same as installing Big Brother. Or at least, it doesn’t have to be. A phrase by Amantha Imber helped me understand why I experience it differently from what I usually hear.',
-highlight: null },
-{ title: 'Artificial Harmony', href: 'Post.dc.html', topic: 'Leading Teams', date: 'Sept 9, 2026', readTime: '[X] min read',
-excerpt: 'I’ve been thinking a lot these days about the concept of “artificial harmony.” Patrick Lencioni describes it brilliantly in Five Dysfunctions of a Team. It happens a lot in our industry: entire teams take refuge in technical urgency to avoid dealing with their dynamics.',
-highlight: 'The state a team falls into when it simply lacks the tools to face conflict.' }
-];
-var list = all.filter(function (p) { return s.topic === 'All' || p.topic === s.topic; });
-var posts = list.map(function (p, i) {
-return { title: p.title, href: p.href, tags: [p.topic], date: p.date, readTime: p.readTime, excerpt: p.excerpt, highlight: p.highlight, featured: i === 0, notFirst: i > 0 };
-});
-return {
-yes: true,
-device: s.device,
-menuOpen: s.menuOpen,
-toggleMenu: function () { self.setState({ menuOpen: !self.state.menuOpen }); },
-navLinks: [{ label: 'Blog', href: 'Main.dc.html', current: true }, { label: 'About', href: 'About.dc.html' }, { label: 'Contact', href: 'About.dc.html#contact' }],
-footerLinks: [{ label: 'Posts', href: 'Archive.dc.html' }, { label: 'About', href: 'About.dc.html' }, { label: 'Contact', href: 'About.dc.html#contact' }, { label: 'RSS', href: '#' }],
-topics: ['Personal', 'Leading Teams', 'Mentoring', 'AI in Teams'],
-topic: s.topic,
-pickTopic: function (t) { self.setState({ topic: t }); },
-showAll: function () { self.setState({ topic: 'All' }); },
-count: posts.length,
-posts: posts,
-hasPosts: posts.length > 0,
-isEmpty: posts.length === 0
+var nvalid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(s.email.trim());
+var posts = { personal: 1, ai: 1, leading: 1, mentoring: 0 };
+var names = { all: 'All', leading: 'Leading Teams', ai: 'AI in Teams', mentoring: 'Mentoring', personal: 'Personal' };
+var tp = s.topic;
+var shown = tp === 'all' ? 3 : (posts[tp] || 0);
+var fv = {
+countText: tp === 'all' ? 'Showing all 3 stories' : (shown ? 'Showing ' + shown + (shown === 1 ? ' story' : ' stories') + ' about ' + names[tp] : 'No stories about ' + names[tp] + ' yet'),
+d_thread: shown ? 'flex' : 'none', d_empty: shown ? 'none' : 'block'
 };
+['all', 'leading', 'ai', 'mentoring', 'personal'].forEach(function (k) {
+fv['p_' + k] = tp === k ? 'true' : 'false';
+fv['pick_' + k] = function () { self.setState({ topic: k }); };
+if (k !== 'all') fv['d_' + k] = (tp === 'all' || tp === k) ? 'flex' : 'none';
+});
+return Object.assign(fv, {
+themeCls: s.theme === 'dark' ? 'theme-dark' : 'theme-light',
+isDark: s.theme === 'dark', isLight: s.theme !== 'dark',
+themeLabel: s.theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode',
+toggleTheme: function () { var nt = self.state.theme === 'dark' ? 'light' : 'dark'; try { window.localStorage.setItem('mm-theme', nt); } catch (e) {} self.setState({ theme: nt }); },
+menuOpen: s.menuOpen,
+menuExpanded: s.menuOpen ? 'true' : 'false',
+menuLabel: s.menuOpen ? 'Close menu' : 'Open menu',
+toggleMenu: function () { self.setState({ menuOpen: !self.state.menuOpen }); },
+closeMenu: function () { self.setState({ menuOpen: false }); },
+email: s.email,
+showForm: !s.subscribed, subscribed: s.subscribed, showError: s.tried && !nvalid,
+onEmail: function (e) { self.setState({ email: e.target.value }); },
+submit: function (e) { if (e && e.preventDefault) e.preventDefault(); self.setState(nvalid ? { subscribed: true, tried: false } : { tried: true }); },
+reset: function () { self.setState({ email: '', tried: false, subscribed: false }); },
+yes: true
+});
 }
 }
 </script>
