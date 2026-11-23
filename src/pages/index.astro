@@ -1,21 +1,142 @@
 ---
+import { Image } from "astro:assets";
+import notebook from "../../design-system/assets/photos/hero-notebook.jpg";
+import portrait from "../../design-system/assets/photos/portrait-headshot.jpg";
 import BaseLayout from "../layouts/BaseLayout.astro";
-import PostList from "../components/PostList.astro";
-import { getPosts, pageCount, postsForPage } from "../lib/posts";
+import TopicTag from "../components/TopicTag.astro";
+import { catchPhrase, formatDate, getPosts, readTime, topicOrder, topicSlug, type Topic } from "../lib/posts";
 import { site } from "../lib/site";
+import { books, coverOf, featuredBooks } from "../data/library";
+import "../styles/home.css";
 
 const posts = await getPosts();
-const pagePosts = postsForPage(posts, 1);
-const nextHref = pageCount(posts.length) > 1 ? "/page/2" : undefined;
+
+function countOf(topic: Topic | "all") {
+  return topic === "all" ? posts.length : posts.filter((post) => post.data.topic === topic).length;
+}
+
+const plural = (n: number) => `${n} ${n === 1 ? "post" : "posts"}`;
+const allCount = posts.length === 1 ? "Showing 1 story" : `Showing all ${posts.length} stories`;
 ---
 
 <BaseLayout title={site.name} current="blog">
-  <div class="page">
-    <div class="page__intro">
-      <p class="type-caption-mono">Talking Dev</p>
-      <h1 class="type-h1">Stories about leading teams, <span class="mw-accent-text">without the armor</span></h1>
-      <p class="type-body">Personal essays on leading teams, mentoring people and bringing AI into my team. Nothing here is a rule, and all of it is up for debate.</p>
+  <section class="home-hero">
+    <Image
+      class="home-hero__photo"
+      src={notebook}
+      alt=""
+      widths={[640, 960, 1280, 1920]}
+      sizes="(max-width: 767px) 100vw, 64vw"
+      loading="eager"
+      fetchpriority="high"
+    />
+    <div class="home-hero__text">
+      <p class="eyebrow">Talking Dev</p>
+      <h1 class="home-hero__title">What leading software teams <span class="home-hero__accent">keeps teaching me.</span></h1>
+      <p class="lead home-hero__lead">
+        What I keep learning, and what catches my attention, about being part of a software team and leading one. <em>None of it is a rule, and all of it is up for debate.</em>
+      </p>
+      <div class="home-hero__actions">
+        <a class="mw-button mw-button--primary" href="#latest">Read the latest story</a>
+        <a class="home-link" href="/about">More about me</a>
+      </div>
     </div>
-    <PostList posts={pagePosts} total={pagePosts.length} featured nextHref={nextHref} />
-  </div>
+  </section>
+
+  <section class="home-intro" aria-label="About the author">
+    <div class="home-intro__row">
+      <Image class="home-intro__photo" src={portrait} alt="Martín Mato" width={248} height={248} />
+      <div class="home-intro__copy">
+        <p class="home-intro__who"><strong>{site.name}</strong> <span>· {site.jobTitle}</span></p>
+        <p class="home-intro__line">Hi, I’m Martín. I lead software teams from Montevideo, Uruguay.</p>
+        <p class="home-intro__links">
+          <a href="/contact">Contact</a>
+          <a href={site.linkedin}>LinkedIn</a>
+          <a href={`mailto:${site.email}`}>Email</a>
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section id="latest" class="home-stories" aria-labelledby="latest-title" data-stories>
+    <div class="home-stories__inner">
+      <h2 id="latest-title" class="h2">Latest stories</h2>
+      <div class="home-filters">
+        <p id="filter-label" class="home-filters__label">Topics</p>
+        <div class="home-filters__chips" role="group" aria-labelledby="filter-label">
+          <button type="button" class="chip-f" data-topic="all" data-label="All" aria-pressed="true">
+            <svg class="chip-f__check" aria-hidden="true" width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 6.2 5 8.5l4.5-5"></path></svg>
+            <span>All <span class="chip-f__count" aria-hidden="true">· {countOf("all")}</span><span class="visually-hidden">, {plural(countOf("all"))}</span></span>
+          </button>
+          {
+            topicOrder.map((topic) => (
+              <button type="button" class:list={["chip-f", "tchip", `tchip--${topicSlug[topic]}`]} data-topic={topicSlug[topic]} data-label={topic} aria-pressed="false">
+                <svg class="chip-f__check" aria-hidden="true" width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 6.2 5 8.5l4.5-5" /></svg>
+                <span class="tchip__dot" aria-hidden="true" />
+                <span>
+                  {topic} <span class="chip-f__count" aria-hidden="true">· {countOf(topic)}</span>
+                  <span class="visually-hidden">, {plural(countOf(topic))}</span>
+                </span>
+              </button>
+            ))
+          }
+        </div>
+        <p class="home-filters__count" data-count role="status" aria-live="polite">{allCount}</p>
+      </div>
+
+      <div class="home-thread" data-thread hidden={posts.length === 0}>
+        <span class="home-thread__rail" aria-hidden="true"></span>
+        {
+          posts.map((post) => (
+            <article class="home-post" data-topic={topicSlug[post.data.topic]}>
+              <span class="home-post__dot" aria-hidden="true" />
+              <div class="home-post__meta">
+                <TopicTag topic={post.data.topic} />
+                <span>
+                  <time datetime={post.data.date.toISOString()}>{formatDate(post.data.date)}</time> · {readTime(post.body ?? "")}
+                </span>
+              </div>
+              <h3 class="home-post__title">
+                <a href={`/${post.id}`}>{post.data.title}</a>
+              </h3>
+              <p class="home-post__catch">{catchPhrase(post)}</p>
+              <span class="home-post__more" aria-hidden="true">
+                Keep reading <span class="home-post__arrow">→</span>
+              </span>
+            </article>
+          ))
+        }
+      </div>
+      <p class="home-empty" data-empty hidden={posts.length > 0}>
+        Nothing here yet. I haven’t written about this topic, but it’s on the list.{" "}
+        <button type="button" data-show-all>See all stories</button>
+      </p>
+      <p class="home-invite">If one of these stories reminded you of your own, <a href="/contact">tell me about it</a>.</p>
+    </div>
+  </section>
+
+  <section class="home-library" aria-labelledby="library-title">
+    <div class="home-library__head">
+      <h2 id="library-title" class="h2"><a href="/library">Library</a></h2>
+      <p class="home-library__lead">Books I keep going back to.</p>
+    </div>
+    <div class="home-library__grid">
+      {
+        featuredBooks.map((book) => (
+          <a class="home-book" href={`/library#book-${book.id}`}>
+            <span class="home-book__cover" aria-hidden="true">
+              <img src={coverOf(book)} alt="" width="400" height="600" loading="lazy" decoding="async" />
+            </span>
+            <span class="home-book__title">{book.title}</span>
+            <span class="home-book__author">{book.author}</span>
+          </a>
+        ))
+      }
+    </div>
+    <a class="home-link" href="/library">See all {books.length} books →</a>
+  </section>
 </BaseLayout>
+
+<script>
+  import "../scripts/stories.ts";
+</script>

@@ -3,6 +3,27 @@ import { site } from "./site";
 
 export const topics = ["Personal", "Leading Teams", "Mentoring", "AI in Teams"] as const;
 export type Topic = (typeof topics)[number];
+
+/** The order the canvas shows topics in (filters on the home). */
+export const topicOrder: Topic[] = ["Leading Teams", "AI in Teams", "Mentoring", "Personal"];
+
+/** Short ids for classes and data attributes. */
+export const topicSlug: Record<Topic, string> = {
+  "Leading Teams": "leading",
+  "AI in Teams": "ai",
+  Mentoring: "mentoring",
+  Personal: "personal",
+};
+
+/** The line that invites the reader in: the post's highlight, else its first paragraph. */
+export function catchPhrase(post: CollectionEntry<"posts">) {
+  if (post.data.highlight) return post.data.highlight;
+  const first = (post.body ?? "")
+    .trim()
+    .split(/\n{2,}/)
+    .find((block) => block.trim() && !block.startsWith("#") && !block.startsWith(">"));
+  return (first ?? post.data.description).replace(/[*_`]/g, "").replace(/\s+/g, " ").trim();
+}
 export type Post = CollectionEntry<"posts">;
 
 const MONTHS = ["Jan", "Feb", "Mar", "Apr", "May", "June", "July", "Aug", "Sept", "Oct", "Nov", "Dec"] as const;

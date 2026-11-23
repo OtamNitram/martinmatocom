@@ -130,6 +130,64 @@ a:focus-visible {
   }
 }
 
+/* Topic tag: whole-chip colour per topic, a dot in a deeper shade. In dark the canvas flattens them. */
+.tchip {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-xs);
+  padding: var(--space-xxs) var(--space-xs);
+  border: 1px solid var(--tchip-stroke, var(--surfaces-elevation));
+  border-radius: var(--radius-s);
+  background: var(--tchip-surface, var(--surfaces-strokes));
+  color: var(--text-primary);
+  font-family: var(--font-serif);
+  font-size: 14px;
+  line-height: 1.35;
+  text-transform: none;
+}
+
+.tchip__dot {
+  flex: none;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--tchip-dot, var(--surfaces-divider));
+}
+
+.tchip--leading {
+  --tchip-surface: var(--topic-leading-surface);
+  --tchip-stroke: var(--topic-leading-stroke);
+  --tchip-dot: var(--topic-leading-dot);
+}
+
+.tchip--ai {
+  --tchip-surface: var(--topic-ai-surface);
+  --tchip-stroke: var(--topic-ai-stroke);
+  --tchip-dot: var(--topic-ai-dot);
+}
+
+.tchip--mentoring {
+  --tchip-surface: var(--topic-mentoring-surface);
+  --tchip-stroke: var(--topic-mentoring-stroke);
+  --tchip-dot: var(--topic-mentoring-dot);
+}
+
+.tchip--personal {
+  --tchip-surface: var(--topic-personal-surface);
+  --tchip-stroke: var(--topic-personal-stroke);
+  --tchip-dot: var(--topic-personal-dot);
+}
+
+:root[data-theme="dark"] .tchip {
+  --tchip-surface: var(--surfaces-highlights);
+  --tchip-stroke: var(--surfaces-strokes);
+}
+
+/* The Leading Teams dot is teal-900, invisible on the dark surface: lift it. */
+:root[data-theme="dark"] .tchip--leading {
+  --tchip-dot: var(--teal-300);
+}
+
 /* ===== Header ===== */
 .site-header {
   position: relative;

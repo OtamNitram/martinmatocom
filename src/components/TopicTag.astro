@@ -1,0 +1,14 @@
+---
+import { topicSlug, type Topic } from "../lib/posts";
+
+interface Props {
+  topic: Topic;
+}
+
+const { topic } = Astro.props;
+---
+
+<span class:list={["tchip", `tchip--${topicSlug[topic]}`]}>
+  <span class="tchip__dot" aria-hidden="true"></span>
+  {topic}
+</span>
