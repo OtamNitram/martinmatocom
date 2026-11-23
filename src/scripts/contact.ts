@@ -63,7 +63,7 @@ document.querySelectorAll<HTMLElement>("[data-contact-root]").forEach((root) => 
         if (address) address.textContent = fill(done?.dataset.address, values);
         form.hidden = true;
         if (done) done.hidden = false;
-        document.dispatchEvent(new CustomEvent("contact:sent"));
+        document.dispatchEvent(new CustomEvent("contact:sent", { detail: { form: perField ? "contact-page" : "about-band" } }));
       })
       .catch(() => {
         if (error) {

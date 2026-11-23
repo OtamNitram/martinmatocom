@@ -47,7 +47,6 @@ const graph = {
   "@graph": [websiteNode(), personNode(new URL(personImage.src, site.url).href), ...jsonLd],
 };
 const verification = import.meta.env.PUBLIC_GOOGLE_SITE_VERIFICATION;
-const beacon = import.meta.env.PUBLIC_CF_BEACON_TOKEN;
 ---
 
 <!doctype html>
@@ -126,11 +125,9 @@ const beacon = import.meta.env.PUBLIC_CF_BEACON_TOKEN;
     </DarkEnd>
     <script>
       import "../scripts/shell.ts";
+      import "../scripts/analytics.ts";
     </script>
-    {
-      beacon ? (
-        <script is:inline defer src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon={`{"token":"${beacon}"}`} />
-      ) : null
-    }
+    <!-- Umami: cookieless analytics, counted only on martinmato.com (not in local dev or previews) -->
+    <script is:inline defer src="https://cloud.umami.is/script.js" data-website-id={site.umamiWebsiteId} data-domains="martinmato.com"></script>
   </body>
 </html>

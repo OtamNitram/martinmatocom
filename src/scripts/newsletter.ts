@@ -31,6 +31,7 @@ document.querySelectorAll<HTMLFormElement>("[data-newsletter]").forEach((form) =
           form.hidden = true;
           if (done) done.hidden = false;
           if (address) address.textContent = `The next story will reach you at ${value}.`;
+          document.dispatchEvent(new CustomEvent("newsletter:subscribed"));
         })
         .catch(() => {
           if (error) {

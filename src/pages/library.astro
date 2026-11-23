@@ -37,7 +37,14 @@ const groups = bookGroups.map((group) => ({ group, id: groupId(group), books: bo
                   <h3 class="lib-book__title">{book.title}</h3>
                   <p class="lib-book__author">{book.author}</p>
                   {book.note ? <p class="lib-note">{book.note}</p> : null}
-                  <a class="lib-book__link" href={book.amazonUrl} target="_blank" rel="noopener">
+                  <a
+                    class="lib-book__link"
+                    href={book.amazonUrl}
+                    target="_blank"
+                    rel="noopener"
+                    data-umami-event="amazon-click"
+                    data-umami-event-book={book.id}
+                  >
                     On Amazon<span class="visually-hidden"> (opens in a new tab)</span> ↗
                   </a>
                 </div>

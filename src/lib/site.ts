@@ -11,6 +11,8 @@ export const site = {
   jobTitle: "Principal Software Engineer",
   worksFor: "Kaizen Softworks",
   location: "Montevideo",
+  /** Umami Cloud website (public: it ships in every page). */
+  umamiWebsiteId: "701df673-3358-4225-8066-bae8de8a4a26",
 } as const;
 
 export type NavKey = "blog" | "about" | "contact";
