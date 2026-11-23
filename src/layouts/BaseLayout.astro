@@ -2,8 +2,10 @@
 import "../../design-system/tokens.css";
 import "../styles/components.css";
 import "../styles/site.css";
+import "../styles/legacy.css";
 import Header from "../components/Header.astro";
-import Footer from "../components/Footer.astro";
+import DarkEnd from "../components/DarkEnd.astro";
+import Newsletter from "../components/Newsletter.astro";
 import { personJsonLd } from "../lib/seo";
 import { site, type NavKey } from "../lib/site";
 
@@ -16,6 +18,8 @@ interface Props {
 }
 
 const { title, description = site.description, current, image = "/og/site.png", jsonLd } = Astro.props;
+/** A page that fills the dark ending itself (About, with its contact band) has no newsletter of its own. */
+const hasOwnEnding = Astro.slots.has("ending");
 const documentTitle = title === site.name ? site.name : `${title} · ${site.name}`;
 const canonical = new URL(Astro.url.pathname, site.url).href;
 const imageUrl = new URL(image, site.url).href;
@@ -60,11 +64,13 @@ const beacon = import.meta.env.PUBLIC_CF_BEACON_TOKEN;
   </head>
   <body>
     <a class="skip" href="#main">Skip to content</a>
-    <Header current={current} />
+    <Header current={current} subscribeHref={hasOwnEnding ? "/#newsletter" : "#newsletter"} />
     <main id="main">
       <slot />
     </main>
-    <Footer />
+    <DarkEnd>
+      <slot name="ending"><Newsletter /></slot>
+    </DarkEnd>
     <script>
       import "../scripts/shell.ts";
     </script>

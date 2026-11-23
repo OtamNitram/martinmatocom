@@ -1,47 +1,53 @@
 ---
 import Logo from "./Logo.astro";
-import Link from "./Link.astro";
-import Button from "./Button.astro";
-import Icon from "./Icon.astro";
 import { nav, site, type NavKey } from "../lib/site";
 
 interface Props {
   current?: NavKey;
+  /** Where "Subscribe" goes: the page's own newsletter band, or the home's when the page has none. */
+  subscribeHref?: string;
 }
 
-const { current } = Astro.props;
+const { current, subscribeHref = "#newsletter" } = Astro.props;
 ---
 
-<div class="site-header">
-  <header class="mw-header">
-    <a class="mw-header__brand" href="/">
-      <Logo />
-      <span class="mw-header__name">{site.name}</span>
-    </a>
-    <nav class="mw-header__nav" aria-label="Main">
-      {
-        nav.map((item) => (
-          <Link href={item.href} current={item.label !== "Contact" && item.key === current}>
-            {item.label}
-          </Link>
-        ))
-      }
-      <button class="mw-link site-theme" type="button" data-theme-toggle aria-pressed="false">Dark</button>
-      <Button href="#newsletter">Subscribe</Button>
-    </nav>
-    <button class="mw-header__menu" type="button" data-menu-button aria-expanded="false" aria-controls="site-menu" aria-label="Open menu">
-      <Icon name="menu" size={24} />
-    </button>
-  </header>
-  <nav id="site-menu" class="site-menu" data-menu hidden aria-label="Main">
+<header class="site-header">
+  <a class="site-brand" href="/">
+    <Logo animate />
+    <span class="site-brand__name">{site.name}</span>
+  </a>
+  <nav class="site-nav" aria-label="Main">
     {
       nav.map((item) => (
-        <a href={item.href} aria-current={item.label !== "Contact" && item.key === current ? "page" : undefined}>
+        <a href={item.href} aria-current={item.key === current ? "page" : undefined}>
           {item.label}
         </a>
       ))
     }
-    <button class="site-menu__theme" type="button" data-theme-toggle aria-pressed="false">Dark</button>
-    <Button href="#newsletter">Subscribe</Button>
+    <a class="mw-button mw-button--primary" href={subscribeHref}>Subscribe</a>
   </nav>
-</div>
+  <button type="button" class="theme-btn" data-theme-toggle aria-label="Switch to dark mode" title="Switch to dark mode">
+    <svg class="theme-btn__moon" aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M20 14.5A8 8 0 1 1 9.5 4a6.5 6.5 0 0 0 10.5 10.5z"></path>
+    </svg>
+    <svg class="theme-btn__sun" aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+      <circle cx="12" cy="12" r="4"></circle>
+      <path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"></path>
+    </svg>
+  </button>
+  <button type="button" class="menu-btn" data-menu-button aria-label="Open menu" aria-expanded="false" aria-controls="site-menu">
+    <svg width="34" height="28" viewBox="0 0 34 28" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round" aria-hidden="true">
+      <path d="M3 4h28M3 14h28M3 24h28"></path>
+    </svg>
+  </button>
+  <nav id="site-menu" class="menu-panel" data-menu hidden aria-label="Main (mobile)">
+    {
+      nav.map((item) => (
+        <a href={item.href} aria-current={item.key === current ? "page" : undefined}>
+          {item.label}
+        </a>
+      ))
+    }
+    <a class="mw-button mw-button--primary" href={subscribeHref}>Subscribe</a>
+  </nav>
+</header>

@@ -5,7 +5,6 @@ import portrait from "../../design-system/assets/photos/portrait-headshot.jpg";
 import BaseLayout from "../layouts/BaseLayout.astro";
 import Chip from "../components/Chip.astro";
 import ClosingPrompt from "../components/ClosingPrompt.astro";
-import Newsletter from "../components/Newsletter.astro";
 import { formatDate, getPosts, readTime, replyHref } from "../lib/posts";
 import { postJsonLd } from "../lib/seo";
 import { site } from "../lib/site";
@@ -48,5 +47,4 @@ const minutes = readTime(post.body ?? "");
       <ClosingPrompt question={post.data.closingQuestion} href={replyHref(post)} />
     </article>
   </div>
-  <Newsletter />
 </BaseLayout>

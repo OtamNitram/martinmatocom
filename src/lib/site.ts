@@ -3,6 +3,7 @@ export const site = {
   description:
     "Personal essays about leading teams, mentoring and bringing AI into a team. Written from Montevideo.",
   url: "https://martinmato.com",
+  email: "hi@martinmato.com",
   linkedin: "https://www.linkedin.com/in/martinmato/",
   x: "https://x.com/otamnitram",
   xHandle: "@otamnitram",
@@ -14,17 +15,17 @@ export const site = {
   postsPerPage: 2,
 } as const;
 
-export type NavKey = "blog" | "about" | "archive";
+export type NavKey = "blog" | "about" | "contact" | "archive";
 
 export const nav = [
   { key: "blog" as const, label: "Blog", href: "/" },
   { key: "about" as const, label: "About", href: "/about" },
-  { key: "about" as const, label: "Contact", href: "/about#contact" },
+  { key: "contact" as const, label: "Contact", href: "/contact" },
 ];
 
 export const footerNav = [
-  { label: "Posts", href: "/archive" },
+  { label: "Blog", href: "/" },
   { label: "About", href: "/about" },
-  { label: "Contact", href: "/about#contact" },
+  { label: "Contact", href: "/contact" },
   { label: "RSS", href: "/rss.xml" },
 ];
