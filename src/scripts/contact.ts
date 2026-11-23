@@ -34,7 +34,7 @@ document.querySelectorAll<HTMLElement>("[data-contact-root]").forEach((root) => 
   form.addEventListener("submit", (event) => {
     event.preventDefault();
     const data = new FormData(form);
-    if (String(data.get("company") ?? "").trim() !== "") return;
+    if (String(data.get("_gotcha") ?? "").trim() !== "") return;
 
     const name = String(data.get("name") ?? "").trim();
     const email = String(data.get("email") ?? "").trim();

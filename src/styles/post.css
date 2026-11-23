@@ -116,7 +116,8 @@
 
 .f-toc a .n {
   flex: none;
-  color: var(--surfaces-elevation);
+  /* The canvas draws these in surfaces-elevation (3.4:1); text-secondary keeps them readable (AA). */
+  color: var(--text-secondary);
   font-family: var(--font-mono);
   font-size: 14px;
   line-height: 1.2;

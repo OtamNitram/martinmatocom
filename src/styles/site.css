@@ -385,6 +385,28 @@ a:focus-visible {
   }
 }
 
+/* Small phones (320-399px): the canvas header (drawn at 390) needs a little less room to fit. */
+@media (max-width: 399px) {
+  .site-header {
+    gap: var(--space-xs);
+  }
+
+  .site-brand .mw-logo {
+    width: 47px;
+    height: 40px;
+  }
+
+  .site-brand__name {
+    font-size: 20px;
+  }
+
+  .theme-btn,
+  .menu-btn {
+    width: 40px;
+    height: 40px;
+  }
+}
+
 /* Logo: the script m writes itself once, then settles. */
 .logo-anim .m-trace {
   stroke-dasharray: 1 3;
