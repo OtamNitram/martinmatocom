@@ -14,7 +14,7 @@ This site is built from the design system in `design-system/`. It is the source 
 3. For a page, open its approved design in `design-system/pages/` (see `design-system/pages/README.md`).
 4. `design-system/reference/bundle.js` and `bundle.css` are the working React implementation of every component. Port their markup, class names and states into the site's own components. Do not import or ship the bundle.
 
-If the README and a page design disagree, the README wins. If something is not covered, ask instead of guessing.
+If the README and a page design in `design-system/pages/` disagree, the page design wins (it is the final canvas, Nov 2026); the designer's notes are in `design-system/pages/NOTES.md`. If something is not covered, ask instead of guessing.
 
 ## Tokens
 
