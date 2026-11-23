@@ -26,8 +26,9 @@ const allCount = posts.length === 1 ? "Showing 1 story" : `Showing all ${posts.l
       class="home-hero__photo"
       src={notebook}
       alt=""
-      widths={[640, 960, 1280, 1920]}
+      widths={[480, 720, 960, 1280, 1600]}
       sizes="(max-width: 767px) 100vw, 64vw"
+      quality={70}
       loading="eager"
       fetchpriority="high"
     />
@@ -126,7 +127,7 @@ const allCount = posts.length === 1 ? "Showing 1 story" : `Showing all ${posts.l
         featuredBooks.map((book) => (
           <a class="home-book" href={`/library#book-${book.id}`}>
             <span class="home-book__cover" aria-hidden="true">
-              <img src={coverOf(book)} alt="" width="400" height="600" loading="lazy" decoding="async" />
+              <Image src={coverOf(book)} alt="" widths={[200, 320, 400]} sizes="(max-width: 599px) 45vw, (max-width: 1023px) 30vw, 260px" />
             </span>
             <span class="home-book__title">{book.title}</span>
             <span class="home-book__author">{book.author}</span>

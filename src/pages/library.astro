@@ -1,17 +1,24 @@
 ---
+import { Image, getImage } from "astro:assets";
 import BaseLayout from "../layouts/BaseLayout.astro";
+import { site } from "../lib/site";
 import { bookGroups, books, coverOf } from "../data/library";
 import { libraryNodes } from "../lib/seo";
 import "../styles/library.css";
 
 const groupId = (group: string) => `g-${group.toLowerCase().replace(/&/g, "and").replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "")}`;
 const groups = bookGroups.map((group) => ({ group, id: groupId(group), books: books.filter((book) => book.group === group) }));
+const coverUrls = Object.fromEntries(
+  await Promise.all(
+    books.map(async (book) => [book.id, new URL((await getImage({ src: coverOf(book), width: 400, format: "jpg" })).src, site.url).href]),
+  ),
+);
 ---
 
 <BaseLayout
   title="Library"
   description="Books Martín Mato keeps going back to: on leading teams, conversations, AI and product, and habits."
-  jsonLd={libraryNodes(books)}
+  jsonLd={libraryNodes(books, coverUrls)}
 >
   <div class="library-page">
     <section class="lib-intro">
@@ -28,10 +35,17 @@ const groups = bookGroups.map((group) => ({ group, id: groupId(group), books: bo
             {group}
           </h2>
           <div class="lib-grid">
-            {list.map((book) => (
+            {list.map((book, index) => (
               <article id={`book-${book.id}`} class="lib-book">
                 <div class="lib-cover" aria-hidden="true">
-                  <img src={coverOf(book)} alt="" width="400" height="600" loading="lazy" decoding="async" />
+                  <Image
+                    src={coverOf(book)}
+                    alt=""
+                    widths={[128, 256]}
+                    sizes="(max-width: 599px) 96px, 128px"
+                    loading={group === bookGroups[0] && index < 2 ? "eager" : "lazy"}
+                    fetchpriority={group === bookGroups[0] && index === 0 ? "high" : undefined}
+                  />
                 </div>
                 <div class="lib-book__text">
                   <h3 class="lib-book__title">{book.title}</h3>

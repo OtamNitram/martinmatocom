@@ -1,4 +1,7 @@
-/** The books on the Library page (design-system/pages/library.dc.html). Covers live in public/books/<id>.jpg. */
+/** The books on the Library page (design-system/pages/library.dc.html). Covers live in src/assets/books/<id>.jpg. */
+import type { ImageMetadata } from "astro";
+
+const covers = import.meta.glob<{ default: ImageMetadata }>("../assets/books/*.jpg", { eager: true });
 
 export const bookGroups = ["Leading teams", "Conversations", "AI & product", "Habits & life"] as const;
 export type BookGroup = (typeof bookGroups)[number];
@@ -51,6 +54,9 @@ export const featuredBooks = ["multipliers", "coaching-el-arte-de-soplar-brasas"
   .map((id) => books.find((book) => book.id === id))
   .filter((book): book is Book => Boolean(book));
 
-export function coverOf(book: Book) {
-  return `/books/${book.id}.jpg`;
+/** The cover, for astro:assets (resized and served as WebP). */
+export function coverOf(book: Book): ImageMetadata {
+  const cover = covers[`../assets/books/${book.id}.jpg`];
+  if (!cover) throw new Error(`Missing cover for ${book.id} in src/assets/books/`);
+  return cover.default;
 }

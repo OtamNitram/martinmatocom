@@ -29,7 +29,7 @@ The `/_blob/...` URLs in these files are uploads inside the canvas and do not re
 | `be0b5ffe…` | `../assets/photos/hero-notebook.jpg` | Home hero |
 | `e8403d4a…`, `85beef4f…` | `../assets/photos/portrait-headshot.jpg` | Home intro, post byline, tracker and sign-off |
 | `e2c0e21f…` | `../assets/photos/about-night-notebook.jpg` | About hero |
-| Book covers | `../../public/books/<id>.jpg` | Home Library teaser, Library page |
+| Book covers | `../../src/assets/books/<id>.jpg` | Home Library teaser, Library page |
 
 The first post also carries the About photo mirrored and cropped to 3:2 (`src/content/posts/images/the-armor-i-called-confidence.jpg`).
 

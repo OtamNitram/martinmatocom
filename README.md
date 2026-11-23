@@ -18,7 +18,7 @@ npm run lighthouse   # after a build: performance, accessibility, best practices
 | `/` | Home: hero, author intro, Latest stories with topic filters, Library teaser |
 | `/about` | Story timeline, how I work, where to start, contact form in the dark ending |
 | `/contact` | Contact form with topic chips |
-| `/library` | The 22 books (`src/data/library.ts`, covers in `public/books/`) |
+| `/library` | The 22 books (`src/data/library.ts`, covers in `src/assets/books/`) |
 | `/<slug>` | A post (`src/content/posts/<slug>.md`) |
 | `/rss.xml`, `/sitemap-index.xml`, `/llms.txt`, `/llms-full.txt` | Feeds and maps for readers, search engines and AI models |
 

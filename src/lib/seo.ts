@@ -100,7 +100,7 @@ export function contactNodes(): Node[] {
   ];
 }
 
-export function libraryNodes(books: Book[]): Node[] {
+export function libraryNodes(books: Book[], coverUrls: Record<string, string> = {}): Node[] {
   return [
     {
       "@type": "CollectionPage",
@@ -121,7 +121,7 @@ export function libraryNodes(books: Book[]): Node[] {
             "@id": `${site.url}/library#book-${book.id}`,
             name: book.title,
             author: book.author.split(/,\s*|\s&\s/).map((name) => ({ "@type": "Person", name })),
-            image: `${site.url}/books/${book.id}.jpg`,
+            ...(coverUrls[book.id] ? { image: coverUrls[book.id] } : {}),
             genre: book.group,
           },
         })),
