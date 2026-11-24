@@ -1,17 +1,53 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
-import Button from "../components/Button.astro";
 ---
 
-<BaseLayout title="Page not found">
-  <div class="page">
-    <div class="stack">
-      <p class="type-caption-mono">404</p>
-      <h1 class="type-h1">This page is not here.</h1>
-      <p class="type-body">The story may have moved. The blog is still where it was.</p>
-      <div>
-        <Button href="/" variant="secondary">Back to the blog</Button>
-      </div>
+<BaseLayout title="Page not found" description="This page is not here. The blog is still where it was." noindex>
+  <section class="not-found">
+    <p class="eyebrow">404</p>
+    <h1 class="not-found__title">This page is not here.</h1>
+    <p class="lead">The story may have moved. The blog is still where it was.</p>
+    <div class="not-found__actions">
+      <a class="mw-button mw-button--primary" href="/">Back to the blog</a>
+      <a class="not-found__link" href="/library">Browse the library</a>
     </div>
-  </div>
+  </section>
 </BaseLayout>
+
+<style>
+  .not-found {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-l);
+    max-width: var(--measure-page);
+    padding: var(--section) var(--side) var(--space-xxl);
+  }
+
+  .not-found__title {
+    margin: 0;
+    font-size: 48px;
+    font-weight: 700;
+    line-height: 48px;
+  }
+
+  .not-found__actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--space-l);
+    padding-top: var(--space-xs);
+  }
+
+  .not-found__link {
+    padding: var(--space-xxs) 0;
+    font-family: var(--font-sans);
+    font-size: 14px;
+    font-weight: 500;
+  }
+
+  @media (max-width: 599px) {
+    .not-found__title {
+      font-size: 36px;
+    }
+  }
+</style>

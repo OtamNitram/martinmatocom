@@ -3,21 +3,52 @@ import { LOGO } from "../lib/marks";
 
 interface Props {
   height?: number;
+  /** Accessible name. Leave it out when the visible name sits next to the mark (as in the header). */
   label?: string;
+  /** Write the script m on load, as in the header. */
+  animate?: boolean;
   class?: string;
 }
 
-const { height = 48, label = "Martín Mato", class: className } = Astro.props;
+const { height = 48, label, animate = false, class: className } = Astro.props;
 const width = Math.round((height * 57) / 48);
+const script = LOGO.find((part) => part.part === "m");
+const blocks = LOGO.filter((part) => part.part === "M");
+const maskId = "mm-logo-mask";
 ---
 
 <svg
-  class:list={["mw-logo", className]}
+  class:list={["mw-logo", animate && "logo-anim", className]}
   height={height}
   width={width}
   viewBox="0 0 57 48"
-  role="img"
+  role={label ? "img" : undefined}
   aria-label={label}
+  aria-hidden={label ? undefined : "true"}
 >
-  {LOGO.map((part) => <path d={part.d} class={part.part === "m" ? "mw-logo__m" : "mw-logo__M"} />)}
+  {
+    animate && script ? (
+      <>
+        <defs>
+          <mask id={maskId} maskUnits="userSpaceOnUse" x="0" y="0" width="57" height="48">
+            <path
+              class="m-trace"
+              d="M26.7 35.6 C26.8 29 27.4 21 28.7 14.4 C30.4 19.4 31.8 14.8 34.2 14.8 C36.9 15 36.4 24 34.9 31.6 C35.7 26 37.5 21.2 39.7 20.3 C41.7 20.2 41.2 26 40.8 30 C40.5 33 40.5 35.4 41.4 34.9 C42 34.6 42.5 33.4 42.7 32.6"
+              pathLength="1"
+              stroke="#fff"
+              stroke-width="5.2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              fill="none"
+            />
+          </mask>
+        </defs>
+        <path class="m-ink mw-logo__m" d={script.d} mask={`url(#${maskId})`} />
+        <path class="m-full mw-logo__m" d={script.d} />
+      </>
+    ) : script ? (
+      <path class="mw-logo__m" d={script.d} />
+    ) : null
+  }
+  {blocks.map((part) => <path class="mw-logo__M" d={part.d} />)}
 </svg>

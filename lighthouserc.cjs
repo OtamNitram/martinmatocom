@@ -2,7 +2,13 @@ module.exports = {
   ci: {
     collect: {
       staticDistDir: "./dist",
-      url: ["http://localhost/", "http://localhost/about/", "http://localhost/the-armor-i-called-confidence/"],
+      url: [
+        "http://localhost/",
+        "http://localhost/about/",
+        "http://localhost/contact/",
+        "http://localhost/library/",
+        "http://localhost/the-armor-i-called-confidence/",
+      ],
       numberOfRuns: 1,
     },
     assert: {

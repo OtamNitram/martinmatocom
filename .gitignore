@@ -24,5 +24,8 @@ pnpm-debug.log*
 # lighthouse reports
 .lighthouseci/
 
+# wrangler local state (wrangler dev)
+.wrangler/
+
 # jetbrains setting folder
 .idea/

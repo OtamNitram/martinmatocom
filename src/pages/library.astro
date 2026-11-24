@@ -1,0 +1,72 @@
+---
+import { Image, getImage } from "astro:assets";
+import BaseLayout from "../layouts/BaseLayout.astro";
+import { site } from "../lib/site";
+import { bookGroups, books, coverOf } from "../data/library";
+import { libraryNodes } from "../lib/seo";
+import "../styles/library.css";
+
+const groupId = (group: string) => `g-${group.toLowerCase().replace(/&/g, "and").replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "")}`;
+const groups = bookGroups.map((group) => ({ group, id: groupId(group), books: books.filter((book) => book.group === group) }));
+const coverUrls = Object.fromEntries(
+  await Promise.all(
+    books.map(async (book) => [book.id, new URL((await getImage({ src: coverOf(book), width: 400, format: "jpg" })).src, site.url).href]),
+  ),
+);
+---
+
+<BaseLayout
+  title="Library"
+  description="Books Martín Mato keeps going back to: on leading teams, conversations, AI and product, and habits."
+  jsonLd={libraryNodes(books, coverUrls)}
+>
+  <div class="library-page">
+    <section class="lib-intro">
+      <h1 class="lib-intro__title">Library</h1>
+      <p class="lib-intro__lead">Books I keep going back to.</p>
+    </section>
+
+    <hr class="lib-rule" />
+
+    {
+      groups.map(({ group, id, books: list }) => (
+        <section class="lib-group" aria-labelledby={id}>
+          <h2 id={id} class="lib-group__title">
+            {group}
+          </h2>
+          <div class="lib-grid">
+            {list.map((book, index) => (
+              <article id={`book-${book.id}`} class="lib-book">
+                <div class="lib-cover" aria-hidden="true">
+                  <Image
+                    src={coverOf(book)}
+                    alt=""
+                    widths={[128, 256]}
+                    sizes="(max-width: 599px) 96px, 128px"
+                    loading={group === bookGroups[0] && index < 2 ? "eager" : "lazy"}
+                    fetchpriority={group === bookGroups[0] && index === 0 ? "high" : undefined}
+                  />
+                </div>
+                <div class="lib-book__text">
+                  <h3 class="lib-book__title">{book.title}</h3>
+                  <p class="lib-book__author">{book.author}</p>
+                  {book.note ? <p class="lib-note">{book.note}</p> : null}
+                  <a
+                    class="lib-book__link"
+                    href={book.amazonUrl}
+                    target="_blank"
+                    rel="noopener"
+                    data-umami-event="amazon-click"
+                    data-umami-event-book={book.id}
+                  >
+                    On Amazon<span class="visually-hidden"> (opens in a new tab)</span> ↗
+                  </a>
+                </div>
+              </article>
+            ))}
+          </div>
+        </section>
+      ))
+    }
+  </div>
+</BaseLayout>

@@ -1,3 +1,4 @@
+# Search engines and AI assistants are welcome: the stories are meant to be read, quoted and discussed.
 User-agent: *
 Allow: /
 
@@ -10,13 +11,25 @@ Allow: /
 User-agent: ChatGPT-User
 Allow: /
 
-User-agent: PerplexityBot
-Allow: /
-
 User-agent: ClaudeBot
 Allow: /
 
+User-agent: Claude-SearchBot
+Allow: /
+
+User-agent: Claude-User
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: Perplexity-User
+Allow: /
+
 User-agent: Google-Extended
+Allow: /
+
+User-agent: Applebot-Extended
 Allow: /
 
 Sitemap: https://martinmato.com/sitemap-index.xml

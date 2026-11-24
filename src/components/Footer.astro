@@ -1,14 +1,12 @@
 ---
-import Link from "./Link.astro";
-import { footerNav } from "../lib/site";
+import { footerNav, site } from "../lib/site";
 
 const year = new Date().getFullYear();
 ---
 
-<footer class="mw-footer">
-  <span class="mw-footer__copy">© {year} Martín Mato</span>
-  <hr class="mw-footer__divider" />
-  <nav class="mw-footer__nav" aria-label="Footer">
-    {footerNav.map((item) => <Link href={item.href}>{item.label}</Link>)}
+<footer class="site-footer">
+  <p class="site-footer__copy">© {year} {site.name}</p>
+  <nav class="site-footer__nav" aria-label="Footer">
+    {footerNav.map((item) => <a href={item.href}>{item.label}</a>)}
   </nav>
 </footer>

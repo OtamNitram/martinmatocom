@@ -2,57 +2,113 @@
 import "../../design-system/tokens.css";
 import "../styles/components.css";
 import "../styles/site.css";
+import { getImage } from "astro:assets";
+import serifFont from "../../design-system/fonts/source-serif-4-latin-opsz-normal.woff2?url";
+import portrait from "../../design-system/assets/photos/portrait-headshot.jpg";
 import Header from "../components/Header.astro";
-import Footer from "../components/Footer.astro";
-import { personJsonLd } from "../lib/seo";
+import DarkEnd from "../components/DarkEnd.astro";
+import Newsletter from "../components/Newsletter.astro";
+import { personNode, websiteNode } from "../lib/seo";
 import { site, type NavKey } from "../lib/site";
 
 interface Props {
   title: string;
   description?: string;
   current?: NavKey;
+  /** Share image (path or URL); 1200×630. */
   image?: string;
-  jsonLd?: Record<string, unknown>;
+  imageAlt?: string;
+  /** The page's own schema.org nodes; WebSite and Person are always added. */
+  jsonLd?: Record<string, unknown>[];
+  /** Article metadata for a post. */
+  article?: { published: Date; modified: Date; section: string };
+  noindex?: boolean;
 }
 
-const { title, description = site.description, current, image = "/og/site.png", jsonLd } = Astro.props;
+const {
+  title,
+  description = site.description,
+  current,
+  image = "/og/site.png",
+  imageAlt,
+  jsonLd = [],
+  article,
+  noindex = false,
+} = Astro.props;
+
+/** A page that fills the dark ending itself (About, with its contact band) has no newsletter of its own. */
+const hasOwnEnding = Astro.slots.has("ending");
 const documentTitle = title === site.name ? site.name : `${title} · ${site.name}`;
 const canonical = new URL(Astro.url.pathname, site.url).href;
 const imageUrl = new URL(image, site.url).href;
+const personImage = await getImage({ src: portrait, width: 600, height: 600, format: "jpg" });
+const graph = {
+  "@context": "https://schema.org",
+  "@graph": [websiteNode(), personNode(new URL(personImage.src, site.url).href), ...jsonLd],
+};
 const verification = import.meta.env.PUBLIC_GOOGLE_SITE_VERIFICATION;
-const beacon = import.meta.env.PUBLIC_CF_BEACON_TOKEN;
 ---
 
 <!doctype html>
 <html lang="en">
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="generator" content={Astro.generator} />
     <title>{documentTitle}</title>
     <meta name="description" content={description} />
     <link rel="canonical" href={canonical} />
+    {noindex ? <meta name="robots" content="noindex" /> : <meta name="robots" content="index, follow, max-image-preview:large" />}
     <meta name="author" content={site.name} />
+    <meta name="theme-color" content="#fafafa" data-theme-color />
+    <link rel="preload" href={serifFont} as="font" type="font/woff2" crossorigin />
+
+    <meta property="og:site_name" content={site.name} />
+    <meta property="og:locale" content="en_US" />
+    <meta property="og:type" content={article ? "article" : "website"} />
     <meta property="og:title" content={documentTitle} />
     <meta property="og:description" content={description} />
     <meta property="og:url" content={canonical} />
     <meta property="og:image" content={imageUrl} />
-    <meta property="og:type" content={jsonLd ? "article" : "website"} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content={imageAlt ?? documentTitle} />
+    {
+      article ? (
+        <>
+          <meta property="article:published_time" content={article.published.toISOString()} />
+          <meta property="article:modified_time" content={article.modified.toISOString()} />
+          <meta property="article:section" content={article.section} />
+          <meta property="article:author" content={`${site.url}/about`} />
+        </>
+      ) : null
+    }
     <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:site" content={site.xHandle} />
     <meta name="twitter:creator" content={site.xHandle} />
     <meta name="twitter:title" content={documentTitle} />
     <meta name="twitter:description" content={description} />
     <meta name="twitter:image" content={imageUrl} />
+    <meta name="twitter:image:alt" content={imageAlt ?? documentTitle} />
     {verification ? <meta name="google-site-verification" content={verification} /> : null}
-    <script type="application/ld+json" set:html={JSON.stringify(personJsonLd())} />
-    {jsonLd ? <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} /> : null}
+
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="icon" href="/favicon.ico" sizes="32x32" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/site.webmanifest" />
     <link rel="alternate" type="application/rss+xml" title={`${site.name} RSS`} href="/rss.xml" />
+    <link rel="alternate" type="text/plain" title="Summary for language models" href="/llms.txt" />
+    <link rel="me" href={site.linkedin} />
+    <link rel="me" href={site.github} />
+
+    <script type="application/ld+json" set:html={JSON.stringify(graph)} />
     <script is:inline>
       (function () {
         try {
           if (localStorage.getItem("theme") === "dark") {
             document.documentElement.setAttribute("data-theme", "dark");
+            var meta = document.querySelector("meta[data-theme-color]");
+            if (meta) meta.setAttribute("content", "#121b27");
           }
         } catch (e) {}
       })();
@@ -60,18 +116,18 @@ const beacon = import.meta.env.PUBLIC_CF_BEACON_TOKEN;
   </head>
   <body>
     <a class="skip" href="#main">Skip to content</a>
-    <Header current={current} />
+    <Header current={current} subscribeHref={hasOwnEnding ? "/#newsletter" : "#newsletter"} />
     <main id="main">
       <slot />
     </main>
-    <Footer />
+    <DarkEnd>
+      <slot name="ending"><Newsletter /></slot>
+    </DarkEnd>
     <script>
       import "../scripts/shell.ts";
+      import "../scripts/analytics.ts";
     </script>
-    {
-      beacon ? (
-        <script is:inline defer src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon={`{"token":"${beacon}"}`} />
-      ) : null
-    }
+    <!-- Umami: cookieless analytics, counted only on martinmato.com (not in local dev or previews) -->
+    <script is:inline defer src="https://cloud.umami.is/script.js" data-website-id={site.umamiWebsiteId} data-domains="martinmato.com"></script>
   </body>
 </html>

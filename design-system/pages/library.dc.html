@@ -1,0 +1,506 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Library · Martín Mato</title>
+<script src="./support.js"></script>
+<link rel="stylesheet" href="ds/martins-web/components/bundle.css">
+<script src="ds/martins-web/components/bundle.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600;700&amp;family=Space+Mono&amp;family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,500;0,8..60,600;0,8..60,700;1,8..60,400;1,8..60,500&amp;display=swap">
+<style>
+:root{--surfaces-white:#fafafa;--surfaces-highlights:#f2f6f8;--surfaces-strokes:#cdd8df;--surfaces-elevation:#7a8b99;--surfaces-elevation-20:rgba(122,139,153,0.2);--surfaces-divider:#364552;--text-primary:#121b27;--text-secondary:#364552;--text-contrast:#f2f6f8;--button-dark:#013345;--button-mid:#216375;--button-light:#3d9c9a;--accent:#22d48d;--teal-500:#3d9c9a;--font-serif:"Source Serif 4",Georgia,"Times New Roman",serif;--font-sans:"Instrument Sans",system-ui,-apple-system,"Segoe UI",sans-serif;--space-xxs:4px;--space-xs:8px;--space-s:12px;--space-m:16px;--space-l:24px;--space-xl:32px;--space-xxl:96px;--space-l-mobile:16px;--radius-none:0px;--radius-card:8px;--shadow-elevation:0px 4px 4px 0px rgba(122,139,153,0.2);--shadow-highlights:0px 0px 15px 0px rgba(54,69,82,0.2);--measure-reading:680px;--measure-page:800px;--font-mono:"Space Mono",ui-monospace,"SFMono-Regular",Menlo,monospace;--gutter:96px;--container:1440px;--side:max(var(--gutter),calc((100% - var(--container)) / 2 + var(--gutter)))}
+@media (max-width: 1023px){:root{--gutter:48px}}
+@media (max-width: 599px){:root{--gutter:16px}}
+a{color:#121b27}
+a:not(.mw-button):hover{color:#216375}
+a:focus-visible{outline:1px solid #216375;outline-offset:3px}
+body{margin:0;background:#fafafa}
+.t-h1{font-size:48px;line-height:48px !important}
+.t-body{font-size:20px}
+.field{width:100%;min-height:48px;box-sizing:border-box;padding:8px 16px;border:1px solid var(--surfaces-strokes);border-radius:4px;background:var(--surfaces-highlights);color:var(--text-primary);font-family:var(--font-serif);font-size:16px}
+.field:focus-visible{outline:1px solid var(--button-mid);outline-offset:2px}
+.lbl{font-family:var(--font-sans);font-weight:500;font-size:14px;line-height:1.2}
+.err{margin:0;font-size:14px;line-height:1.35;color:#9b2c1f}
+@media (max-width: 599px){.t-h1{font-size:36px}.t-body{font-size:16px}}
+
+/* ================= Site kit: shared by Blog, About, Post and Contact =================
+   Header, dark ending (band + footer), type and spacing from the design system, light/dark theme.
+   Rhythm: every section pads 48 top and bottom (24 on phones), so two sections meet at one xxl (96 / 48). */
+:root{--section:48px}
+@media (max-width: 599px){:root{--section:24px}}
+.site-header{background:#fafafa}
+.theme-btn{display:inline-flex;align-items:center;justify-content:center;width:44px;height:44px;margin-left:auto;padding:0;border:1px solid #cdd8df;border-radius:4px;background:transparent;color:#013345;cursor:pointer}
+.theme-btn:hover{border-color:#216375;color:#216375}
+.theme-btn:focus-visible{outline:2px solid #216375;outline-offset:2px}
+header .nav + .theme-btn{margin-left:0}
+@media (min-width: 768px){.site-header{gap:16px !important}.site-header .nav{margin-left:auto}}
+.menu-btn{display:none;align-items:center;justify-content:center;width:48px;height:48px;padding:0;border:0;border-radius:4px;background:none;color:#013345;cursor:pointer}
+.menu-btn:hover{color:#216375}
+.menu-btn:focus-visible{outline:1px solid #216375;outline-offset:2px}
+.menu-panel{display:none}
+.menu-panel a{display:block;padding:14px 0;border-bottom:1px solid #cdd8df;font-family:var(--font-sans);font-weight:500;font-size:16px;line-height:1.2;color:#121b27;text-decoration:none}
+.menu-panel a[aria-current="page"]{color:#216375}
+.menu-panel a.btn{margin-top:16px;padding:12px 16px;border:0;border-radius:4px;background:#013345;color:#f2f6f8;text-align:center}
+.nav a{text-decoration:underline;text-underline-offset:3px}
+.nav a:hover{text-decoration:none}
+.btn:hover{background:#216375 !important}
+.logo-anim .m-trace{stroke-dasharray:1 3;stroke-dashoffset:1.05;animation:m-write 1.5s cubic-bezier(.55,.1,.35,1) .35s forwards}
+.logo-anim .m-full{opacity:0;animation:m-settle .25s ease 1.8s forwards}
+@keyframes m-write{to{stroke-dashoffset:0}}
+@keyframes m-settle{to{opacity:1}}
+@media (prefers-reduced-motion: reduce){.logo-anim .m-trace{animation:none;stroke-dashoffset:0}.logo-anim .m-full{animation:none;opacity:1}}
+.band{width:100%;box-sizing:border-box;padding:var(--section) var(--side)}
+.dark{background:#013345;color:#f2f6f8}
+.dark a{color:#f2f6f8}
+.dark a:hover{color:#97cfcc}
+footer.dark a:focus-visible{outline-color:#97cfcc}
+.dark .mw-input__label{color:#f2f6f8}
+.dark .mw-button--primary{background:#3d9c9a;border-color:#3d9c9a;color:#121b27}
+.dark .mw-button--primary:hover,.dark .mw-button--primary:focus-visible{background:#68b6b2;border-color:#68b6b2}
+.dark .mw-button--secondary{border-color:#97cfcc;color:#f2f6f8}
+.dark .mw-button{min-height:48px;padding:12px 16px}
+.news{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:64px;align-items:end;max-width:1088px}
+.sub-row{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:16px;align-items:end}
+.dark-end{flex-grow:1;display:flex;flex-direction:column;background:linear-gradient(to bottom,#013345 0%,#013345 62%,#00222e 100%);color:#f2f6f8}
+.dark-end > .dark{background:transparent}
+.dark-end > footer{margin-top:auto}
+/* Type, from the design system */
+.eyebrow{margin:0;font-family:var(--font-mono);font-size:18px;line-height:1.35;text-transform:uppercase;letter-spacing:0}
+.lead{margin:0;font-size:20px;line-height:1.35}
+.h2{margin:0;font-size:32px;font-weight:600;line-height:1.35}
+.hero-h1{font-size:48px !important;line-height:48px !important}
+.meta{font-size:14px !important;letter-spacing:0 !important}
+@media (max-width: 1023px){.news{grid-template-columns:minmax(0,1fr);gap:40px;align-items:start}}
+@media (max-width: 767px){
+header .nav{display:none !important}
+.menu-btn{display:flex}
+.menu-panel{position:absolute;left:0;right:0;top:100%;display:flex;flex-direction:column;padding:8px var(--side) 24px;background:#fafafa;border-top:1px solid #cdd8df;box-shadow:0px 4px 4px 0px rgba(122,139,153,0.2)}
+footer{flex-direction:column;align-items:flex-start !important}
+footer .nav{flex-wrap:wrap;gap:8px 16px !important}
+}
+@media (max-width: 599px){
+.eyebrow{font-size:14px}
+.lead{font-size:16px}
+.h2{font-size:24px}
+.hero-h1{font-size:36px !important;line-height:48px !important}
+.sub-row{grid-template-columns:minmax(0,1fr)}
+}
+
+/* ===== Dark theme: design system dark tokens. Same structure, inverted surfaces. ===== */
+.theme-dark{--surfaces-white:#121b27;--surfaces-highlights:#212d38;--surfaces-strokes:#364552;--surfaces-divider:#cdd8df;--text-primary:#fafafa;--text-secondary:#cdd8df;--button-dark:#3d9c9a;--button-mid:#97cfcc;--text-contrast:#121b27;background:#121b27 !important;color:#fafafa !important}
+.theme-dark a{color:#fafafa}
+.theme-dark a:not(.mw-button):hover{color:#97cfcc}
+.theme-dark a:focus-visible,.theme-dark button:focus-visible{outline-color:#97cfcc}
+.theme-dark .site-header{background:#121b27 !important;box-shadow:0 1px 0 #364552 !important}
+.theme-dark .site-header a[style]{color:#fafafa !important}
+.theme-dark .site-header a.btn{background:#3d9c9a !important;color:#121b27 !important}
+.theme-dark .site-header svg path[fill="#121b27"]{fill:#fafafa}
+.theme-dark .menu-btn{color:#fafafa}
+.theme-dark .menu-panel{background:#121b27;border-top-color:#364552;box-shadow:none}
+.theme-dark .menu-panel a{color:#fafafa;border-bottom-color:#364552}
+.theme-dark .menu-panel a.btn{background:#3d9c9a;color:#121b27}
+.theme-dark .theme-btn{border-color:#364552;color:#fafafa}
+.theme-dark .theme-btn:hover{border-color:#97cfcc;color:#97cfcc}
+/* inline colours written for the light theme */
+.theme-dark [style*="background: #fafafa"],.theme-dark [style*="background: rgb(250, 250, 250)"],.theme-dark [style*="background-color: rgb(250, 250, 250)"]{background:#121b27 !important}
+.theme-dark [style*="background: #f2f6f8"],.theme-dark [style*="background: rgb(242, 246, 248)"],.theme-dark [style*="background-color: rgb(242, 246, 248)"]{background:#212d38 !important}
+.theme-dark [style*="background: #cdd8df"],.theme-dark [style*="background: rgb(205, 216, 223)"],.theme-dark [style*="background-color: rgb(205, 216, 223)"]{background:#364552 !important}
+.theme-dark [style*="background: #364552"],.theme-dark [style*="background: rgb(54, 69, 82)"],.theme-dark [style*="background-color: rgb(54, 69, 82)"]{background:#cdd8df !important}
+.theme-dark [style*="background: #013345"],.theme-dark [style*="background: rgb(1, 51, 69)"],.theme-dark [style*="background-color: rgb(1, 51, 69)"]{background:#3d9c9a !important;color:#121b27 !important}
+.theme-dark [style*="color: #121b27"],.theme-dark [style*="color: rgb(18, 27, 39)"]{color:#fafafa !important}
+.theme-dark [style*="color: #364552"],.theme-dark [style*="color: rgb(54, 69, 82)"]{color:#cdd8df !important}
+.theme-dark [style*="border: 1px solid #013345"],.theme-dark [style*="border: 1px solid rgb(1, 51, 69)"]{border-color:#97cfcc !important;color:#97cfcc !important}
+.theme-dark .dark-end [style*="background: #013345"],.theme-dark .dark-end [style*="background: rgb(1, 51, 69)"],.theme-dark .dark-end [style*="background-color: rgb(1, 51, 69)"]{background:transparent !important;color:inherit !important}
+/* chips, covers, cards */
+.theme-dark .chip-f,.theme-dark .tchip,.theme-dark .chip{background:#212d38 !important;border-color:#364552 !important;color:#fafafa !important}
+.theme-dark .chip-f[aria-pressed="true"]{border-color:#3d9c9a !important}
+.theme-dark .cover{color:#121b27 !important}
+.theme-dark .cover[style*="background: #013345"],.theme-dark .cover[style*="background: rgb(1, 51, 69)"],.theme-dark .cover[style*="background-color: rgb(1, 51, 69)"]{background:#013345 !important;color:#f2f6f8 !important}
+.theme-dark .cover[style*="background: #cdd8df"],.theme-dark .cover[style*="background: rgb(205, 216, 223)"],.theme-dark .cover[style*="background-color: rgb(205, 216, 223)"]{background:#cdd8df !important}
+.theme-dark .card:hover::before,.theme-dark .card:focus-within::before{background:#212d38}
+.theme-dark .card .post-title{color:#fafafa}
+.theme-dark .read-more,.theme-dark .num{color:#97cfcc}
+.theme-dark .meta,.theme-dark .flap-text{color:#cdd8df}
+.theme-dark .flap-text strong{color:#fafafa}
+.theme-dark .story::before{background:#364552}
+.theme-dark .field{background:#212d38;border-color:#364552;color:#fafafa}
+.theme-dark .lbl{color:#fafafa}
+.theme-dark .err{color:#f2a99b}
+
+/* Contact: same column as the rest, form in the 800 measure */
+.contact-main > *{max-width:800px}
+.contact-main{flex-grow:0}
+
+/* phones: logo on one line, footer links aligned with the copyright, closing headlines at phone size */
+@media (max-width: 599px){
+.site-header > a > span{font-size:24px !important;white-space:nowrap}
+footer .nav{margin-left:-8px}
+#news-title,#contact-title{font-size:32px !important;line-height:1.15 !important}
+}
+
+/* Library page: intro in the 800 measure, then one block per group. Cover left, the note right. */
+.library-page > .lib-intro{max-width:800px}
+.lib-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:48px 64px}
+.lib-book{display:grid;grid-template-columns:128px minmax(0,1fr);gap:24px;align-items:start;scroll-margin-top:24px}
+.lib-book:target .lib-cover{outline:2px solid #3d9c9a;outline-offset:4px}
+.sr{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+@media (max-width: 1023px){.lib-grid{grid-template-columns:minmax(0,1fr);gap:40px}}
+@media (max-width: 599px){.lib-book{grid-template-columns:96px minmax(0,1fr);gap:16px}.lib-group h2{font-size:24px !important}.lib-note{font-size:16px !important}.lib-grid{gap:32px}}
+</style>
+</helmet>
+<div class="{{themeCls}}" style="min-height: 100vh; display: flex; flex-direction: column; background: #fafafa; color: #121b27; font-family: var(--font-serif)">
+
+<header class="site-header" style="position: relative; z-index: 2; display: flex; align-items: center; justify-content: space-between; gap: 24px; padding: 24px var(--side); background: #fafafa; box-shadow: 0px 4px 4px 0px rgba(122,139,153,0.2)">
+<a href="Main.dc.html" style="display: flex; align-items: center; text-decoration: none; color: #121b27">
+<svg class="logo-anim" width="57" height="48" viewBox="0 0 57 48" fill="none" aria-hidden="true" style="display: block">
+<defs><mask id="m-write-post" maskUnits="userSpaceOnUse" x="0" y="0" width="57" height="48"><path class="m-trace" d="M26.7 35.6 C26.8 29 27.4 21 28.7 14.4 C30.4 19.4 31.8 14.8 34.2 14.8 C36.9 15 36.4 24 34.9 31.6 C35.7 26 37.5 21.2 39.7 20.3 C41.7 20.2 41.2 26 40.8 30 C40.5 33 40.5 35.4 41.4 34.9 C42 34.6 42.5 33.4 42.7 32.6" pathLength="1" stroke="#fff" stroke-width="5.2" stroke-linecap="round" stroke-linejoin="round" fill="none"></path></mask></defs>
+<path class="m-ink" d="M32.746 12C33.737 12.013 34.746 12.003 35.737 12.003L41.145 12.003L41.141 17.533L41.14 19.005C41.14 19.225 41.15 19.621 41.122 19.825C41.296 20.004 41.516 20.173 41.645 20.394C41.969 20.948 42.109 21.668 42.127 22.31C42.185 24.299 41.695 26.284 41.227 28.203C41.192 28.346 41.157 28.489 41.134 28.634C41.156 28.856 41.149 29.195 41.148 29.426L41.145 30.72C41.144 31.737 41.174 32.9 41.144 33.907C41.397 33.699 41.64 33.19 41.793 32.895C41.87 32.743 41.927 32.556 42.035 32.424C42.369 32.018 42.847 32.629 42.732 32.988C42.431 33.925 41.865 34.926 41.042 35.489C40.678 35.738 40.151 35.853 39.728 35.763C39.529 35.722 39.245 35.571 39.157 35.553C38.608 35.572 37.997 35.56 37.444 35.56L34.428 35.56C34.428 34.056 34.404 32.477 34.436 30.979C33.95 30.66 33.559 30.423 33.694 29.746C33.776 29.334 33.884 28.925 33.974 28.514C34.155 27.679 34.322 26.841 34.475 26C34.851 23.865 35.082 21.707 35.165 19.54C35.201 18.605 35.234 17.656 35.089 16.731C35.045 16.446 34.934 15.729 34.518 15.879C33.769 16.148 33.229 17.129 32.82 17.777C31.491 20.152 30.64 22.954 29.876 25.559C29.332 27.415 28.749 29.504 28.344 31.38C28.179 32.118 28.046 32.862 27.945 33.611C27.883 34.079 27.879 34.654 27.757 35.074C27.644 35.464 27.302 35.867 26.893 35.957C26.605 36.02 26.384 36.028 26.111 35.882C25.96 35.8 25.846 35.597 25.785 35.556C25.569 35.179 25.632 34.522 25.638 34.096C25.649 33.373 25.675 32.651 25.716 31.93C25.843 29.687 26.047 27.449 26.326 25.221C26.427 24.388 26.522 23.498 26.649 22.672C26.701 22.499 26.72 22.24 26.744 22.054L26.873 21.05C27.056 19.678 27.254 18.308 27.467 16.94C27.542 16.442 27.625 15.945 27.714 15.449C27.775 15.106 27.871 14.386 28.095 14.118C28.761 13.263 30.318 14.006 30.484 14.882C30.536 15.156 30.262 16.493 30.206 16.835L29.835 19.103C29.801 19.302 29.674 19.886 29.699 20.053C29.805 19.834 29.943 19.446 30.033 19.211L30.594 17.718L31.998 13.983C32.236 13.351 32.491 12.619 32.746 12Z" fill="#3d9c9a" mask="url(#m-write-post)"></path>
+<path class="m-full" d="M32.746 12C33.737 12.013 34.746 12.003 35.737 12.003L41.145 12.003L41.141 17.533L41.14 19.005C41.14 19.225 41.15 19.621 41.122 19.825C41.296 20.004 41.516 20.173 41.645 20.394C41.969 20.948 42.109 21.668 42.127 22.31C42.185 24.299 41.695 26.284 41.227 28.203C41.192 28.346 41.157 28.489 41.134 28.634C41.156 28.856 41.149 29.195 41.148 29.426L41.145 30.72C41.144 31.737 41.174 32.9 41.144 33.907C41.397 33.699 41.64 33.19 41.793 32.895C41.87 32.743 41.927 32.556 42.035 32.424C42.369 32.018 42.847 32.629 42.732 32.988C42.431 33.925 41.865 34.926 41.042 35.489C40.678 35.738 40.151 35.853 39.728 35.763C39.529 35.722 39.245 35.571 39.157 35.553C38.608 35.572 37.997 35.56 37.444 35.56L34.428 35.56C34.428 34.056 34.404 32.477 34.436 30.979C33.95 30.66 33.559 30.423 33.694 29.746C33.776 29.334 33.884 28.925 33.974 28.514C34.155 27.679 34.322 26.841 34.475 26C34.851 23.865 35.082 21.707 35.165 19.54C35.201 18.605 35.234 17.656 35.089 16.731C35.045 16.446 34.934 15.729 34.518 15.879C33.769 16.148 33.229 17.129 32.82 17.777C31.491 20.152 30.64 22.954 29.876 25.559C29.332 27.415 28.749 29.504 28.344 31.38C28.179 32.118 28.046 32.862 27.945 33.611C27.883 34.079 27.879 34.654 27.757 35.074C27.644 35.464 27.302 35.867 26.893 35.957C26.605 36.02 26.384 36.028 26.111 35.882C25.96 35.8 25.846 35.597 25.785 35.556C25.569 35.179 25.632 34.522 25.638 34.096C25.649 33.373 25.675 32.651 25.716 31.93C25.843 29.687 26.047 27.449 26.326 25.221C26.427 24.388 26.522 23.498 26.649 22.672C26.701 22.499 26.72 22.24 26.744 22.054L26.873 21.05C27.056 19.678 27.254 18.308 27.467 16.94C27.542 16.442 27.625 15.945 27.714 15.449C27.775 15.106 27.871 14.386 28.095 14.118C28.761 13.263 30.318 14.006 30.484 14.882C30.536 15.156 30.262 16.493 30.206 16.835L29.835 19.103C29.801 19.302 29.674 19.886 29.699 20.053C29.805 19.834 29.943 19.446 30.033 19.211L30.594 17.718L31.998 13.983C32.236 13.351 32.491 12.619 32.746 12Z" fill="#3d9c9a"></path>
+<path d="M32.747 12C33.737 12.013 34.746 12.003 35.738 12.003L41.145 12.003L41.141 17.533L41.14 19.005C41.14 19.225 41.15 19.621 41.122 19.825C40.733 19.582 40.317 19.496 39.869 19.605C38.866 19.847 38.283 20.71 37.765 21.516C38.013 19.505 38.1 16.847 36.784 15.163C36.389 14.658 35.875 14.271 35.224 14.196C34.528 14.116 33.876 14.423 33.346 14.852C31.433 16.396 30.021 20.781 29.203 23.112L29.528 21.038C29.57 20.785 29.639 20.286 29.699 20.053C29.806 19.834 29.944 19.446 30.033 19.211L30.594 17.718L31.999 13.983C32.237 13.351 32.491 12.619 32.747 12Z" fill="#121b27"></path>
+<path d="M34.437 30.979C34.707 31.097 34.988 31.149 35.271 31.037C35.657 30.883 35.874 30.49 36.027 30.127C36.431 29.162 36.587 28.121 36.893 27.128C37.279 25.871 38.847 21.566 39.998 21.041C40.025 21.028 40.046 21.026 40.075 21.027C40.269 21.253 39.83 22.74 39.734 23.076L39.442 24.137C38.703 26.832 37.848 29.83 37.88 32.658C37.891 33.64 38.284 35.011 39.158 35.553C38.609 35.572 37.998 35.56 37.444 35.56L34.429 35.56C34.429 34.056 34.404 32.477 34.437 30.979Z" fill="#121b27"></path>
+<path d="M41.135 28.634C41.157 28.855 41.15 29.195 41.149 29.426L41.146 30.72C41.145 31.736 41.175 32.9 41.145 33.906C41.068 34.009 40.965 34.103 40.868 34.186C40.746 34.289 40.488 34.493 40.317 34.46C40.259 34.449 40.22 34.415 40.192 34.364C40.132 34.259 40.12 34.106 40.107 33.988C39.96 32.63 40.765 30.018 41.135 28.634Z" fill="#121b27"></path>
+<path d="M14.251 12.004L22.648 12.001C22.839 12.542 23.063 13.107 23.266 13.646L24.529 17.003C25.237 18.886 25.923 20.798 26.65 22.672C26.522 23.498 26.427 24.387 26.326 25.22C26.047 27.449 25.843 29.687 25.716 31.93C25.675 32.651 25.649 33.373 25.639 34.096C25.632 34.522 25.569 35.179 25.786 35.556C25.313 35.569 24.803 35.56 24.327 35.561C24.189 35.065 24.036 34.56 23.882 34.068C22.882 30.858 21.976 27.603 20.964 24.398C20.931 24.739 20.951 25.349 20.952 25.714L20.952 28.029L20.959 35.561L14.25 35.562C14.271 34.702 14.252 33.759 14.253 32.893L14.252 27.475L14.251 12.004Z" fill="#121b27"></path>
+</svg>
+<span style="font-weight: 700; font-size: 30px; line-height: 1.35">Martín Mato</span>
+</a>
+<nav class="nav" aria-label="Main" style="display: flex; align-items: center; gap: 24px; font-family: var(--font-sans); font-weight: 500; font-size: 14px">
+<a href="Main.dc.html" style="padding: 8px; color: #121b27">Blog</a>
+<a href="About.dc.html" style="padding: 8px; color: #121b27">About</a>
+<a href="Contact.dc.html" style="padding: 8px; color: #121b27">Contact</a>
+<a class="btn" href="#newsletter" style="padding: 8px; border-radius: 4px; background: #013345; color: #f2f6f8; text-decoration: none">Subscribe</a>
+</nav>
+<button type="button" class="theme-btn" aria-label="{{themeLabel}}" title="{{themeLabel}}" onClick="{{toggleTheme}}"><sc-if value="{{isDark}}" hint-placeholder-val="{{false}}"><svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4"></circle><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"></path></svg></sc-if><sc-if value="{{isLight}}" hint-placeholder-val="{{true}}"><svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 14.5A8 8 0 1 1 9.5 4a6.5 6.5 0 0 0 10.5 10.5z"></path></svg></sc-if></button>
+<button type="button" class="menu-btn" aria-label="{{menuLabel}}" aria-expanded="{{menuExpanded}}" aria-controls="mobile-menu" onClick="{{toggleMenu}}">
+<svg width="34" height="28" viewBox="0 0 34 28" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round" aria-hidden="true"><path d="M3 4h28M3 14h28M3 24h28"></path></svg>
+</button>
+<sc-if value="{{menuOpen}}" hint-placeholder-val="{{false}}">
+<nav id="mobile-menu" class="menu-panel" aria-label="Main (mobile)">
+<a href="Main.dc.html" onClick="{{closeMenu}}">Blog</a>
+<a href="About.dc.html" onClick="{{closeMenu}}">About</a>
+<a href="Contact.dc.html" onClick="{{closeMenu}}">Contact</a>
+<a class="btn" href="#newsletter" onClick="{{closeMenu}}">Subscribe</a>
+</nav>
+</sc-if>
+</header>
+
+<main class="library-page" style="width: 100%; box-sizing: border-box; padding: var(--section) var(--side) 96px; display: flex; flex-direction: column; gap: 48px">
+
+<section class="lib-intro" style="display: flex; flex-direction: column; gap: 24px">
+<h1 class="t-h1" style="margin: 0; font-weight: 700; line-height: 1.35">Library</h1>
+<p class="t-body" style="margin: 0; line-height: 1.5">Books I keep going back to.</p>
+</section>
+
+<hr style="width: 100%; margin: 0; border: 0; border-top: 1px solid var(--surfaces-divider)">
+
+<section class="lib-group" aria-labelledby="g-leading" style="display: flex; flex-direction: column; gap: 32px">
+<h2 id="g-leading" style="margin: 0; font-size: 32px; font-weight: 600; line-height: 1.35">Leading teams</h2>
+<div class="lib-grid">
+<article id="book-extreme-ownership" class="lib-book">
+<div class="lib-cover" aria-hidden="true" style="aspect-ratio: 2 / 3; overflow: hidden; background: #f2f6f8; box-shadow: 0 4px 4px rgba(122,139,153,0.2)"><img src="/_blob/04776cf2a57a18776f20740b38d676b2" alt="" style="display: block; width: 100%; height: 100%; object-fit: cover"></div>
+<div style="display: flex; flex-direction: column; gap: 8px">
+<h3 style="margin: 0; font-size: 20px; font-weight: 600; line-height: 1.35">Extreme Ownership</h3>
+<p style="margin: 0; font-family: 'Instrument Sans', system-ui, sans-serif; font-size: 14px; line-height: 1.35; color: #364552">Jocko Willink &amp; Leif Babin</p>
+<a href="https://www.amazon.com/s?k=Extreme+Ownership+Jocko+Willink&amp;i=digital-text" target="_blank" rel="noopener" style="align-self: flex-start; padding: 4px 0; font-family: 'Instrument Sans', system-ui, sans-serif; font-weight: 500; font-size: 14px; color: #121b27; text-underline-offset: 3px">On Amazon<span class="sr"> (opens in a new tab)</span> ↗</a>
+</div>
+</article>
+<article id="book-leaders-eat-last" class="lib-book">
+<div class="lib-cover" aria-hidden="true" style="aspect-ratio: 2 / 3; overflow: hidden; background: #f2f6f8; box-shadow: 0 4px 4px rgba(122,139,153,0.2)"><img src="/_blob/4c94af2f0485b95379fc57326721af98" alt="" style="display: block; width: 100%; height: 100%; object-fit: cover"></div>
+<div style="display: flex; flex-direction: column; gap: 8px">
+<h3 style="margin: 0; font-size: 20px; font-weight: 600; line-height: 1.35">Leaders Eat Last</h3>
+<p style="margin: 0; font-family: 'Instrument Sans', system-ui, sans-serif; font-size: 14px; line-height: 1.35; color: #364552">Simon Sinek</p>
+<a href="https://www.amazon.com/s?k=Leaders+Eat+Last+Simon+Sinek&amp;i=digital-text" target="_blank" rel="noopener" style="align-self: flex-start; padding: 4px 0; font-family: 'Instrument Sans', system-ui, sans-serif; font-weight: 500; font-size: 14px; color: #121b27; text-underline-offset: 3px">On Amazon<span class="sr"> (opens in a new tab)</span> ↗</a>
+</div>
+</article>
+<article id="book-radical-candor" class="lib-book">
+<div class="lib-cover" aria-hidden="true" style="aspect-ratio: 2 / 3; overflow: hidden; background: #f2f6f8; box-shadow: 0 4px 4px rgba(122,139,153,0.2)"><img src="/_blob/9e3885b4222d9149f8ded0d5cbd6fc05" alt="" style="display: block; width: 100%; height: 100%; object-fit: cover"></div>
+<div style="display: flex; flex-direction: column; gap: 8px">
+<h3 style="margin: 0; font-size: 20px; font-weight: 600; line-height: 1.35">Radical Candor</h3>
+<p style="margin: 0; font-family: 'Instrument Sans', system-ui, sans-serif; font-size: 14px; line-height: 1.35; color: #364552">Kim Scott</p>
+<a href="https://www.amazon.com/s?k=Radical+Candor+Kim+Scott&amp;i=digital-text" target="_blank" rel="noopener" style="align-self: flex-start; padding: 4px 0; font-family: 'Instrument Sans', system-ui, sans-serif; font-weight: 500; font-size: 14px; color: #121b27; text-underline-offset: 3px">On Amazon<span class="sr"> (opens in a new tab)</span> ↗</a>
+</div>
+</article>
+<article id="book-multipliers" class="lib-book">
+<div class="lib-cover" aria-hidden="true" style="aspect-ratio: 2 / 3; overflow: hidden; background: #f2f6f8; box-shadow: 0 4px 4px rgba(122,139,153,0.2)"><img src="/_blob/ce4f0c31d8f65c85c490604b1caf9963" alt="" style="display: block; width: 100%; height: 100%; object-fit: cover"></div>
+<div style="display: flex; flex-direction: column; gap: 8px">
+<h3 style="margin: 0; font-size: 20px; font-weight: 600; line-height: 1.35">Multipliers</h3>
+<p style="margin: 0; font-family: 'Instrument Sans', system-ui, sans-serif; font-size: 14px; line-height: 1.35; color: #364552">Liz Wiseman</p>
+<a href="https://www.amazon.com/s?k=Multipliers+Liz+Wiseman&amp;i=digital-text" target="_blank" rel="noopener" style="align-self: flex-start; padding: 4px 0; font-family: 'Instrument Sans', system-ui, sans-serif; font-weight: 500; font-size: 14px; color: #121b27; text-underline-offset: 3px">On Amazon<span class="sr"> (opens in a new tab)</span> ↗</a>
+</div>
+</article>
+<article id="book-the-coaching-habit" class="lib-book">
+<div class="lib-cover" aria-hidden="true" style="aspect-ratio: 2 / 3; overflow: hidden; background: #f2f6f8; box-shadow: 0 4px 4px rgba(122,139,153,0.2)"><img src="/_blob/8f6ba3b189fa92b7fa01c0a16525a2d2" alt="" style="display: block; width: 100%; height: 100%; object-fit: cover"></div>
+<div style="display: flex; flex-direction: column; gap: 8px">
+<h3 style="margin: 0; font-size: 20px; font-weight: 600; line-height: 1.35">The Coaching Habit</h3>
+<p style="margin: 0; font-family: 'Instrument Sans', system-ui, sans-serif; font-size: 14px; line-height: 1.35; color: #364552">Michael Bungay Stanier</p>
+<a href="https://www.amazon.com/s?k=The+Coaching+Habit+Michael+Bungay+Stanier&amp;i=digital-text" target="_blank" rel="noopener" style="align-self: flex-start; padding: 4px 0; font-family: 'Instrument Sans', system-ui, sans-serif; font-weight: 500; font-size: 14px; color: #121b27; text-underline-offset: 3px">On Amazon<span class="sr"> (opens in a new tab)</span> ↗</a>
+</div>
+</article>
+<article id="book-coaching-el-arte-de-soplar-brasas" class="lib-book">
+<div class="lib-cover" aria-hidden="true" style="aspect-ratio: 2 / 3; overflow: hidden; background: #f2f6f8; box-shadow: 0 4px 4px rgba(122,139,153,0.2)"><img src="/_blob/21d0a5e1cffa7a053b9ee7beb63163ae" alt="" style="display: block; width: 100%; height: 100%; object-fit: cover"></div>
+<div style="display: flex; flex-direction: column; gap: 8px">
+<h3 style="margin: 0; font-size: 20px; font-weight: 600; line-height: 1.35">Coaching: el arte de soplar brasas</h3>
+<p style="margin: 0; font-family: 'Instrument Sans', system-ui, sans-serif; font-size: 14px; line-height: 1.35; color: #364552">Leonardo Wolk</p>
+<a href="https://www.amazon.com/s?k=Coaching%3A+el+arte+de+soplar+brasas+Leonardo+Wolk&amp;i=digital-text" target="_blank" rel="noopener" style="align-self: flex-start; padding: 4px 0; font-family: 'Instrument Sans', system-ui, sans-serif; font-weight: 500; font-size: 14px; color: #121b27; text-underline-offset: 3px">On Amazon<span class="sr"> (opens in a new tab)</span> ↗</a>
+</div>
+</article>
+<article id="book-the-thin-book-of-trust" class="lib-book">
+<div class="lib-cover" aria-hidden="true" style="aspect-ratio: 2 / 3; overflow: hidden; background: #f2f6f8; box-shadow: 0 4px 4px rgba(122,139,153,0.2)"><img src="/_blob/f476f323a92c4b628f318aeb1e4d6201" alt="" style="display: block; width: 100%; height: 100%; object-fit: cover"></div>
+<div style="display: flex; flex-direction: column; gap: 8px">
+<h3 style="margin: 0; font-size: 20px; font-weight: 600; line-height: 1.35">The Thin Book of Trust</h3>
+<p style="margin: 0; font-family: 'Instrument Sans', system-ui, sans-serif; font-size: 14px; line-height: 1.35; color: #364552">Charles Feltman</p>
+<a href="https://www.amazon.com/s?k=The+Thin+Book+of+Trust+Charles+Feltman&amp;i=digital-text" target="_blank" rel="noopener" style="align-self: flex-start; padding: 4px 0; font-family: 'Instrument Sans', system-ui, sans-serif; font-weight: 500; font-size: 14px; color: #121b27; text-underline-offset: 3px">On Amazon<span class="sr"> (opens in a new tab)</span> ↗</a>
+</div>
+</article>
+<article id="book-corporate-rebels" class="lib-book">
+<div class="lib-cover" aria-hidden="true" style="aspect-ratio: 2 / 3; overflow: hidden; background: #f2f6f8; box-shadow: 0 4px 4px rgba(122,139,153,0.2)"><img src="/_blob/c72de05fb1bbe3f38a82413c77c62eb9" alt="" style="display: block; width: 100%; height: 100%; object-fit: cover"></div>
+<div style="display: flex; flex-direction: column; gap: 8px">
+<h3 style="margin: 0; font-size: 20px; font-weight: 600; line-height: 1.35">Corporate Rebels</h3>
+<p style="margin: 0; font-family: 'Instrument Sans', system-ui, sans-serif; font-size: 14px; line-height: 1.35; color: #364552">Joost Minnaar &amp; Pim de Morree</p>
+<a href="https://www.amazon.com/s?k=Corporate+Rebels+Joost+Minnaar&amp;i=digital-text" target="_blank" rel="noopener" style="align-self: flex-start; padding: 4px 0; font-family: 'Instrument Sans', system-ui, sans-serif; font-weight: 500; font-size: 14px; color: #121b27; text-underline-offset: 3px">On Amazon<span class="sr"> (opens in a new tab)</span> ↗</a>
+</div>
+</article>
+<article id="book-the-culture-map" class="lib-book">
+<div class="lib-cover" aria-hidden="true" style="aspect-ratio: 2 / 3; overflow: hidden; background: #f2f6f8; box-shadow: 0 4px 4px rgba(122,139,153,0.2)"><img src="/_blob/975ba7e2d73a39c6f6e0f89bc3183588" alt="" style="display: block; width: 100%; height: 100%; object-fit: cover"></div>
+<div style="display: flex; flex-direction: column; gap: 8px">
+<h3 style="margin: 0; font-size: 20px; font-weight: 600; line-height: 1.35">The Culture Map</h3>
+<p style="margin: 0; font-family: 'Instrument Sans', system-ui, sans-serif; font-size: 14px; line-height: 1.35; color: #364552">Erin Meyer</p>
+<a href="https://www.amazon.com/s?k=The+Culture+Map+Erin+Meyer&amp;i=digital-text" target="_blank" rel="noopener" style="align-self: flex-start; padding: 4px 0; font-family: 'Instrument Sans', system-ui, sans-serif; font-weight: 500; font-size: 14px; color: #121b27; text-underline-offset: 3px">On Amazon<span class="sr"> (opens in a new tab)</span> ↗</a>
+</div>
+</article>
+</div>
+</section>
+<section class="lib-group" aria-labelledby="g-conversations" style="display: flex; flex-direction: column; gap: 32px">
+<h2 id="g-conversations" style="margin: 0; font-size: 32px; font-weight: 600; line-height: 1.35">Conversations</h2>
+<div class="lib-grid">
+<article id="book-conversaciones-cruciales" class="lib-book">
+<div class="lib-cover" aria-hidden="true" style="aspect-ratio: 2 / 3; overflow: hidden; background: #f2f6f8; box-shadow: 0 4px 4px rgba(122,139,153,0.2)"><img src="/_blob/b8c0608fe71fd0e185991f1691400113" alt="" style="display: block; width: 100%; height: 100%; object-fit: cover"></div>
+<div style="display: flex; flex-direction: column; gap: 8px">
+<h3 style="margin: 0; font-size: 20px; font-weight: 600; line-height: 1.35">Conversaciones cruciales</h3>
+<p style="margin: 0; font-family: 'Instrument Sans', system-ui, sans-serif; font-size: 14px; line-height: 1.35; color: #364552">Patterson, Grenny, McMillan &amp; Switzler</p>
+<a href="https://www.amazon.com/s?k=Conversaciones+cruciales+Patterson&amp;i=digital-text" target="_blank" rel="noopener" style="align-self: flex-start; padding: 4px 0; font-family: 'Instrument Sans', system-ui, sans-serif; font-weight: 500; font-size: 14px; color: #121b27; text-underline-offset: 3px">On Amazon<span class="sr"> (opens in a new tab)</span> ↗</a>
+</div>
+</article>
+<article id="book-storyworthy" class="lib-book">
+<div class="lib-cover" aria-hidden="true" style="aspect-ratio: 2 / 3; overflow: hidden; background: #f2f6f8; box-shadow: 0 4px 4px rgba(122,139,153,0.2)"><img src="/_blob/b43f494f90ee24f1865f27dfee5e3657" alt="" style="display: block; width: 100%; height: 100%; object-fit: cover"></div>
+<div style="display: flex; flex-direction: column; gap: 8px">
+<h3 style="margin: 0; font-size: 20px; font-weight: 600; line-height: 1.35">Storyworthy</h3>
+<p style="margin: 0; font-family: 'Instrument Sans', system-ui, sans-serif; font-size: 14px; line-height: 1.35; color: #364552">Matthew Dicks</p>
+<a href="https://www.amazon.com/s?k=Storyworthy+Matthew+Dicks&amp;i=digital-text" target="_blank" rel="noopener" style="align-self: flex-start; padding: 4px 0; font-family: 'Instrument Sans', system-ui, sans-serif; font-weight: 500; font-size: 14px; color: #121b27; text-underline-offset: 3px">On Amazon<span class="sr"> (opens in a new tab)</span> ↗</a>
+</div>
+</article>
+<article id="book-never-split-the-difference" class="lib-book">
+<div class="lib-cover" aria-hidden="true" style="aspect-ratio: 2 / 3; overflow: hidden; background: #f2f6f8; box-shadow: 0 4px 4px rgba(122,139,153,0.2)"><img src="/_blob/607182892e01ceaa421f4b946e2b349e" alt="" style="display: block; width: 100%; height: 100%; object-fit: cover"></div>
+<div style="display: flex; flex-direction: column; gap: 8px">
+<h3 style="margin: 0; font-size: 20px; font-weight: 600; line-height: 1.35">Never Split the Difference</h3>
+<p style="margin: 0; font-family: 'Instrument Sans', system-ui, sans-serif; font-size: 14px; line-height: 1.35; color: #364552">Chris Voss</p>
+<a href="https://www.amazon.com/s?k=Never+Split+the+Difference+Chris+Voss&amp;i=digital-text" target="_blank" rel="noopener" style="align-self: flex-start; padding: 4px 0; font-family: 'Instrument Sans', system-ui, sans-serif; font-weight: 500; font-size: 14px; color: #121b27; text-underline-offset: 3px">On Amazon<span class="sr"> (opens in a new tab)</span> ↗</a>
+</div>
+</article>
+<article id="book-ontologia-del-lenguaje" class="lib-book">
+<div class="lib-cover" aria-hidden="true" style="aspect-ratio: 2 / 3; overflow: hidden; background: #f2f6f8; box-shadow: 0 4px 4px rgba(122,139,153,0.2)"><img src="/_blob/21b2847f086a1d67851970d352465956" alt="" style="display: block; width: 100%; height: 100%; object-fit: cover"></div>
+<div style="display: flex; flex-direction: column; gap: 8px">
+<h3 style="margin: 0; font-size: 20px; font-weight: 600; line-height: 1.35">Ontología del lenguaje</h3>
+<p style="margin: 0; font-family: 'Instrument Sans', system-ui, sans-serif; font-size: 14px; line-height: 1.35; color: #364552">Rafael Echeverría</p>
+<a href="https://www.amazon.com/s?k=Ontolog%C3%ADa+del+lenguaje+Rafael+Echeverr%C3%ADa&amp;i=digital-text" target="_blank" rel="noopener" style="align-self: flex-start; padding: 4px 0; font-family: 'Instrument Sans', system-ui, sans-serif; font-weight: 500; font-size: 14px; color: #121b27; text-underline-offset: 3px">On Amazon<span class="sr"> (opens in a new tab)</span> ↗</a>
+</div>
+</article>
+<article id="book-como-ganar-amigos" class="lib-book">
+<div class="lib-cover" aria-hidden="true" style="aspect-ratio: 2 / 3; overflow: hidden; background: #f2f6f8; box-shadow: 0 4px 4px rgba(122,139,153,0.2)"><img src="/_blob/4c2047de60e56dc471c47a158446aa07" alt="" style="display: block; width: 100%; height: 100%; object-fit: cover"></div>
+<div style="display: flex; flex-direction: column; gap: 8px">
+<h3 style="margin: 0; font-size: 20px; font-weight: 600; line-height: 1.35">Cómo ganar amigos e influir sobre las personas</h3>
+<p style="margin: 0; font-family: 'Instrument Sans', system-ui, sans-serif; font-size: 14px; line-height: 1.35; color: #364552">Dale Carnegie</p>
+<a href="https://www.amazon.com/s?k=C%C3%B3mo+ganar+amigos+e+influir+sobre+las+personas+Dale+Carnegie&amp;i=digital-text" target="_blank" rel="noopener" style="align-self: flex-start; padding: 4px 0; font-family: 'Instrument Sans', system-ui, sans-serif; font-weight: 500; font-size: 14px; color: #121b27; text-underline-offset: 3px">On Amazon<span class="sr"> (opens in a new tab)</span> ↗</a>
+</div>
+</article>
+</div>
+</section>
+<section class="lib-group" aria-labelledby="g-ai" style="display: flex; flex-direction: column; gap: 32px">
+<h2 id="g-ai" style="margin: 0; font-size: 32px; font-weight: 600; line-height: 1.35">AI &amp; product</h2>
+<div class="lib-grid">
+<article id="book-generative-ai-in-a-nutshell" class="lib-book">
+<div class="lib-cover" aria-hidden="true" style="aspect-ratio: 2 / 3; overflow: hidden; background: #f2f6f8; box-shadow: 0 4px 4px rgba(122,139,153,0.2)"><img src="/_blob/2527f472e1b9e81d62af4edbe323454f" alt="" style="display: block; width: 100%; height: 100%; object-fit: cover"></div>
+<div style="display: flex; flex-direction: column; gap: 8px">
+<h3 style="margin: 0; font-size: 20px; font-weight: 600; line-height: 1.35">Generative AI in a Nutshell</h3>
+<p style="margin: 0; font-family: 'Instrument Sans', system-ui, sans-serif; font-size: 14px; line-height: 1.35; color: #364552">Henrik Kniberg</p>
+<a href="https://www.amazon.com/s?k=Generative+AI+in+a+Nutshell+Henrik+Kniberg&amp;i=digital-text" target="_blank" rel="noopener" style="align-self: flex-start; padding: 4px 0; font-family: 'Instrument Sans', system-ui, sans-serif; font-weight: 500; font-size: 14px; color: #121b27; text-underline-offset: 3px">On Amazon<span class="sr"> (opens in a new tab)</span> ↗</a>
+</div>
+</article>
+<article id="book-the-ai-product-playbook" class="lib-book">
+<div class="lib-cover" aria-hidden="true" style="aspect-ratio: 2 / 3; overflow: hidden; background: #f2f6f8; box-shadow: 0 4px 4px rgba(122,139,153,0.2)"><img src="/_blob/245c964a7312cc802a5c7db88e614c8d" alt="" style="display: block; width: 100%; height: 100%; object-fit: cover"></div>
+<div style="display: flex; flex-direction: column; gap: 8px">
+<h3 style="margin: 0; font-size: 20px; font-weight: 600; line-height: 1.35">The AI Product Playbook</h3>
+<p style="margin: 0; font-family: 'Instrument Sans', system-ui, sans-serif; font-size: 14px; line-height: 1.35; color: #364552">Marily Nika</p>
+<a href="https://www.amazon.com/s?k=The+AI+Product+Playbook+Marily+Nika&amp;i=digital-text" target="_blank" rel="noopener" style="align-self: flex-start; padding: 4px 0; font-family: 'Instrument Sans', system-ui, sans-serif; font-weight: 500; font-size: 14px; color: #121b27; text-underline-offset: 3px">On Amazon<span class="sr"> (opens in a new tab)</span> ↗</a>
+</div>
+</article>
+<article id="book-continuous-discovery-habits" class="lib-book">
+<div class="lib-cover" aria-hidden="true" style="aspect-ratio: 2 / 3; overflow: hidden; background: #f2f6f8; box-shadow: 0 4px 4px rgba(122,139,153,0.2)"><img src="/_blob/a0020ac2d407edff8098f2f1111c2734" alt="" style="display: block; width: 100%; height: 100%; object-fit: cover"></div>
+<div style="display: flex; flex-direction: column; gap: 8px">
+<h3 style="margin: 0; font-size: 20px; font-weight: 600; line-height: 1.35">Continuous Discovery Habits</h3>
+<p style="margin: 0; font-family: 'Instrument Sans', system-ui, sans-serif; font-size: 14px; line-height: 1.35; color: #364552">Teresa Torres</p>
+<a href="https://www.amazon.com/s?k=Continuous+Discovery+Habits+Teresa+Torres&amp;i=digital-text" target="_blank" rel="noopener" style="align-self: flex-start; padding: 4px 0; font-family: 'Instrument Sans', system-ui, sans-serif; font-weight: 500; font-size: 14px; color: #121b27; text-underline-offset: 3px">On Amazon<span class="sr"> (opens in a new tab)</span> ↗</a>
+</div>
+</article>
+<article id="book-the-mom-test" class="lib-book">
+<div class="lib-cover" aria-hidden="true" style="aspect-ratio: 2 / 3; overflow: hidden; background: #f2f6f8; box-shadow: 0 4px 4px rgba(122,139,153,0.2)"><img src="/_blob/a648f6f2e927bd889a76d9f6a4cecb33" alt="" style="display: block; width: 100%; height: 100%; object-fit: cover"></div>
+<div style="display: flex; flex-direction: column; gap: 8px">
+<h3 style="margin: 0; font-size: 20px; font-weight: 600; line-height: 1.35">The Mom Test</h3>
+<p style="margin: 0; font-family: 'Instrument Sans', system-ui, sans-serif; font-size: 14px; line-height: 1.35; color: #364552">Rob Fitzpatrick</p>
+<a href="https://www.amazon.com/s?k=The+Mom+Test+Rob+Fitzpatrick&amp;i=digital-text" target="_blank" rel="noopener" style="align-self: flex-start; padding: 4px 0; font-family: 'Instrument Sans', system-ui, sans-serif; font-weight: 500; font-size: 14px; color: #121b27; text-underline-offset: 3px">On Amazon<span class="sr"> (opens in a new tab)</span> ↗</a>
+</div>
+</article>
+<article id="book-the-lean-startup" class="lib-book">
+<div class="lib-cover" aria-hidden="true" style="aspect-ratio: 2 / 3; overflow: hidden; background: #f2f6f8; box-shadow: 0 4px 4px rgba(122,139,153,0.2)"><img src="/_blob/18dc0e4567a5b1dc599094d771760108" alt="" style="display: block; width: 100%; height: 100%; object-fit: cover"></div>
+<div style="display: flex; flex-direction: column; gap: 8px">
+<h3 style="margin: 0; font-size: 20px; font-weight: 600; line-height: 1.35">The Lean Startup</h3>
+<p style="margin: 0; font-family: 'Instrument Sans', system-ui, sans-serif; font-size: 14px; line-height: 1.35; color: #364552">Eric Ries</p>
+<a href="https://www.amazon.com/s?k=The+Lean+Startup+Eric+Ries&amp;i=digital-text" target="_blank" rel="noopener" style="align-self: flex-start; padding: 4px 0; font-family: 'Instrument Sans', system-ui, sans-serif; font-weight: 500; font-size: 14px; color: #121b27; text-underline-offset: 3px">On Amazon<span class="sr"> (opens in a new tab)</span> ↗</a>
+</div>
+</article>
+</div>
+</section>
+<section class="lib-group" aria-labelledby="g-habits" style="display: flex; flex-direction: column; gap: 32px">
+<h2 id="g-habits" style="margin: 0; font-size: 32px; font-weight: 600; line-height: 1.35">Habits &amp; life</h2>
+<div class="lib-grid">
+<article id="book-the-bullet-journal-method" class="lib-book">
+<div class="lib-cover" aria-hidden="true" style="aspect-ratio: 2 / 3; overflow: hidden; background: #f2f6f8; box-shadow: 0 4px 4px rgba(122,139,153,0.2)"><img src="/_blob/6d05dd06fd2c0dc889485eb4d6fd6463" alt="" style="display: block; width: 100%; height: 100%; object-fit: cover"></div>
+<div style="display: flex; flex-direction: column; gap: 8px">
+<h3 style="margin: 0; font-size: 20px; font-weight: 600; line-height: 1.35">The Bullet Journal Method</h3>
+<p style="margin: 0; font-family: 'Instrument Sans', system-ui, sans-serif; font-size: 14px; line-height: 1.35; color: #364552">Ryder Carroll</p>
+<a href="https://www.amazon.com/s?k=The+Bullet+Journal+Method+Ryder+Carroll&amp;i=digital-text" target="_blank" rel="noopener" style="align-self: flex-start; padding: 4px 0; font-family: 'Instrument Sans', system-ui, sans-serif; font-weight: 500; font-size: 14px; color: #121b27; text-underline-offset: 3px">On Amazon<span class="sr"> (opens in a new tab)</span> ↗</a>
+</div>
+</article>
+<article id="book-habitos-atomicos" class="lib-book">
+<div class="lib-cover" aria-hidden="true" style="aspect-ratio: 2 / 3; overflow: hidden; background: #f2f6f8; box-shadow: 0 4px 4px rgba(122,139,153,0.2)"><img src="/_blob/88e8bb9ebdc1f09a5148ebc05f0a0c2a" alt="" style="display: block; width: 100%; height: 100%; object-fit: cover"></div>
+<div style="display: flex; flex-direction: column; gap: 8px">
+<h3 style="margin: 0; font-size: 20px; font-weight: 600; line-height: 1.35">Hábitos atómicos</h3>
+<p style="margin: 0; font-family: 'Instrument Sans', system-ui, sans-serif; font-size: 14px; line-height: 1.35; color: #364552">James Clear</p>
+<a href="https://www.amazon.com/s?k=H%C3%A1bitos+at%C3%B3micos+James+Clear&amp;i=digital-text" target="_blank" rel="noopener" style="align-self: flex-start; padding: 4px 0; font-family: 'Instrument Sans', system-ui, sans-serif; font-weight: 500; font-size: 14px; color: #121b27; text-underline-offset: 3px">On Amazon<span class="sr"> (opens in a new tab)</span> ↗</a>
+</div>
+</article>
+<article id="book-the-obstacle-is-the-way" class="lib-book">
+<div class="lib-cover" aria-hidden="true" style="aspect-ratio: 2 / 3; overflow: hidden; background: #f2f6f8; box-shadow: 0 4px 4px rgba(122,139,153,0.2)"><img src="/_blob/a64b0992f3726ad41dfab634746cd006" alt="" style="display: block; width: 100%; height: 100%; object-fit: cover"></div>
+<div style="display: flex; flex-direction: column; gap: 8px">
+<h3 style="margin: 0; font-size: 20px; font-weight: 600; line-height: 1.35">The Obstacle Is the Way</h3>
+<p style="margin: 0; font-family: 'Instrument Sans', system-ui, sans-serif; font-size: 14px; line-height: 1.35; color: #364552">Ryan Holiday</p>
+<a href="https://www.amazon.com/s?k=The+Obstacle+Is+the+Way+Ryan+Holiday&amp;i=digital-text" target="_blank" rel="noopener" style="align-self: flex-start; padding: 4px 0; font-family: 'Instrument Sans', system-ui, sans-serif; font-weight: 500; font-size: 14px; color: #121b27; text-underline-offset: 3px">On Amazon<span class="sr"> (opens in a new tab)</span> ↗</a>
+</div>
+</article>
+</div>
+</section>
+
+</main>
+
+<div class="dark-end">
+<section id="newsletter" aria-labelledby="news-title" class="band dark">
+<div class="news">
+<div style="display: flex; flex-direction: column; gap: 20px">
+<p class="eyebrow" style="color: #97cfcc">Newsletter</p>
+<h2 id="news-title" style="margin: 0; font-size: 44px; font-weight: 700; line-height: 1.15">Get the next story in your inbox.</h2>
+<p class="lead" style="color: #cdd8df">When I publish a new story, I’ll send it to you. Nothing else.</p>
+</div>
+<div>
+<sc-if value="{{nshowForm}}" hint-placeholder-val="{{true}}">
+<form novalidate="" onSubmit="{{nsubmit}}" style="display: flex; flex-direction: column; gap: 12px">
+<div class="sub-row">
+<x-import component-from-global-scope="MartinsWeb.Input" label="Email" name="email" type="email" placeholder="you@company.com" auto-complete="email" value="{{nemail}}" on-change="{{onNEmail}}"></x-import>
+<x-import component-from-global-scope="MartinsWeb.Button" type="button" on-click="{{nsubmit}}">Subscribe</x-import>
+</div>
+<sc-if value="{{nshowError}}" hint-placeholder-val="{{false}}">
+<p role="alert" style="margin: 0; font-size: 14px; line-height: 1.35; color: #f2f6f8">Please add a valid email.</p>
+</sc-if>
+</form>
+</sc-if>
+<sc-if value="{{subscribed}}" hint-placeholder-val="{{false}}">
+<div role="status" style="display: flex; flex-direction: column; align-items: flex-start; gap: 12px">
+<p style="margin: 0; font-size: 28px; font-weight: 600; line-height: 1.35">You’re in.</p>
+<p class="lead" style="color: #cdd8df">The next story will reach you at {{nemail}}.</p>
+<x-import component-from-global-scope="MartinsWeb.Button" variant="secondary" on-click="{{nreset}}">Use another email</x-import>
+</div>
+</sc-if>
+</div>
+</div>
+</section>
+
+<footer class="dark" style="display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 16px; padding: 24px var(--side) 32px">
+<p style="margin: 0; font-size: 14px; color: #cdd8df">© 2026 Martín Mato</p>
+<nav class="nav" aria-label="Footer" style="display: flex; gap: 24px; font-family: var(--font-sans); font-weight: 500; font-size: 14px">
+<a href="Main.dc.html" style="padding: 8px">Blog</a>
+<a href="About.dc.html" style="padding: 8px">About</a>
+<a href="Contact.dc.html" style="padding: 8px">Contact</a>
+<a href="#" style="padding: 8px">RSS</a>
+</nav>
+</footer>
+</div>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"theme":{"editor":"enum","options":["auto","light","dark"],"default":"auto","section":"Preview"},"$preview":{"width":1280,"height":4700}}'>
+class Component extends DCLogic {
+constructor(props) {
+super(props);
+this.state = { name: '', email: '', message: '', reason: 'A post', tried: false, sent: false, menuOpen: false, nemail: '', ntried: false, subscribed: false, device: (typeof window !== 'undefined' && window.innerWidth <= 600) ? 'mobile' : 'desktop' };
+this.state.theme = (function (pt) {
+if (pt === 'dark' || pt === 'light') return pt;
+try { var ls = window.localStorage.getItem('mm-theme'); if (ls === 'dark' || ls === 'light') return ls; } catch (e) {}
+return 'light';
+})(props && props.theme);
+this.onResize = this.onResize.bind(this);
+}
+componentDidMount() { window.addEventListener('resize', this.onResize); }
+componentWillUnmount() { window.removeEventListener('resize', this.onResize); }
+onResize() {
+var d = window.innerWidth <= 600 ? 'mobile' : 'desktop';
+if (d !== this.state.device) this.setState({ device: d, menuOpen: false });
+}
+renderVals() {
+var self = this;
+var s = this.state;
+var emailOk = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(s.email.trim());
+var reasonNames = ['A post', 'A story of my own', 'Just saying hi'];
+return {
+yes: true,
+device: s.device,
+themeCls: s.theme === 'dark' ? 'theme-dark' : 'theme-light',
+isDark: s.theme === 'dark', isLight: s.theme !== 'dark',
+themeLabel: s.theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode',
+toggleTheme: function () { var nt = self.state.theme === 'dark' ? 'light' : 'dark'; try { window.localStorage.setItem('mm-theme', nt); } catch (e) {} self.setState({ theme: nt }); },
+menuOpen: s.menuOpen,
+menuExpanded: s.menuOpen ? 'true' : 'false',
+menuLabel: s.menuOpen ? 'Close menu' : 'Open menu',
+toggleMenu: function () { self.setState({ menuOpen: !self.state.menuOpen }); },
+closeMenu: function () { self.setState({ menuOpen: false }); },
+navLinks: [{ label: 'Blog', href: 'Main.dc.html' }, { label: 'About', href: 'About.dc.html' }, { label: 'Contact', href: 'Contact.dc.html' }],
+footerLinks: [{ label: 'LinkedIn', href: 'https://www.linkedin.com/', external: true }, { label: 'About', href: 'About.dc.html' }, { label: 'Contact', href: 'Contact.dc.html' }, { label: 'YouTube', href: 'https://www.youtube.com/', external: true }],
+name: s.name, email: s.email, message: s.message,
+firstName: s.name.trim().split(' ')[0] || 'there',
+errName: s.tried && s.name.trim() === '',
+errEmail: s.tried && !emailOk,
+errMessage: s.tried && s.message.trim().length < 3,
+showForm: !s.sent, sent: s.sent,
+reasons: reasonNames.map(function (r) { return { label: r, selected: s.reason === r, pick: function () { self.setState({ reason: r }); } }; }),
+onName: function (e) { self.setState({ name: e.target.value }); },
+onEmail: function (e) { self.setState({ email: e.target.value }); },
+onMessage: function (e) { self.setState({ message: e.target.value }); },
+submit: function (e) {
+if (e && e.preventDefault) e.preventDefault();
+var ok = s.name.trim() !== '' && emailOk && s.message.trim().length >= 3;
+self.setState(ok ? { sent: true, tried: false } : { tried: true });
+},
+reset: function () { self.setState({ name: '', email: '', message: '', reason: 'A post', tried: false, sent: false }); },
+nemail: s.nemail, subscribed: s.subscribed, nshowForm: !s.subscribed,
+nshowError: s.ntried && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(s.nemail.trim()),
+onNEmail: function (e) { self.setState({ nemail: e.target.value }); },
+nsubmit: function (e) { if (e && e.preventDefault) e.preventDefault(); var ok = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(self.state.nemail.trim()); self.setState(ok ? { subscribed: true, ntried: false } : { ntried: true }); },
+nreset: function () { self.setState({ nemail: '', ntried: false, subscribed: false }); }
+};
+}
+}
+</script>
+</body>
+</html>

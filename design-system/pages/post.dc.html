@@ -71,6 +71,7 @@ a:focus-visible{outline:1px solid #216375;outline-offset:3px}
 .dark{background:#013345;color:#f2f6f8}
 .dark a{color:#f2f6f8}
 .dark a:hover{color:#97cfcc}
+footer.dark a:focus-visible{outline-color:#97cfcc}
 .dark .mw-input__label{color:#f2f6f8}
 .dark .mw-button--primary{background:#3d9c9a;border-color:#3d9c9a;color:#121b27}
 .dark .mw-button--primary:hover,.dark .mw-button--primary:focus-visible{background:#68b6b2;border-color:#68b6b2}
@@ -96,12 +97,516 @@ footer .nav{flex-wrap:wrap;gap:8px 16px !important}
 .lead{font-size:16px}
 .sub-row{grid-template-columns:minmax(0,1fr)}
 }
+
+/* ---- Experiment: post with outline, progress and share ---- */
+.progress{position:fixed;left:0;top:0;z-index:5;height:3px;background:#3d9c9a;transition:width .1s linear}
+.crumbs{display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin:0;padding:0;list-style:none;font-family:var(--font-sans);font-weight:500;font-size:14px;line-height:1.2;color:#364552}
+.crumbs a{color:#121b27;text-underline-offset:3px}
+.crumbs li+li::before{content:"/";margin-right:8px;color:#7a8b99}
+.layout{width:100%;max-width:1088px;display:grid;grid-template-columns:200px minmax(0,680px) 112px;gap:48px;align-items:start}
+.rail{position:sticky;top:32px;display:flex;flex-direction:column;gap:12px}
+.rail-label{margin:0;font-family:var(--font-mono);font-size:13px;line-height:1.35;text-transform:uppercase;letter-spacing:.04em;color:#364552}
+.toc{display:flex;flex-direction:column;gap:2px;margin:0;padding:0;list-style:none}
+.toc a{display:flex;align-items:flex-start;gap:10px;padding:6px 0;font-family:var(--font-sans);font-size:14px;line-height:1.35;color:#364552;text-decoration:none}
+.toc a::before{content:"";flex:none;width:6px;height:6px;margin-top:6px;border-radius:50%;border:1px solid #7a8b99;box-sizing:border-box}
+.toc a:hover{color:#121b27;text-decoration:underline;text-underline-offset:3px}
+.toc a.on{color:#013345;font-weight:600}
+.toc a.on::before{background:#3d9c9a;border-color:#3d9c9a}
+.toc-meta{margin:12px 0 0;font-family:var(--font-sans);font-size:13px;line-height:1.35;color:#364552}
+.share{display:flex;flex-direction:column;gap:4px;margin:0;padding:0;list-style:none}
+.share a,.share button{display:inline-flex;align-items:center;min-height:32px;padding:4px 0;border:0;background:none;font-family:var(--font-sans);font-weight:500;font-size:14px;line-height:1.2;color:#121b27;text-decoration:underline;text-underline-offset:3px;cursor:pointer}
+.share a:hover,.share button:hover{color:#216375;text-decoration:none}
+.share button:focus-visible{outline:1px solid #216375;outline-offset:3px}
+.mw-article__body h2{scroll-margin-top:32px;margin:48px 0 0;font-size:32px;font-weight:600;line-height:1.35}
+.mw-article__body h2:first-child{margin-top:0}
+.toc-mobile{display:none;margin:0 0 8px;border:1px solid #cdd8df;border-radius:4px;background:#f2f6f8}
+.toc-mobile summary{display:flex;align-items:center;justify-content:space-between;min-height:48px;padding:0 16px;font-family:var(--font-sans);font-weight:600;font-size:14px;cursor:pointer;list-style:none}
+.toc-mobile summary::-webkit-details-marker{display:none}
+.toc-mobile summary::after{content:"+";font-size:20px;font-weight:400}
+.toc-mobile[open] summary::after{content:"−"}
+.toc-mobile .toc{padding:0 16px 12px}
+.endshare{display:flex;flex-direction:column;gap:16px;padding:32px 0;border-top:1px solid #cdd8df;border-bottom:1px solid #cdd8df}
+.endshare .share{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}
+.endshare .share li{display:flex}
+.endshare .share a,.endshare .share button{flex:1 1 auto;box-sizing:border-box;justify-content:flex-start;padding:8px 14px;border:1px solid #013345;border-radius:4px;text-decoration:none;color:#013345}
+.endshare .share a:hover,.endshare .share button:hover{border-color:#216375;color:#216375}
+.pager{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:16px}
+.pager a,.pager .none{display:flex;flex-direction:column;gap:6px;padding:20px;border:1px solid #cdd8df;border-radius:4px;text-decoration:none;color:#121b27}
+.pager a:hover{border-color:#216375;box-shadow:0px 4px 4px 0px rgba(122,139,153,0.2)}
+.pager .dir{font-family:var(--font-mono);font-size:13px;text-transform:uppercase;letter-spacing:.04em;color:#364552}
+.pager .ttl{font-size:20px;font-weight:600;line-height:1.35}
+.pager .none{border-style:dashed;color:#364552;justify-content:center}
+.pager .next{text-align:right}
+.related{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:16px}
+.topic{display:flex}
+.topic>.mw-nextread{flex:1 1 auto}
+.topic .mw-chip{gap:6px;background:var(--t-surface);border-color:var(--t-stroke);color:#121b27}
+.topic .mw-chip::before{content:"";flex:none;width:8px;height:8px;border-radius:50%;background:var(--t-dot)}
+.topic-leading{--t-surface:#97cfcc;--t-stroke:#68b6b2;--t-dot:#013345}
+.topic-ai{--t-surface:#e3f4f4;--t-stroke:#97cfcc;--t-dot:#216375}
+.h-sec{margin:0;font-size:24px;font-weight:600;line-height:1.35}
+
+.share--icons{flex-direction:column;gap:8px}
+.share--icons a,.share--icons button{justify-content:center;width:44px;height:44px;min-height:44px;padding:0;border:1px solid #cdd8df;border-radius:4px;background:#fafafa;color:#013345;text-decoration:none}
+.share--icons a:hover,.share--icons button:hover{border-color:#216375;color:#fafafa;background:#216375}
+.share a svg,.share button svg{flex:none}
+.endshare .share a,.endshare .share button{gap:8px;min-height:44px}
+.more{width:100%;box-sizing:border-box;padding:var(--section) var(--side);background:#f2f6f8}
+.more-in{max-width:1088px;margin:0 auto;display:flex;flex-direction:column;gap:40px}
+.more-head{display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:16px}
+.all{font-family:var(--font-sans);font-weight:500;font-size:16px;color:#121b27;text-underline-offset:3px}
+.more-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:24px}
+.story{display:flex;flex-direction:column;align-items:flex-start;gap:16px;padding:32px;background:#fafafa;border:1px solid #cdd8df;border-radius:4px;text-decoration:none;color:#121b27;transition:box-shadow .15s ease,border-color .15s ease,transform .15s ease}
+.story:hover{border-color:#216375;box-shadow:0px 0px 15px 0px rgba(54,69,82,0.2);transform:translateY(-2px);color:#121b27}
+.story:focus-visible{outline:2px solid #216375;outline-offset:3px}
+.chip{display:inline-flex;align-items:center;gap:8px;padding:4px 8px;background:var(--s);border:1px solid var(--b);font-size:14px;line-height:1.35}
+.chip::before{content:"";width:8px;height:8px;border-radius:50%;background:var(--d)}
+.story-t{font-size:28px;font-weight:600;line-height:1.25}
+.story:hover .story-t{text-decoration:underline;text-decoration-thickness:1px;text-underline-offset:6px}
+.story-p{font-size:20px;font-style:italic;line-height:1.5;color:#364552}
+.story-m{margin-top:auto;font-family:var(--font-mono);font-size:13px;text-transform:uppercase;color:#364552}
+.story-cta{font-family:var(--font-sans);font-weight:600;font-size:14px;color:#013345}
+.story-cta span{display:inline-block;transition:transform .15s ease}
+.story:hover .story-cta span{transform:translateX(4px)}
+@media (prefers-reduced-motion: reduce){.story,.story-cta span{transition:none}.story:hover{transform:none}}
+@media (max-width: 767px){.more-grid{grid-template-columns:minmax(0,1fr)}.story{padding:24px}.story-t{font-size:24px}}
+@media (max-width: 1099px){
+.layout{grid-template-columns:minmax(0,680px);justify-content:center}
+.layout > .rail{display:none}
+.toc-mobile{display:block}
+}
+@media (max-width: 599px){
+.mw-article__body h2{font-size:24px;margin-top:40px}
+.pager,.related{grid-template-columns:minmax(0,1fr)}
+.endshare .share{grid-template-columns:repeat(2,minmax(0,1fr))}
+.pager .next{text-align:left}
+}
+
+/* Dark ending: the last band and the footer share ONE background, so no seam can appear between them */
+.dark-end{flex-grow:1;display:flex;flex-direction:column;background:linear-gradient(to bottom,#013345 0%,#013345 62%,#00222e 100%);color:#f2f6f8}
+.dark-end > .dark{background:transparent}
+.dark-end > footer{margin-top:auto}
+
+/* ===== Reading: 680px measure (~65 characters), 20px / 1.65 desktop, 18px / 1.6 on phones ===== */
+.read{width:100%;box-sizing:border-box;padding:0 max(20px,var(--side))}
+.col{max-width:680px;margin:0 auto}
+.prose{font-family:var(--font-serif);font-size:20px;line-height:1.65;color:#121b27}
+.prose p{margin:0 0 1.15em}
+.prose h2{margin:1.9em 0 .55em;font-size:26px;font-weight:600;line-height:1.3;scroll-margin-top:24px}
+.prose h2:first-child{margin-top:0}
+.pull{margin:1.6em 0;padding:0;font-size:28px;font-style:italic;font-weight:500;line-height:1.35;color:#013345}
+.pull::before{content:"";display:block;width:48px;height:2px;margin-bottom:16px;background:#3d9c9a}
+.kicker{display:flex;flex-wrap:wrap;align-items:center;gap:8px 12px;font-family:var(--font-mono);font-size:13px;text-transform:uppercase;letter-spacing:.03em;color:#364552}
+.tag{display:inline-flex;align-items:center;gap:6px;padding:4px 8px;border:1px solid #7a8b99;border-radius:4px;background:#cdd8df;font-family:var(--font-serif);font-size:14px;text-transform:none;letter-spacing:0;color:#121b27}
+.tag::before{content:"";width:8px;height:8px;border-radius:50%;background:#364552}
+.title{margin:0;font-size:48px;font-weight:700;line-height:1.1;text-wrap:balance}
+.deck{margin:0;font-size:22px;line-height:1.45;color:#364552}
+.byline{display:flex;align-items:center;gap:12px}
+.byline img{width:48px;height:48px;border-radius:50%;object-fit:cover;object-position:50% 25%;flex:none}
+.byline .who{display:flex;flex-direction:column;gap:2px;font-family:var(--font-sans);font-size:14px;line-height:1.3}
+.byline .who b{font-weight:600}
+.byline .who span{color:#364552}
+.btn-o{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:44px;padding:0 16px;border:1px solid #013345;border-radius:4px;background:transparent;color:#013345;font-family:var(--font-sans);font-weight:500;font-size:15px;line-height:1;text-decoration:none;cursor:pointer;white-space:nowrap}
+.btn-o:hover{border-color:#216375;color:#216375}
+.btn-p{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:48px;padding:0 20px;border:1px solid #013345;border-radius:4px;background:#013345;color:#f2f6f8;font-family:var(--font-sans);font-weight:600;font-size:15px;line-height:1;text-decoration:none;cursor:pointer;white-space:nowrap}
+.btn-p:hover{background:#216375;border-color:#216375;color:#f2f6f8}
+.btn-o:focus-visible,.btn-p:focus-visible,.icon-btn:focus-visible{outline:2px solid #216375;outline-offset:2px}
+.icon-btn{display:inline-flex;align-items:center;justify-content:center;width:44px;height:44px;padding:0;border:1px solid #cdd8df;border-radius:4px;background:#fafafa;color:#013345;cursor:pointer;text-decoration:none}
+.icon-btn:hover{border-color:#216375;background:#216375;color:#fafafa}
+.toast{position:fixed;left:50%;bottom:24px;z-index:20;transform:translateX(-50%);padding:12px 16px;border-radius:4px;background:#121b27;color:#f2f6f8;font-family:var(--font-sans);font-size:14px;box-shadow:0 0 15px rgba(54,69,82,.3)}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+@media (max-width: 599px){
+.prose{font-size:18px;line-height:1.6}
+.prose h2{font-size:22px}
+.pull{font-size:23px}
+.title{font-size:34px;line-height:1.15}
+.deck{font-size:19px}
+}
+
+.c-top{display:flex;flex-direction:column;gap:20px;padding:56px 0 32px}
+.c-short{display:flex;flex-direction:column;gap:8px;margin:0 0 24px;padding:20px 24px;border-radius:4px;background:#e3f4f4}
+.c-short .lbl{font-family:var(--font-mono);font-size:13px;text-transform:uppercase;letter-spacing:.04em;color:#216375}
+.c-short p{margin:0;font-size:20px;font-style:italic;line-height:1.45;color:#013345}
+.c-toc{margin:0 0 40px;border:1px solid #cdd8df;border-radius:4px;background:#fafafa}
+.c-toc summary{display:flex;align-items:center;justify-content:space-between;gap:12px;min-height:52px;padding:0 20px;font-family:var(--font-sans);font-weight:600;font-size:15px;cursor:pointer;list-style:none}
+.c-toc summary::-webkit-details-marker{display:none}
+.c-toc summary .c-pm{font-size:22px;font-weight:400;line-height:1}
+.c-toc summary .c-pm::before{content:"+"}
+.c-toc[open] summary .c-pm::before{content:"−"}
+.c-toc ol{margin:0;padding:0 20px 16px;list-style:none;counter-reset:c}
+.c-toc li{counter-increment:c}
+.c-toc li a{display:flex;gap:12px;min-height:44px;align-items:center;border-top:1px solid #f2f6f8;font-size:18px;color:#121b27;text-decoration:none}
+.c-toc li a::before{content:counter(c,decimal-leading-zero);font-family:var(--font-mono);font-size:13px;color:#216375}
+.c-toc li a:hover{color:#216375;text-decoration:underline;text-underline-offset:4px}
+.prose h2.c-h{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap}
+.c-n{font-family:var(--font-mono);font-size:14px;font-weight:400;color:#216375}
+.c-anchor{display:inline-flex;align-items:center;justify-content:center;width:32px;height:32px;padding:0;border:0;border-radius:4px;background:none;color:#7a8b99;cursor:pointer;opacity:0;transition:opacity .15s ease;align-self:center}
+.c-h:hover .c-anchor,.c-anchor:focus-visible{opacity:1}
+.c-anchor:hover{color:#216375;background:#e3f4f4}
+.c-back{display:inline-flex;margin:-.4em 0 0;font-family:var(--font-sans);font-size:14px;color:#364552;text-underline-offset:3px}
+.c-nudge{margin:2em 0;padding:16px 0;border-top:1px solid #cdd8df;border-bottom:1px solid #cdd8df;font-family:var(--font-sans);font-size:16px;color:#364552}
+.c-nudge a{color:#013345;font-weight:600}
+.c-end{display:flex;flex-direction:column;gap:20px;margin:48px 0 96px}
+.c-end h2{margin:0;font-size:32px;font-weight:700;line-height:1.2}
+.c-opts{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+.c-opt{display:flex;flex-direction:column;align-items:flex-start;gap:10px;padding:20px;border:1px solid #cdd8df;border-radius:8px;background:#fafafa;color:#121b27;text-align:left;font:inherit;text-decoration:none;cursor:pointer}
+.c-opt:hover{border-color:#216375;box-shadow:0 0 15px rgba(54,69,82,.15)}
+.c-opt:focus-visible{outline:2px solid #216375;outline-offset:2px}
+.c-opt .ic{display:inline-flex;align-items:center;justify-content:center;width:40px;height:40px;border-radius:50%;background:#e3f4f4;color:#013345}
+.c-opt b{font-family:var(--font-sans);font-size:16px;font-weight:600}
+.c-opt span{font-size:15px;line-height:1.45;color:#364552}
+@media (hover: none){.c-anchor{opacity:1}}
+@media (max-width: 767px){.c-opts{grid-template-columns:minmax(0,1fr)}.c-opt{flex-direction:row;align-items:center}.c-opt span{display:none}}
+@media (max-width: 599px){.c-top{padding:32px 0 24px}.c-short{padding:16px 18px}.c-short p{font-size:18px}.c-end h2{font-size:26px}}
+
+.a-pop{display:flex;flex-wrap:wrap;gap:8px;padding:12px 0 0}
+.a-pop a,.a-pop button{display:inline-flex;align-items:center;gap:8px;min-height:44px;padding:0 14px;border:1px solid #cdd8df;border-radius:4px;background:#fafafa;color:#121b27;font-family:var(--font-sans);font-weight:500;font-size:14px;text-decoration:none;cursor:pointer}
+.a-pop a:hover,.a-pop button:hover{border-color:#216375;color:#216375}
+
+.b-top{display:flex;flex-direction:column;gap:20px;padding:56px 0 40px}
+.b-bar{position:fixed;left:50%;bottom:20px;z-index:10;transform:translateX(-50%);display:flex;align-items:center;gap:4px;padding:6px;border:1px solid #cdd8df;border-radius:999px;background:rgba(250,250,250,.96);box-shadow:0 0 15px rgba(54,69,82,.2);transition:opacity .2s ease,transform .2s ease}
+.b-bar.hide{opacity:0;pointer-events:none;transform:translate(-50%,16px)}
+.b-bar button,.b-bar a{display:inline-flex;align-items:center;gap:8px;min-height:44px;padding:0 16px;border:0;border-radius:999px;background:transparent;color:#013345;font-family:var(--font-sans);font-weight:600;font-size:14px;text-decoration:none;cursor:pointer}
+.b-bar button:hover,.b-bar a:hover{background:#e3f4f4}
+.b-bar .main{background:#013345;color:#f2f6f8}
+.b-bar .main:hover{background:#216375}
+.b-bar button:focus-visible,.b-bar a:focus-visible{outline:2px solid #216375;outline-offset:2px}
+.b-ring{display:inline-flex;align-items:center;justify-content:center;width:44px;height:44px;font-family:var(--font-mono);font-size:11px;color:#364552}
+.b-quote{position:relative;margin:1.6em 0;padding:0}
+.b-quote .pull{margin:0 0 12px}
+.b-qbtn{display:inline-flex;align-items:center;gap:8px;min-height:40px;padding:0 12px;border:1px solid #97cfcc;border-radius:999px;background:#e3f4f4;color:#013345;font-family:var(--font-sans);font-weight:600;font-size:13px;cursor:pointer}
+.b-qbtn:hover{border-color:#216375}
+.b-sel{position:fixed;left:50%;bottom:84px;z-index:11;transform:translateX(-50%);display:flex;align-items:center;gap:10px;max-width:min(560px,calc(100% - 32px));padding:10px 10px 10px 16px;border-radius:999px;background:#121b27;color:#f2f6f8;font-family:var(--font-sans);font-size:14px;box-shadow:0 0 15px rgba(54,69,82,.3)}
+.b-sel span{overflow:hidden;white-space:nowrap;text-overflow:ellipsis;font-style:italic;opacity:.85}
+.b-sel button{flex:none;min-height:36px;padding:0 14px;border:0;border-radius:999px;background:#3d9c9a;color:#121b27;font-weight:600;cursor:pointer}
+.scrim{position:fixed;inset:0;z-index:30;border:0;padding:0;background:rgba(18,27,39,.45);cursor:pointer}
+.sheet{position:fixed;left:50%;bottom:0;z-index:31;transform:translateX(-50%);width:min(560px,100%);box-sizing:border-box;max-height:85vh;overflow:auto;display:flex;flex-direction:column;gap:16px;padding:20px 20px 28px;border-radius:12px 12px 0 0;background:#fafafa;box-shadow:0 0 15px rgba(54,69,82,.3);font-family:var(--font-sans)}
+.sheet-h{display:flex;align-items:center;justify-content:space-between;gap:12px}
+.sheet-h h2{margin:0;font-family:var(--font-serif);font-size:24px;font-weight:600}
+.sheet .grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.sheet .grid a,.sheet .grid button{display:flex;align-items:center;gap:10px;min-height:52px;padding:0 14px;border:1px solid #cdd8df;border-radius:8px;background:#fafafa;color:#121b27;font-family:var(--font-sans);font-weight:500;font-size:15px;text-decoration:none;cursor:pointer}
+.sheet .grid a:hover,.sheet .grid button:hover{border-color:#216375;color:#216375}
+.sheet .grid .wide{grid-column:1 / -1;background:#013345;border-color:#013345;color:#f2f6f8}
+.sheet .grid .wide:hover{background:#216375;color:#f2f6f8}
+.sheet blockquote{margin:0;padding:12px 16px;border-radius:8px;background:#e3f4f4;font-family:var(--font-serif);font-style:italic;font-size:17px;line-height:1.45}
+.sheet label{font-weight:500;font-size:14px}
+.sheet textarea,.sheet input{width:100%;box-sizing:border-box;min-height:44px;padding:10px 12px;border:1px solid #7a8b99;border-radius:4px;background:#fff;font-family:var(--font-serif);font-size:17px;color:#121b27}
+.sheet textarea{min-height:120px;resize:vertical;line-height:1.5}
+.sheet .note{margin:0;font-size:13px;color:#364552}
+@media (min-width: 768px){.sheet{bottom:auto;top:50%;transform:translate(-50%,-50%);border-radius:12px}}
+@media (max-width: 599px){.b-top{padding:32px 0 28px}.b-bar{left:12px;right:12px;bottom:12px;transform:none;justify-content:space-between}.b-bar.hide{transform:translateY(16px)}.b-bar .lbl-long{display:none}.b-sel{bottom:76px}}
+
+/* D: the B tracker also says which chapter you are in */
+.d-where{display:flex;flex-direction:column;justify-content:center;gap:2px;min-width:0;max-width:230px;padding:0 12px 0 14px;font-family:var(--font-sans);line-height:1.15}
+.d-where .n{font-family:var(--font-mono);font-size:11px;color:#216375;letter-spacing:.03em}
+.d-where .t{overflow:hidden;white-space:nowrap;text-overflow:ellipsis;font-size:13px;font-weight:600;color:#121b27}
+.d-track{position:relative;height:3px;margin-top:4px;border-radius:2px;background:#cdd8df;overflow:hidden}
+.d-track i{position:absolute;left:0;top:0;bottom:0;background:#3d9c9a}
+@media (max-width: 599px){.d-where{max-width:none;flex:1 1 auto;padding-left:10px}.d-me{flex:1 1 auto}}
+
+/* ===== Author presence: the reader always knows Martín is the one talking ===== */
+.f-author{display:flex;align-items:center;gap:16px}
+.f-author img{width:64px;height:64px;border-radius:50%;object-fit:cover;object-position:50% 25%;flex:none;box-shadow:0 0 0 3px #fafafa,0 0 0 4px #97cfcc}
+.f-author .who{display:flex;flex-direction:column;gap:4px;font-family:var(--font-sans);line-height:1.3}
+.f-author .by{font-size:16px;color:#364552}
+.f-author .by b{font-weight:600;color:#121b27}
+.f-author .role{font-size:14px;color:#364552}
+.f-author .role a{color:#013345;font-weight:500;text-underline-offset:3px}
+.f-cite{display:flex;align-items:center;gap:10px;margin:0 0 14px;font-family:var(--font-sans);font-size:14px;font-weight:600;color:#013345}
+.f-cite img{width:28px;height:28px;border-radius:50%;object-fit:cover;object-position:50% 25%}
+.d-ava{width:36px;height:36px;border-radius:50%;object-fit:cover;object-position:50% 25%;flex:none;box-shadow:0 0 0 2px #fafafa,0 0 0 3px #97cfcc}
+.d-me{display:flex;align-items:center;gap:10px;min-width:0;padding:0 8px 0 4px;text-decoration:none}
+.d-me .d-where{padding:0}
+.f-sign{display:grid;grid-template-columns:96px minmax(0,1fr);gap:24px;align-items:center;margin:56px 0 0;padding:28px;border-radius:8px;background:#f2f6f8}
+.f-sign img{width:96px;height:96px;border-radius:50%;object-fit:cover;object-position:50% 25%}
+.f-sign p{margin:0}
+.f-sign .hi{font-size:22px;font-weight:600;line-height:1.3}
+.f-sign .bio{margin-top:6px;font-size:18px;line-height:1.55;color:#364552}
+.f-sign a{display:inline-flex;margin-top:10px;font-family:var(--font-sans);font-weight:600;font-size:14px;color:#013345;text-underline-offset:3px}
+.sheet-who{display:flex;align-items:center;gap:12px}
+.sheet-who img{width:40px;height:40px;border-radius:50%;object-fit:cover;object-position:50% 25%}
+@media (max-width: 599px){
+.f-author img{width:52px;height:52px}
+.f-sign{grid-template-columns:64px minmax(0,1fr);gap:16px;padding:20px}
+.f-sign img{width:64px;height:64px}
+.f-sign .hi{font-size:19px}
+.f-sign .bio{font-size:16px}
+.d-ava{width:32px;height:32px}
+}
+
+/* ===== Theme toggle ===== */
+.theme-btn{display:inline-flex;align-items:center;justify-content:center;width:44px;height:44px;margin-left:auto;padding:0;border:1px solid #cdd8df;border-radius:4px;background:transparent;color:#013345;cursor:pointer}
+.theme-btn:hover{border-color:#216375;color:#216375}
+.theme-btn:focus-visible{outline:2px solid #216375;outline-offset:2px}
+header .nav + .theme-btn{margin-left:0}
+@media (min-width: 768px){header{gap:16px !important}header .nav{margin-left:auto}}
+
+/* ===== Dark theme: same structure, inverted surfaces, teal stays the accent ===== */
+.theme-dark{background:#121b27 !important;color:#fafafa !important}
+.theme-dark a{color:#fafafa}
+.theme-dark a:not(.mw-button):hover{color:#97cfcc}
+.theme-dark a:focus-visible,.theme-dark button:focus-visible{outline-color:#97cfcc}
+.theme-dark .site-header{background:#121b27 !important;box-shadow:0 1px 0 #364552 !important}
+.theme-dark .site-header a[style]{color:#fafafa !important}
+.theme-dark .site-header a.btn{background:#3d9c9a !important;color:#121b27 !important}
+.theme-dark .site-header svg path[fill="#121b27"]{fill:#fafafa}
+.theme-dark .menu-btn{color:#fafafa}
+.theme-dark .menu-panel{background:#121b27;border-top-color:#364552;box-shadow:none}
+.theme-dark .menu-panel a{color:#fafafa;border-bottom-color:#364552}
+.theme-dark .menu-panel a.btn{background:#97cfcc;color:#121b27}
+.theme-dark .theme-btn{border-color:#364552;color:#fafafa}
+.theme-dark .theme-btn:hover{border-color:#97cfcc;color:#97cfcc}
+.theme-dark .prose{color:#fafafa}
+.theme-dark .pull{color:#97cfcc}
+.theme-dark .kicker,.theme-dark .rail-label{color:#cdd8df}
+.theme-dark .tag{background:#212d38;border-color:#7a8b99;color:#fafafa}
+.theme-dark .tag::before{background:#cdd8df}
+.theme-dark .f-author .by,.theme-dark .f-author .role{color:#cdd8df}
+.theme-dark .f-author .by b{color:#fafafa}
+.theme-dark .f-author .role a,.theme-dark .f-sign a,.theme-dark .story-cta{color:#97cfcc}
+.theme-dark .f-author img{box-shadow:0 0 0 3px #121b27,0 0 0 4px #3d9c9a}
+.theme-dark .c-toc{background:#212d38;border-color:#364552}
+.theme-dark .c-toc li a{color:#fafafa;border-top-color:#364552}
+.theme-dark .c-toc li a::before,.theme-dark .c-n{color:#68b6b2}
+.theme-dark .c-anchor{color:#7a8b99}
+.theme-dark .c-anchor:hover{background:#212d38;color:#97cfcc}
+.theme-dark .c-back{color:#cdd8df}
+.theme-dark .f-sign{background:#212d38}
+.theme-dark .f-sign .bio{color:#cdd8df}
+.theme-dark .c-opt{background:#212d38;border-color:#364552;color:#fafafa}
+.theme-dark .c-opt:hover{border-color:#97cfcc;box-shadow:none}
+.theme-dark .c-opt .ic{background:#212d38;color:#97cfcc}
+.theme-dark .c-opt span{color:#cdd8df}
+.theme-dark .c-opt.li-on{border-color:#3d9c9a}
+.theme-dark .more{background:#212d38}
+.theme-dark .story{background:#121b27;border-color:#364552;color:#fafafa}
+.theme-dark .story:hover{border-color:#97cfcc;box-shadow:none;color:#fafafa}
+.theme-dark .story-p,.theme-dark .story-m{color:#cdd8df}
+.theme-dark .all{color:#fafafa}
+.theme-dark .chip{background:#212d38 !important;border-color:#3d9c9a !important;color:#fafafa}
+.theme-dark .b-bar{background:rgba(22,33,43,.96);border-color:#364552;box-shadow:0 0 15px rgba(0,0,0,.4)}
+.theme-dark .b-bar button,.theme-dark .b-bar a{color:#fafafa}
+.theme-dark .b-bar button:hover,.theme-dark .b-bar a:hover{background:#212d38}
+.theme-dark .b-bar .main{background:#3d9c9a;color:#121b27}
+.theme-dark .b-bar .main:hover{background:#216375}
+.theme-dark .d-where .n{color:#68b6b2}
+.theme-dark .d-where .t{color:#fafafa}
+.theme-dark .d-track{background:#364552}
+.theme-dark .d-ava,.theme-dark .f-sign img{box-shadow:0 0 0 2px #212d38,0 0 0 3px #3d9c9a}
+.theme-dark .sheet{background:#212d38;color:#fafafa}
+.theme-dark .sheet .grid a,.theme-dark .sheet .grid button{background:#121b27;border-color:#364552;color:#fafafa}
+.theme-dark .sheet .grid a:hover,.theme-dark .sheet .grid button:hover{border-color:#97cfcc;color:#97cfcc}
+.theme-dark .sheet .grid .wide{background:#3d9c9a;border-color:#3d9c9a;color:#121b27}
+.theme-dark .sheet blockquote{background:#212d38}
+.theme-dark .sheet textarea,.theme-dark .sheet input{background:#121b27;border-color:#7a8b99;color:#fafafa}
+.theme-dark .sheet .note{color:#cdd8df}
+.theme-dark .icon-btn{background:#212d38;border-color:#364552;color:#fafafa}
+.theme-dark .btn-p{background:#3d9c9a;border-color:#3d9c9a;color:#121b27}
+.theme-dark .btn-o{border-color:#97cfcc;color:#97cfcc}
+.theme-dark .toast{background:#fafafa;color:#121b27}
+
+/* LinkedIn conversation card once the post is shared */
+.c-opt.li-on{border-color:#3d9c9a;background:#f2f6f8}
+.li-badge{display:inline-flex;padding:2px 8px;border-radius:999px;background:#e3f4f4;color:#013345;font-family:var(--font-sans);font-size:12px;font-weight:600}
+.theme-dark .li-badge{background:#212d38;color:#97cfcc}
+
+/* ===== Wide screens: contents on the left, author on the right ===== */
+.f-left,.f-right{display:none}
+@media (min-width: 1200px){
+main.read{padding-left:64px;padding-right:64px}
+.f-layout{display:grid;grid-template-columns:minmax(0,1fr) 680px minmax(0,1fr);column-gap:40px;align-items:start}
+.f-layout > .col{margin:0;width:680px}
+.f-left,.f-right{display:flex;flex-direction:column;position:sticky;top:40px;margin-top:220px;max-width:220px;font-family:var(--font-sans)}
+.f-right{justify-self:start;align-items:flex-start;gap:6px;transition:opacity .25s ease}
+.f-right.off{opacity:0;pointer-events:none}
+.f-left{justify-self:end;gap:12px}
+.c-toc,.b-bar{display:none !important}
+}
+@media (prefers-reduced-motion: reduce){.f-right{transition:none}}
+.f-side-lbl{margin:0;font-family:var(--font-mono);font-size:12px;text-transform:uppercase;letter-spacing:.05em;color:#364552}
+.f-toc{margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:2px}
+.f-toc a{display:flex;gap:10px;padding:6px 0;font-size:14px;line-height:1.35;color:#364552;text-decoration:none}
+.f-toc a .n{flex:none;font-family:var(--font-mono);font-size:12px;line-height:1.6;color:#7a8b99}
+.f-toc a:hover{color:#121b27;text-decoration:underline;text-underline-offset:3px}
+.f-toc a.on{color:#121b27;font-weight:600}
+.f-toc a.on .n{color:#216375}
+.f-prog{position:relative;height:2px;margin-top:4px;background:#cdd8df;border-radius:2px;overflow:hidden}
+.f-prog i{position:absolute;left:0;top:0;bottom:0;background:#3d9c9a}
+.f-left-meta{margin:0;font-size:13px;color:#364552}
+.f-right img{width:56px;height:56px;margin-bottom:6px;border-radius:50%;object-fit:cover;object-position:50% 25%;box-shadow:0 0 0 2px #fafafa,0 0 0 3px #97cfcc}
+.f-right .nm{margin:0;font-size:15px;font-weight:600;color:#121b27}
+.f-right .rl{margin:0 0 10px;font-size:13px;line-height:1.4;color:#364552}
+.f-side-btn{display:inline-flex;align-items:center;min-height:36px;padding:0;border:0;background:none;color:#013345;font:inherit;font-size:14px;font-weight:500;text-decoration:underline;text-underline-offset:3px;cursor:pointer}
+.f-side-btn.main{font-weight:600}
+.f-side-btn:hover,.f-side-link:hover{color:#216375}
+.f-side-btn:focus-visible{outline:2px solid #216375;outline-offset:2px}
+.f-side-link{font-size:14px;color:#364552;text-underline-offset:3px}
+.theme-dark .f-side-lbl,.theme-dark .f-left-meta,.theme-dark .f-right .rl,.theme-dark .f-side-link,.theme-dark .f-toc a{color:#cdd8df}
+.theme-dark .f-toc a .n{color:#7a8b99}
+.theme-dark .f-toc a:hover,.theme-dark .f-toc a.on,.theme-dark .f-right .nm{color:#fafafa}
+.theme-dark .f-toc a.on .n,.theme-dark .f-side-btn{color:#97cfcc}
+.theme-dark .f-prog{background:#364552}
+.theme-dark .f-right img{box-shadow:0 0 0 2px #121b27,0 0 0 3px #3d9c9a}
+
+/* ============================================================
+   Figma / design system "Martin's Web" values (Nov 2026).
+   Type: h1 48/48 Bold, h2 32 SemiBold 1.35, h3 24 SemiBold, h4 24 Instrument Sans,
+   body-long 20/1.6, body 20/1.35, caption 14, button 14 Instrument Sans Medium 1.2,
+   caption-mono 18 Space Mono uppercase. Below 600px the *-mobile styles.
+   Spacing: xxs 4, xs 8, s 12, m 16, l 24, xl 32, xxl 96 (mobile l 16, xl 24, xxl 48).
+   Radius: buttons/chips/inputs 4, structure 0, Cards 8. No pills, no gradients.
+   ============================================================ */
+.read{padding:0 var(--side)}
+.prose{font-size:20px;line-height:1.6}
+.prose p{margin:0 0 24px}
+.prose h2,.prose h2.c-h{margin:32px 0 12px;font-size:32px;font-weight:600;line-height:1.35}
+.c-n{font-size:14px}
+.c-top{gap:24px;padding:96px 0 32px;margin-bottom:32px;border-bottom:1px solid #364552}
+.kicker{gap:12px;font-family:var(--font-serif);font-size:14px;line-height:1.35;text-transform:none;letter-spacing:0;color:#364552}
+.tag{padding:4px 8px;border-radius:4px;font-size:14px;line-height:1.35}
+.title{font-size:48px;font-weight:700;line-height:48px}
+.f-author{gap:12px}
+.f-author img{width:56px;height:56px}
+.f-author .who{gap:2px}
+.f-author .by{font-family:var(--font-sans);font-size:14px;font-weight:400;line-height:1.2}
+.f-author .by b{font-weight:600}
+.f-author .role{font-family:var(--font-serif);font-size:14px;font-style:italic;line-height:1.35}
+.f-author .role a{font-family:var(--font-sans);font-style:normal;font-weight:500}
+.eyebrow-cm,.f-side-lbl,.more .rail-label{margin:0;font-family:var(--font-mono);font-size:18px;line-height:1.35;text-transform:uppercase;letter-spacing:0;color:#121b27}
+.f-side-lbl{font-size:14px}
+.c-toc{margin:0 0 32px;border-radius:0}
+.c-toc summary{min-height:48px;padding:0 16px;font-family:var(--font-sans);font-size:14px;font-weight:500;line-height:1.2}
+.c-toc ol{padding:0 16px 12px}
+.c-toc li a{min-height:44px;gap:12px;font-family:var(--font-sans);font-size:14px;font-weight:500;line-height:1.2}
+.c-toc li a::before{font-size:14px}
+.f-sign{gap:24px;margin:32px 0 0;padding:24px;border-radius:0}
+.f-sign .hi{font-size:24px;font-weight:600;line-height:1.35}
+.f-sign .bio{margin-top:8px;font-size:20px;line-height:1.35}
+.f-sign a{margin-top:12px;font-family:var(--font-sans);font-size:14px;font-weight:500;line-height:1.2}
+.c-end{gap:24px;margin:32px 0 96px;padding-top:32px;border-top:1px solid #364552}
+.c-end h2{font-size:24px;font-weight:600;line-height:1.35;text-wrap:balance}
+.c-opts{gap:16px}
+.c-opt{gap:12px;padding:24px;border-radius:8px;border-color:rgba(122,139,153,0.2);box-shadow:0px 4px 4px 0px rgba(122,139,153,0.2)}
+.c-opt:hover{border-color:#216375}
+.c-opt .ic{width:48px;height:48px;border-radius:0;background:#22d48d;color:#f2f6f8}
+.c-opt b{font-family:var(--font-sans);font-size:24px;font-weight:400;line-height:1.2}
+.c-opt span{font-family:var(--font-serif);font-size:14px;line-height:1.35}
+.btn-o,.btn-p{gap:8px;min-height:0;padding:8px;border-radius:4px;font-family:var(--font-sans);font-size:14px;font-weight:500;line-height:1.2}
+.more{padding:96px var(--side)}
+.more-in{gap:32px}
+.more-head h2{font-size:32px !important;font-weight:600 !important;line-height:1.35 !important}
+.all{font-size:14px;font-weight:500;line-height:1.2}
+.more-grid{gap:16px}
+.story{gap:12px;padding:24px;border-radius:0}
+.story:hover{transform:none;box-shadow:0px 4px 4px 0px rgba(122,139,153,0.2)}
+.story-t{font-size:24px;font-weight:600;line-height:1.35}
+.story-p{font-size:20px;font-style:normal;line-height:1.35}
+.story-m{font-size:14px}
+.story-cta{font-size:14px;font-weight:500;line-height:1.2}
+.chip{gap:8px;padding:4px 8px;border-radius:4px;font-size:14px;line-height:1.35}
+/* Tracker: square touch points, never a pill */
+.b-bar{gap:4px;padding:8px;border-radius:4px;box-shadow:0px 4px 4px 0px rgba(122,139,153,0.2)}
+.b-bar button,.b-bar a{gap:8px;min-height:40px;padding:0 12px;border-radius:4px;font-size:14px;font-weight:500;line-height:1.2}
+.d-me{padding:0 8px 0 4px}
+.d-where .n{font-size:12px}
+.d-where .t{font-size:14px;font-weight:500}
+/* Sheets: one Card (8px), buttons 4px */
+.sheet{gap:16px;padding:24px;border-radius:8px 8px 0 0}
+.sheet .grid{gap:8px}
+.sheet .grid a,.sheet .grid button{min-height:48px;padding:0 16px;border-radius:4px;font-size:14px;font-weight:500;line-height:1.2}
+.sheet label{font-family:var(--font-serif);font-size:14px;font-weight:400;line-height:1.35}
+.sheet textarea,.sheet input{min-height:48px;padding:8px 16px;border-radius:4px;border-color:#cdd8df;background:#f2f6f8;font-size:14px;line-height:1.35}
+.sheet textarea{min-height:144px}
+.sheet .note{font-family:var(--font-serif);font-size:14px}
+@media (min-width: 768px){.sheet{border-radius:8px}}
+/* Side columns */
+.f-toc a{font-size:14px;font-weight:500;line-height:1.2;padding:8px 0}
+.f-toc a .n{font-size:14px;line-height:1.2}
+.f-left-meta{font-family:var(--font-serif);font-size:14px;line-height:1.35}
+.f-right .nm{font-size:14px;font-weight:600;line-height:1.2}
+.f-right .rl{margin:4px 0 12px;font-family:var(--font-serif);font-size:14px;font-style:italic;line-height:1.35}
+.f-side-btn{min-height:0;padding:8px 0;font-size:14px;font-weight:500;line-height:1.2}
+.f-side-btn.main{font-weight:600}
+.f-side-link{padding:8px 0;font-family:var(--font-sans);font-size:14px;font-weight:500;line-height:1.2}
+@media (max-width: 599px){
+.prose{font-size:18px;line-height:1.6}
+.prose p{margin-bottom:16px}
+.prose h2,.prose h2.c-h{margin-top:24px;font-size:24px}
+.c-top{gap:16px;padding:48px 0 24px;margin-bottom:24px}
+.kicker,.tag{font-size:12px}
+.title{font-size:36px;line-height:48px}
+.eyebrow-cm,.more .rail-label{font-size:14px}
+.c-toc{margin-bottom:24px}
+.f-sign{gap:16px;margin-top:24px;padding:16px}
+.f-sign .hi{font-size:20px}
+.f-sign .bio{font-size:16px}
+.c-end{gap:16px;margin:24px 0 48px;padding-top:24px}
+.c-end h2{font-size:20px}
+.c-opt{padding:16px}
+.c-opt b{font-size:20px}
+.more{padding:48px var(--side)}
+.more-head h2{font-size:24px !important}
+.story{padding:16px}
+.story-t{font-size:20px}
+.story-p{font-size:16px}
+.story-m,.chip{font-size:12px}
+.sheet{padding:16px}
+}
+/* Vertical rhythm, one rule everywhere:
+   between big blocks = one xxl (96 desktop, 48 mobile), split 48 + 48 (24 + 24) when two blocks meet;
+   inside the article = xl 32 around dividers and boxes, l 24 between paragraphs. */
+.c-top{padding-top:48px}
+.c-end{margin-bottom:48px}
+.more{padding-top:48px;padding-bottom:48px}
+#newsletter.band{padding-top:48px;padding-bottom:48px}
+@media (min-width: 1200px){.f-left,.f-right{margin-top:268px}}
+@media (max-width: 599px){
+.c-top{padding-top:24px}
+.c-end{margin-bottom:24px}
+.more{padding-top:24px;padding-bottom:24px}
+#newsletter.band{padding-top:24px;padding-bottom:24px}
+}
+/* The author card that follows the reader on wide screens: a Card, so it never reads as body text */
+@media (min-width: 1200px){
+.f-right{box-sizing:border-box;width:220px;padding:16px;gap:4px;background:#fafafa;border:1px solid rgba(122,139,153,0.2);border-radius:8px;box-shadow:0px 4px 4px 0px rgba(122,139,153,0.2)}
+.f-right .rl{margin-bottom:8px}
+.f-right .f-side-btn,.f-right .f-side-link{padding:6px 0}
+}
+.theme-dark .f-right{background:#212d38;border-color:#364552;box-shadow:0px 4px 4px 0px rgba(0,0,0,0.3)}
+.theme-dark .f-right img{box-shadow:0 0 0 2px #212d38,0 0 0 3px #3d9c9a}
+/* Soft fade behind the floating tracker, so the text scrolling under it never clashes with it */
+.b-fade{position:fixed;left:0;right:0;bottom:0;z-index:9;height:120px;pointer-events:none;background:linear-gradient(to bottom,rgba(250,250,250,0) 0%,rgba(250,250,250,.85) 50%,#fafafa 100%);transition:opacity .2s ease}
+.b-fade.hide{opacity:0}
+.theme-dark .b-fade{background:linear-gradient(to bottom,rgba(18,27,39,0) 0%,rgba(18,27,39,.85) 50%,#121b27 100%)}
+@media (min-width: 1200px){.b-fade{display:none}}
+@media (prefers-reduced-motion: reduce){.b-fade{transition:none}}
+
+/* phones: logo on one line, footer links aligned with the copyright, closing headlines at phone size */
+@media (max-width: 599px){
+.site-header > a > span{font-size:24px !important;white-space:nowrap}
+footer .nav{margin-left:-8px}
+#news-title,#contact-title{font-size:32px !important;line-height:1.15 !important}
+}
+@media (min-width: 1200px){.c-back{display:none}}
+/* dark: design system components (newsletter input) and topic dots, same as the other pages */
+.theme-dark{--surfaces-white:#121b27;--surfaces-highlights:#212d38;--surfaces-strokes:#364552;--surfaces-divider:#cdd8df;--text-primary:#fafafa;--text-secondary:#cdd8df;--button-dark:#3d9c9a;--button-mid:#97cfcc;--text-contrast:#121b27}
+.theme-dark .chip::before{background:#3d9c9a}
+/* same rhythm as the rest of the site */
+:root{--section:48px}
+@media (max-width: 599px){:root{--section:24px}}
+/* dark: same structure, DS dark tokens */
+.theme-dark .eyebrow-cm,.theme-dark .more .rail-label{color:#fafafa}
+.theme-dark .c-top,.theme-dark .c-end{border-color:#cdd8df}
+.theme-dark .c-opt{background:#121b27;border-color:#364552;box-shadow:0px 4px 4px 0px rgba(54,69,82,0.2)}
+.theme-dark .c-opt .ic{background:#22d48d;color:#212d38}
+.theme-dark .sheet textarea,.theme-dark .sheet input{background:#212d38;border-color:#364552}
+.theme-dark .b-bar{box-shadow:0px 4px 4px 0px rgba(54,69,82,0.2)}
 </style>
 </helmet>
-<div style="min-height: 100vh; background: #fafafa; color: #121b27; font-family: var(--font-serif); display: flex; flex-direction: column">
-
-<header style="position: relative; z-index: 2; display: flex; align-items: center; justify-content: space-between; gap: 24px; padding: 24px var(--side); background: #fafafa; box-shadow: 0px 4px 4px 0px rgba(122,139,153,0.2)">
-<a href="#" style="display: flex; align-items: center; text-decoration: none; color: #121b27">
+<div class="progress" aria-hidden="true" style="width: {{progress}}"></div>
+<div class="{{themeCls}}" style="min-height: 100vh; background: #fafafa; color: #121b27; font-family: var(--font-serif); display: flex; flex-direction: column">
+<header class="site-header" style="position: relative; z-index: 2; display: flex; align-items: center; justify-content: space-between; gap: 24px; padding: 24px var(--side); background: #fafafa; box-shadow: 0px 4px 4px 0px rgba(122,139,153,0.2)">
+<a href="Main.dc.html" style="display: flex; align-items: center; text-decoration: none; color: #121b27">
 <svg class="logo-anim" width="57" height="48" viewBox="0 0 57 48" fill="none" aria-hidden="true" style="display: block">
 <defs><mask id="m-write-post" maskUnits="userSpaceOnUse" x="0" y="0" width="57" height="48"><path class="m-trace" d="M26.7 35.6 C26.8 29 27.4 21 28.7 14.4 C30.4 19.4 31.8 14.8 34.2 14.8 C36.9 15 36.4 24 34.9 31.6 C35.7 26 37.5 21.2 39.7 20.3 C41.7 20.2 41.2 26 40.8 30 C40.5 33 40.5 35.4 41.4 34.9 C42 34.6 42.5 33.4 42.7 32.6" pathLength="1" stroke="#fff" stroke-width="5.2" stroke-linecap="round" stroke-linejoin="round" fill="none"></path></mask></defs>
 <path class="m-ink" d="M32.746 12C33.737 12.013 34.746 12.003 35.737 12.003L41.145 12.003L41.141 17.533L41.14 19.005C41.14 19.225 41.15 19.621 41.122 19.825C41.296 20.004 41.516 20.173 41.645 20.394C41.969 20.948 42.109 21.668 42.127 22.31C42.185 24.299 41.695 26.284 41.227 28.203C41.192 28.346 41.157 28.489 41.134 28.634C41.156 28.856 41.149 29.195 41.148 29.426L41.145 30.72C41.144 31.737 41.174 32.9 41.144 33.907C41.397 33.699 41.64 33.19 41.793 32.895C41.87 32.743 41.927 32.556 42.035 32.424C42.369 32.018 42.847 32.629 42.732 32.988C42.431 33.925 41.865 34.926 41.042 35.489C40.678 35.738 40.151 35.853 39.728 35.763C39.529 35.722 39.245 35.571 39.157 35.553C38.608 35.572 37.997 35.56 37.444 35.56L34.428 35.56C34.428 34.056 34.404 32.477 34.436 30.979C33.95 30.66 33.559 30.423 33.694 29.746C33.776 29.334 33.884 28.925 33.974 28.514C34.155 27.679 34.322 26.841 34.475 26C34.851 23.865 35.082 21.707 35.165 19.54C35.201 18.605 35.234 17.656 35.089 16.731C35.045 16.446 34.934 15.729 34.518 15.879C33.769 16.148 33.229 17.129 32.82 17.777C31.491 20.152 30.64 22.954 29.876 25.559C29.332 27.415 28.749 29.504 28.344 31.38C28.179 32.118 28.046 32.862 27.945 33.611C27.883 34.079 27.879 34.654 27.757 35.074C27.644 35.464 27.302 35.867 26.893 35.957C26.605 36.02 26.384 36.028 26.111 35.882C25.96 35.8 25.846 35.597 25.785 35.556C25.569 35.179 25.632 34.522 25.638 34.096C25.649 33.373 25.675 32.651 25.716 31.93C25.843 29.687 26.047 27.449 26.326 25.221C26.427 24.388 26.522 23.498 26.649 22.672C26.701 22.499 26.72 22.24 26.744 22.054L26.873 21.05C27.056 19.678 27.254 18.308 27.467 16.94C27.542 16.442 27.625 15.945 27.714 15.449C27.775 15.106 27.871 14.386 28.095 14.118C28.761 13.263 30.318 14.006 30.484 14.882C30.536 15.156 30.262 16.493 30.206 16.835L29.835 19.103C29.801 19.302 29.674 19.886 29.699 20.053C29.805 19.834 29.943 19.446 30.033 19.211L30.594 17.718L31.998 13.983C32.236 13.351 32.491 12.619 32.746 12Z" fill="#3d9c9a" mask="url(#m-write-post)"></path>
@@ -114,51 +619,170 @@ footer .nav{flex-wrap:wrap;gap:8px 16px !important}
 <span style="font-weight: 700; font-size: 30px; line-height: 1.35">Martín Mato</span>
 </a>
 <nav class="nav" aria-label="Main" style="display: flex; align-items: center; gap: 24px; font-family: var(--font-sans); font-weight: 500; font-size: 14px">
-<a href="#" aria-current="page" style="padding: 8px; color: #121b27">Blog</a>
-<a href="#" style="padding: 8px; color: #121b27">About</a>
-<a href="#" style="padding: 8px; color: #121b27">Contact</a>
+<a href="Main.dc.html" aria-current="page" style="padding: 8px; color: #121b27">Blog</a>
+<a href="About.dc.html" style="padding: 8px; color: #121b27">About</a>
+<a href="Contact.dc.html" style="padding: 8px; color: #121b27">Contact</a>
 <a class="btn" href="#newsletter" style="padding: 8px; border-radius: 4px; background: #013345; color: #f2f6f8; text-decoration: none">Subscribe</a>
 </nav>
+<button type="button" class="theme-btn" aria-label="{{themeLabel}}" title="{{themeLabel}}" onClick="{{toggleTheme}}"><sc-if value="{{isDark}}" hint-placeholder-val="{{false}}"><svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4"></circle><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"></path></svg></sc-if><sc-if value="{{isLight}}" hint-placeholder-val="{{true}}"><svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 14.5A8 8 0 1 1 9.5 4a6.5 6.5 0 0 0 10.5 10.5z"></path></svg></sc-if></button>
 <button type="button" class="menu-btn" aria-label="{{menuLabel}}" aria-expanded="{{menuExpanded}}" aria-controls="mobile-menu" onClick="{{toggleMenu}}">
 <svg width="34" height="28" viewBox="0 0 34 28" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round" aria-hidden="true"><path d="M3 4h28M3 14h28M3 24h28"></path></svg>
 </button>
 <sc-if value="{{menuOpen}}" hint-placeholder-val="{{false}}">
 <nav id="mobile-menu" class="menu-panel" aria-label="Main (mobile)">
-<a href="#" aria-current="page" onClick="{{closeMenu}}">Blog</a>
-<a href="#" onClick="{{closeMenu}}">About</a>
-<a href="#" onClick="{{closeMenu}}">Contact</a>
+<a href="Main.dc.html" aria-current="page" onClick="{{closeMenu}}">Blog</a>
+<a href="About.dc.html" onClick="{{closeMenu}}">About</a>
+<a href="Contact.dc.html" onClick="{{closeMenu}}">Contact</a>
 <a class="btn" href="#newsletter" onClick="{{closeMenu}}">Subscribe</a>
 </nav>
 </sc-if>
 </header>
+<span id="top-b"></span>
+<main class="read" style="flex-grow: 0">
+<div class="f-layout">
+<aside class="f-left" aria-label="In this story">
+<p class="f-side-lbl">In this story</p>
+<ol class="f-toc">
+<sc-for list="{{tocSide}}" as="i" hint-placeholder-count="6">
+<li><a class="{{i.cls}}" href="{{i.href}}" aria-current="{{i.current}}"><span class="n">{{i.num}}</span><span>{{i.label}}</span></a></li>
+</sc-for>
+</ol>
+<div class="f-prog" aria-hidden="true"><i style="width: {{progress}}"></i></div>
+<p class="f-left-meta">{{leftMeta}}</p>
+</aside>
+<article class="col">
+<header class="c-top" style="padding-left: 0; padding-right: 0; box-shadow: none; background: none">
+<div class="kicker"><span class="tag">Personal</span><span>Oct 25, 2026 · 4 min read</span></div>
+<h1 class="title">The armor I called confidence.</h1>
+<div class="f-author"><img src="/_blob/85beef4fe2f97221818c9d842e1fae5e" alt="Martín Mato"><span class="who"><span class="by">Written by <b>Martín Mato</b></span><span class="role">Principal Software Engineer at Kaizen Softworks · <a href="About.dc.html">About me</a></span></span></div>
+</header>
+<details class="c-toc" id="c-toc">
+<summary><span>In this story · 6 parts</span><span class="c-pm" aria-hidden="true"></span></summary>
+<ol>
+<li><a href="#layoff">The layoff list</a></li>
+<li><a href="#second-chance">A second chance</a></li>
+<li><a href="#no-titles">No titles to lean on</a></li>
+<li><a href="#armor">Breaking the armor</a></li>
+<li><a href="#today">Where I am today</a></li>
+<li><a href="#why">Why I’m writing this</a></li>
+</ol>
+</details>
+<div class="prose" id="b-prose">
 
-<main style="width: 100%; box-sizing: border-box; padding: 56px var(--side) var(--section); display: flex; flex-direction: column; align-items: center; gap: 40px">
-<div style="width: 100%; max-width: 680px">
-<a class="back" href="#"><span class="arr" aria-hidden="true">←</span> All stories</a>
-</div>
-
-<x-import component-from-global-scope="MartinsWeb.Article" title="The armor I called confidence." tags="{{tags}}" date="Oct 25, 2026" read-time="{{readTime}}" style="width: 100%">
-<figure class="author">
-<img src="/_blob/b907b2d214758d23a3f5ed0beea8674b" alt="Portrait of Martín Mato">
-<figcaption><span class="name">Martín Mato</span><span class="role">Principal Software Engineer. Writes from Montevideo, Uruguay.</span></figcaption>
-</figure>
+<h2 id="layoff" class="c-h"><span class="c-n">01</span><span>The layoff list</span><button type="button" class="c-anchor" aria-label="Copy link to “The layoff list”" onClick="{{sec.layoff}}"><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></button></h2>
 <p>Nine months into my first job as a junior developer, I was called into a meeting nobody wants to have. I was at the top of the layoff list. My manager at the time was the one who gave me the news. Even though I reacted politely, I was angry. I asked for the specific reason, although part of me didn’t want to hear it. I tried to defend myself, but the decision had already been made. I thought the company was unfair, the world was unfair and all the other things I imagine you’ve heard before. I was blaming everyone and everything instead of looking at my part of the problem.</p>
 <p>So, what was my part? My team was a small one at an e-banking solutions company. The SDLC process was far from perfect, and the onboarding wasn’t ideal either. But I worked the only way I knew: sit down, put on my headphones and code. It was me, the code and the process. Sometimes other people’s answers just weren’t enough for me. Taking off my headphones to ask for help felt like too much friction, so I’d just Google it. I finished every day exhausted, bored and sometimes angry. My isolation and lack of motivation were what put me on that list.</p>
+<h2 id="second-chance" class="c-h"><span class="c-n">02</span><span>A second chance</span><button type="button" class="c-anchor" aria-label="Copy link to “A second chance”" onClick="{{sec.second_chance}}"><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></button></h2>
 <p>A few weeks later, my old company called, the one where I had spent four years going from QA to test lead. This time they wanted me on a dev team. After some onboarding, and without any experience leading developers, I found myself in charge of a small team of analysts. It was my test lead experience that drove that decision. I knew in that moment that I had to change something and work on my people skills. I thrived in that position: I got things done on time, had a good relationship with my team and received high praise and recognition from my client. I thought I had learned the lesson.</p>
+<h2 id="no-titles" class="c-h"><span class="c-n">03</span><span>No titles to lean on</span><button type="button" class="c-anchor" aria-label="Copy link to “No titles to lean on”" onClick="{{sec.no_titles}}"><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></button></h2>
 <p>Then I joined Kaizen. It’s a horizontal company: no bosses, no titles to lean on. Every decision has to be earned through conversation. I started on a small team where, before long, I found myself defending architecture decisions I had never implemented, against people who had. People started saying yes just to avoid arguing with me. At the time, I took their silence as agreement. I thought I was winning. Some colleagues even joked that I had become a know-it-all. They weren’t really joking.</p>
 <p>Like many kids raised in the 90s, I was taught to solve things on my own. Asking for help felt like weakness. So I made sure I always had an answer, right or not.</p>
-<x-import component-from-global-scope="MartinsWeb.Highlight">My arrogance wasn’t confidence. It was the only way I knew to avoid asking for help.</x-import>
+<p>My arrogance wasn’t confidence. It was the only way I knew to avoid asking for help.</p>
+<h2 id="armor" class="c-h"><span class="c-n">04</span><span>Breaking the armor</span><button type="button" class="c-anchor" aria-label="Copy link to “Breaking the armor”" onClick="{{sec.armor}}"><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></button></h2>
 <p>I’d be lying if I said I had an epiphany. It took me a while to realize that even though I was surrounded by people, I was alone. First, I had to get through the shame of having become that arrogant person. Then, I had to break the armor and let people in, to be vulnerable enough to accept help. I needed help. I needed guidance. And I needed to stop solving everything on my own.</p>
 <p>Years later, on a night out with some colleagues, one of them told me that when we first met, he couldn’t stand me. Too arrogant. It took him a while to get to know me, and to actually like me. He wasn’t the only one.</p>
 <p>It hurt to hear. But it also meant something had changed: he could tell me because I wasn’t that person anymore.</p>
+<h2 id="today" class="c-h"><span class="c-n">05</span><span>Where I am today</span><button type="button" class="c-anchor" aria-label="Copy link to “Where I am today”" onClick="{{sec.today}}"><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></button></h2>
 <p>Today, I enjoy debate. I genuinely believe that one of the most precious gifts people can give me is their opinion on the things we care about. I take in other people’s views and leave room in mine to be shaped by new experiences.</p>
 <p>Of course, I still fall back on old habits. When I see something unresolved, I jump in and fix it myself, afraid it won’t get done on time, instead of building the kind of trust where someone can tell me why they couldn’t finish it. And sometimes I swing to the other extreme: I keep an opinion to myself because I’m afraid that defending it will turn me back into that person.</p>
+<a class="c-back" href="#c-toc">↑ Back to contents</a>
+<h2 id="why" class="c-h"><span class="c-n">06</span><span>Why I’m writing this</span><button type="button" class="c-anchor" aria-label="Copy link to “Why I’m writing this”" onClick="{{sec.why}}"><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></button></h2>
 <p>That’s why I’m writing this blog. To build my own opinions, get comfortable sharing them without the armor, and find out who I am beyond my job title.</p>
 <p>Here you’ll find stories from my personal life, from leading teams, mentoring people and bringing AI into my team. I’m not writing to tell anyone how things should be done. Everything here is up for debate, and that’s the point. Sometimes other people’s stories help us get unstuck, or make us want to tell our own. If one of mine does that for you, I’d love to hear it. And if you think I got it wrong, even better.</p>
-<x-import component-from-global-scope="MartinsWeb.ClosingPrompt" question="So, what was the armor you had to take off?" href="https://www.linkedin.com/"></x-import>
-</x-import>
-</main>
 
+</div>
+<aside class="f-sign" aria-label="About the author"><img src="/_blob/85beef4fe2f97221818c9d842e1fae5e" alt="Martín Mato"><div><p class="hi">Thanks for reading. I’m Martín.</p><p class="bio">I lead teams for clients in the US, coach people, and bring AI into how we work. This blog is where I think out loud.</p><a href="About.dc.html">More about me →</a></div></aside>
+<section class="c-end" id="c-end" aria-labelledby="c-end-title">
+<p class="eyebrow-cm">Continue the conversation</p>
+<h2 id="c-end-title">So, what was the armor you had to take off?</h2>
+<div class="c-opts">
+<button type="button" class="c-opt" onClick="{{openReply}}"><span class="ic"><svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"></rect><path d="M3 7l9 6 9-6"></path></svg></span><b>Write to me</b><span>Private, straight to my inbox. I answer every one.</span></button>
+<sc-if value="{{liBefore}}" hint-placeholder-val="{{true}}"><a class="c-opt" href="{{links.linkedinProfile}}" target="_blank" rel="noopener"><span class="ic"><svg aria-hidden="true" width="20" height="20" viewBox="0 0 448 512" fill="currentColor"><path d="M100.28 448H7.4V148.9h92.88zM53.79 108.1C24.09 108.1 0 83.5 0 53.8a53.79 53.79 0 0 1 107.58 0c0 29.7-24.1 54.3-53.79 54.3zM447.9 448h-92.68V302.4c0-34.7-.7-79.2-48.29-79.2-48.29 0-55.69 37.7-55.69 76.7V448h-92.78V148.9h89.08v40.8h1.3c12.4-23.5 42.69-48.3 87.88-48.3 94 0 111.28 61.9 111.28 142.3V448z"></path></svg></span><b>Talk on LinkedIn</b><span>Message me, or comment where I shared the story.</span></a></sc-if><sc-if value="{{liShared}}" hint-placeholder-val="{{false}}"><a class="c-opt li-on" href="{{liHref}}" target="_blank" rel="noopener"><span class="ic"><svg aria-hidden="true" width="20" height="20" viewBox="0 0 448 512" fill="currentColor"><path d="M100.28 448H7.4V148.9h92.88zM53.79 108.1C24.09 108.1 0 83.5 0 53.8a53.79 53.79 0 0 1 107.58 0c0 29.7-24.1 54.3-53.79 54.3zM447.9 448h-92.68V302.4c0-34.7-.7-79.2-48.29-79.2-48.29 0-55.69 37.7-55.69 76.7V448h-92.78V148.9h89.08v40.8h1.3c12.4-23.5 42.69-48.3 87.88-48.3 94 0 111.28 61.9 111.28 142.3V448z"></path></svg></span><b>Join the conversation</b><span>Read what others shared on LinkedIn and add your story.</span><span class="li-badge">On LinkedIn</span></a></sc-if>
+<button type="button" class="c-opt" onClick="{{openShare}}"><span class="ic"><svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12"></path><path d="M7 8l5-5 5 5"></path><path d="M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-7"></path></svg></span><b>Send it to someone</b><span>WhatsApp, LinkedIn, email or a copied link.</span></button>
+</div>
+</section>
+</article>
+<aside class="{{sideCls}}" aria-label="About the author">
+<img src="/_blob/85beef4fe2f97221818c9d842e1fae5e" alt="">
+<p class="nm">Martín Mato</p>
+<p class="rl">Principal Software Engineer · Montevideo</p>
+<button type="button" class="f-side-btn main" onClick="{{openReply}}">Write to me</button>
+<button type="button" class="f-side-btn" onClick="{{openShare}}">Share</button>
+<a class="f-side-link" href="About.dc.html">About me</a>
+</aside>
+</div>
+</main>
+<section class="more" aria-labelledby="related-title">
+<div class="more-in">
+<div class="more-head">
+<div style="display: flex; flex-direction: column; gap: 12px">
+<p class="rail-label">Keep reading</p>
+<h2 id="related-title" style="margin: 0; font-size: 40px; font-weight: 700; line-height: 1.15">More stories, same honesty.</h2>
+</div>
+<a class="all" href="#">All stories <span aria-hidden="true">→</span></a>
+</div>
+<div class="more-grid">
+<a class="story" href="#">
+<span class="chip" style="--s: #97cfcc; --b: #68b6b2; --d: #013345">Leading Teams</span>
+<span class="story-t">Artificial Harmony</span>
+<span class="story-p">The state a team falls into when it simply lacks the tools to face conflict.</span>
+<span class="story-m">Sept 9, 2026 · [X] min read</span>
+<span class="story-cta">Read story <span aria-hidden="true">→</span></span>
+</a>
+<a class="story" href="#">
+<span class="chip" style="--s: #e3f4f4; --b: #97cfcc; --d: #216375">AI in Teams</span>
+<span class="story-t">Use of AI bots in meetings</span>
+<span class="story-p">Installing an AI bot in a meeting is not the same as installing Big Brother. Or at least, it doesn’t have to be.</span>
+<span class="story-m">Sept 9, 2026 · [X] min read</span>
+<span class="story-cta">Read story <span aria-hidden="true">→</span></span>
+</a>
+</div>
+</div>
+</section>
+<div class="{{fadeCls}}" aria-hidden="true"></div>
+<nav class="{{barCls}}" aria-label="Story actions">
+<a class="d-me" href="#c-toc" aria-label="Martín Mato. Go to contents. You are in part {{secNum}}: {{secLabel}}"><img class="d-ava" src="/_blob/85beef4fe2f97221818c9d842e1fae5e" alt=""><span class="d-where"><span class="n">Martín · {{secNum}} / 06 · {{progressLabel}}</span><span class="t">{{secLabel}}</span><span class="d-track" aria-hidden="true"><i style="width: {{progress}}"></i></span></span></a>
+<button type="button" class="main" onClick="{{openReply}}"><svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a8 8 0 0 1-11.6 7.1L4 20l1-4.6A8 8 0 1 1 21 12z"></path></svg><span class="lbl-long">Reply</span></button>
+<button type="button" onClick="{{openShare}}" aria-label="Share"><svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12"></path><path d="M7 8l5-5 5 5"></path><path d="M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-7"></path></svg><span class="lbl-long">Share</span></button>
+</nav>
+<sc-if value="{{sheetShare}}" hint-placeholder-val="{{false}}">
+<button type="button" class="scrim" aria-label="Close" onClick="{{closeSheet}}"></button>
+<div class="sheet" role="dialog" aria-modal="true" aria-labelledby="sh-title">
+<div class="sheet-h"><h2 id="sh-title">{{sheetTitle}}</h2><button type="button" class="icon-btn" aria-label="Close" onClick="{{closeSheet}}"><svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 6l12 12"></path><path d="M18 6L6 18"></path></svg></button></div>
+<sc-if value="{{sheetHasQuote}}" hint-placeholder-val="{{false}}"><blockquote>“{{sheetQuote}}”</blockquote></sc-if>
+<div class="grid">
+<button type="button" class="wide" onClick="{{sheetCopy}}"><svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 14a4.5 4.5 0 0 0 6.4 0l3-3a4.5 4.5 0 0 0-6.4-6.4l-1 1"></path><path d="M14 10a4.5 4.5 0 0 0-6.4 0l-3 3a4.5 4.5 0 0 0 6.4 6.4l1-1"></path></svg>{{copyLabel}}</button>
+<a href="{{sl.whatsapp}}" target="_blank" rel="noopener"><svg aria-hidden="true" width="20" height="20" viewBox="0 0 448 512" fill="currentColor"><path d="M380.9 97.1C339 55.1 283.2 32 223.9 32c-122.4 0-222 99.6-222 222 0 39.1 10.2 77.3 29.6 111L0 480l117.7-30.9c32.4 17.7 68.9 27 106.1 27h.1c122.3 0 224.1-99.6 224.1-222 0-59.3-25.2-115-67.1-157zm-157 341.6c-33.2 0-65.7-8.9-94-25.7l-6.7-4-69.8 18.3L72 359.2l-4.4-7c-18.5-29.4-28.2-63.3-28.2-98.2 0-101.7 82.8-184.5 184.6-184.5 49.3 0 95.6 19.2 130.4 54.1 34.8 34.9 56.2 81.2 56.1 130.5 0 101.8-84.9 184.6-186.6 184.6zm101.2-138.2c-5.5-2.8-32.8-16.2-37.9-18-5.1-1.9-8.8-2.8-12.5 2.8-3.7 5.6-14.3 18-17.6 21.8-3.2 3.7-6.5 4.2-12 1.4-32.6-16.3-54-29.1-75.5-66-5.7-9.8 5.7-9.1 16.3-30.3 1.8-3.7.9-6.9-.5-9.7-1.4-2.8-12.5-30.1-17.1-41.2-4.5-10.8-9.1-9.3-12.5-9.5-3.2-.2-6.9-.2-10.6-.2-3.7 0-9.7 1.4-14.8 6.9-5.1 5.6-19.4 19-19.4 46.3 0 27.3 19.9 53.7 22.6 57.4 2.8 3.7 39.1 59.7 94.8 83.8 35.2 15.2 49 16.5 66.6 13.9 10.7-1.6 32.8-13.4 37.4-26.4 4.6-13 4.6-24.1 3.2-26.4-1.3-2.5-5-3.9-10.5-6.6z"></path></svg>WhatsApp</a>
+<a href="{{sl.linkedin}}" target="_blank" rel="noopener"><svg aria-hidden="true" width="20" height="20" viewBox="0 0 448 512" fill="currentColor"><path d="M100.28 448H7.4V148.9h92.88zM53.79 108.1C24.09 108.1 0 83.5 0 53.8a53.79 53.79 0 0 1 107.58 0c0 29.7-24.1 54.3-53.79 54.3zM447.9 448h-92.68V302.4c0-34.7-.7-79.2-48.29-79.2-48.29 0-55.69 37.7-55.69 76.7V448h-92.78V148.9h89.08v40.8h1.3c12.4-23.5 42.69-48.3 87.88-48.3 94 0 111.28 61.9 111.28 142.3V448z"></path></svg>LinkedIn</a>
+<a href="{{sl.x}}" target="_blank" rel="noopener"><svg aria-hidden="true" width="20" height="20" viewBox="0 0 512 512" fill="currentColor"><path d="M389.2 48h70.6L305.6 224.2 487 464H345L233.7 318.6 106.5 464H35.8L200.7 275.5 26.8 48H172.4L272.9 180.9 389.2 48zM364.4 421.8h39.1L151.1 88h-42L364.4 421.8z"></path></svg>X</a>
+<a href="{{sl.email}}"><svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"></rect><path d="M3 7l9 6 9-6"></path></svg>Email</a>
+</div>
+</div>
+</sc-if>
+<sc-if value="{{sheetReply}}" hint-placeholder-val="{{false}}">
+<button type="button" class="scrim" aria-label="Close" onClick="{{closeSheet}}"></button>
+<div class="sheet" role="dialog" aria-modal="true" aria-labelledby="rp-title">
+<div class="sheet-h"><span class="sheet-who"><img src="/_blob/85beef4fe2f97221818c9d842e1fae5e" alt=""><h2 id="rp-title">Write to Martín</h2></span><button type="button" class="icon-btn" aria-label="Close" onClick="{{closeSheet}}"><svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 6l12 12"></path><path d="M18 6L6 18"></path></svg></button></div>
+<sc-if value="{{replyForm}}" hint-placeholder-val="{{true}}">
+<p class="note">It goes to my inbox, not to a public comment thread.</p>
+<label for="rp-msg">Your story or your take</label>
+<textarea id="rp-msg" value="{{msg}}" onChange="{{onMsg}}" placeholder="The armor I had to take off was…"></textarea>
+<label for="rp-mail">Your email, so I can answer</label>
+<input id="rp-mail" type="email" autocomplete="email" value="{{rmail}}" onChange="{{onRmail}}">
+<sc-if value="{{replyErr}}" hint-placeholder-val="{{false}}"><p class="note" role="alert" style="color: #121b27">Add a couple of lines and a valid email.</p></sc-if>
+<div style="display: flex; flex-wrap: wrap; gap: 12px; align-items: center">
+<button type="button" class="btn-p" onClick="{{sendReply}}">Send</button>
+<a class="btn-o" href="{{links.linkedinProfile}}" target="_blank" rel="noopener"><svg aria-hidden="true" width="20" height="20" viewBox="0 0 448 512" fill="currentColor"><path d="M100.28 448H7.4V148.9h92.88zM53.79 108.1C24.09 108.1 0 83.5 0 53.8a53.79 53.79 0 0 1 107.58 0c0 29.7-24.1 54.3-53.79 54.3zM447.9 448h-92.68V302.4c0-34.7-.7-79.2-48.29-79.2-48.29 0-55.69 37.7-55.69 76.7V448h-92.78V148.9h89.08v40.8h1.3c12.4-23.5 42.69-48.3 87.88-48.3 94 0 111.28 61.9 111.28 142.3V448z"></path></svg>Or on LinkedIn</a>
+</div>
+</sc-if>
+<sc-if value="{{replySent}}" hint-placeholder-val="{{false}}">
+<p style="margin: 0; font-family: var(--font-serif); font-size: 20px; line-height: 1.45">Thank you. I’ll answer at {{rmail}}.</p>
+</sc-if>
+</div>
+</sc-if>
+
+<sc-if value="{{hasToast}}" hint-placeholder-val="{{false}}"><div class="toast" role="status">{{toast}}</div></sc-if>
+<div class="dark-end">
 <section id="newsletter" aria-labelledby="news-title" class="band dark">
 <div class="news">
 <div style="display: flex; flex-direction: column; gap: 20px">
@@ -171,7 +795,7 @@ footer .nav{flex-wrap:wrap;gap:8px 16px !important}
 <form novalidate="" onSubmit="{{submit}}" style="display: flex; flex-direction: column; gap: 12px">
 <div class="sub-row">
 <x-import component-from-global-scope="MartinsWeb.Input" label="Email" name="email" type="email" placeholder="you@company.com" auto-complete="email" value="{{email}}" on-change="{{onEmail}}"></x-import>
-<x-import component-from-global-scope="MartinsWeb.Button" type="submit">Subscribe</x-import>
+<x-import component-from-global-scope="MartinsWeb.Button" type="button" on-click="{{submit}}">Subscribe</x-import>
 </div>
 <sc-if value="{{showError}}" hint-placeholder-val="{{false}}">
 <p role="alert" style="margin: 0; font-size: 14px; line-height: 1.35; color: #f2f6f8">Please add a valid email.</p>
@@ -189,31 +813,82 @@ footer .nav{flex-wrap:wrap;gap:8px 16px !important}
 </div>
 </section>
 
-<footer style="display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 16px; padding: 24px var(--side); background: #f2f6f8">
-<p style="margin: 0; font-size: 14px; color: #364552">© 2026 Martín Mato</p>
+<footer class="dark" style="display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 16px; padding: 24px var(--side) 32px">
+<p style="margin: 0; font-size: 14px; color: #cdd8df">© 2026 Martín Mato</p>
 <nav class="nav" aria-label="Footer" style="display: flex; gap: 24px; font-family: var(--font-sans); font-weight: 500; font-size: 14px">
-<a href="#" style="padding: 8px; color: #121b27">Blog</a>
-<a href="#" style="padding: 8px; color: #121b27">About</a>
-<a href="#" style="padding: 8px; color: #121b27">Contact</a>
-<a href="#" style="padding: 8px; color: #121b27">RSS</a>
+<a href="Main.dc.html" style="padding: 8px">Blog</a>
+<a href="About.dc.html" style="padding: 8px">About</a>
+<a href="Contact.dc.html" style="padding: 8px">Contact</a>
+<a href="#" style="padding: 8px">RSS</a>
 </nav>
 </footer>
-
+</div>
 </div>
 </x-dc>
-<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1280,"height":4000}}'>
+<script type="text/x-dc" data-dc-script data-props='{"theme":{"editor":"enum","options":["auto","light","dark"],"default":"auto","section":"Preview"},"sharedOnLinkedIn":{"editor":"boolean","default":false,"section":"Preview"},"$preview":{"width":1280,"height":5700}}'>
 class Component extends DCLogic {
 constructor(props) {
 super(props);
-this.state = { email: '', tried: false, subscribed: false, menuOpen: false };
+this.state = { email: '', tried: false, subscribed: false, menuOpen: false, toast: '', progress: 0, bar: false, sec: 0, quote: '', sheet: '', sheetQuote: '', copied: false, msg: '', rmail: '', rsent: false, rtried: false };
+this.state.theme = (function (pt) {
+if (pt === 'dark' || pt === 'light') return pt;
+try { var ls = window.localStorage.getItem('mm-theme'); if (ls === 'dark' || ls === 'light') return ls; } catch (e) {}
+return 'light';
+})(props && props.theme);
+this.onScroll = this.onScroll.bind(this);
+this.onSel = this.onSel.bind(this);
+}
+componentDidMount() { try { window.addEventListener('scroll', this.onScroll, { passive: true });  this.onScroll(); } catch (e) {} }
+componentWillUnmount() { try { window.removeEventListener('scroll', this.onScroll); document.removeEventListener('selectionchange', this.onSel); } catch (e) {} }
+onScroll() {
+try {
+var doc = document.documentElement;
+var max = Math.max(1, doc.scrollHeight - window.innerHeight);
+var p = Math.min(100, Math.max(0, Math.round(window.scrollY / max * 100)));
+var y = window.scrollY, last = this._y || 0;
+var dir = y > last + 4 ? 'down' : (y < last - 4 ? 'up' : (this._dir || 'down'));
+this._y = y; this._dir = dir;
+var phone = window.innerWidth < 768;
+var endEl = document.getElementById('c-end');
+var atEnd = !!endEl && endEl.getBoundingClientRect().top < window.innerHeight * 0.9;
+var show = y > 360 && !atEnd && (!phone || dir === 'up');
+var ids = ['layoff', 'second-chance', 'no-titles', 'armor', 'today', 'why'];
+var act = 0;
+for (var i = 0; i < ids.length; i++) { var el = document.getElementById(ids[i]); if (el && el.getBoundingClientRect().top < window.innerHeight * 0.45) act = i; }
+if (p !== this.state.progress || show !== this.state.bar || act !== this.state.sec) this.setState({ progress: p, bar: show, sec: act });
+} catch (e) {}
+}
+onSel() {
+try {
+var sel = window.getSelection();
+var txt = sel ? String(sel).replace(/\s+/g, ' ').trim() : '';
+var box = document.getElementById('b-prose');
+var inside = sel && sel.rangeCount && box && box.contains(sel.getRangeAt(0).commonAncestorContainer);
+var q = inside && txt.length >= 12 && txt.length <= 280 ? txt : '';
+if (q !== this.state.quote) this.setState({ quote: q });
+} catch (e) {}
 }
 renderVals() {
-var self = this;
-var s = this.state;
+
+var self = this, s = this.state;
+var url = 'https://martinmato.com/blog/the-armor-i-called-confidence';
+var title = 'The armor I called confidence.';
+var u = encodeURIComponent(url), t = encodeURIComponent(title);
 var valid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(s.email.trim());
-return {
-tags: ['Personal'],
-readTime: '4 min read',
+function toast(msg) { self.setState({ toast: msg }); clearTimeout(self._tt); self._tt = setTimeout(function () { self.setState({ toast: '' }); }, 2200); }
+function copy(text, msg) { try { navigator.clipboard.writeText(text); } catch (e) {} toast(msg || 'Link copied'); }
+var links = {
+linkedin: 'https://www.linkedin.com/sharing/share-offsite/?url=' + u,
+x: 'https://x.com/intent/post?url=' + u + '&text=' + t,
+whatsapp: 'https://wa.me/?text=' + t + '%20' + u,
+email: 'mailto:?subject=' + t + '&body=' + u,
+reply: 'mailto:[your-email]?subject=' + encodeURIComponent('Re: ' + title),
+linkedinProfile: 'https://www.linkedin.com/in/martinmato/'
+};
+var base = {
+links: links,
+toast: s.toast, hasToast: !!s.toast,
+copyLink: function () { copy(url); },
 menuOpen: s.menuOpen,
 menuExpanded: s.menuOpen ? 'true' : 'false',
 menuLabel: s.menuOpen ? 'Close menu' : 'Open menu',
@@ -225,6 +900,67 @@ onEmail: function (e) { self.setState({ email: e.target.value }); },
 submit: function (e) { if (e && e.preventDefault) e.preventDefault(); self.setState(valid ? { subscribed: true, tried: false } : { tried: true }); },
 reset: function () { self.setState({ email: '', tried: false, subscribed: false }); }
 };
+function nativeShare(extra, fallback) {
+var data = { title: title, url: url };
+for (var k in extra) data[k] = extra[k];
+try { if (navigator.share && (!navigator.canShare || navigator.canShare(data))) { navigator.share(data).catch(function (err) { if (!err || err.name !== 'AbortError') fallback(); }); return; } } catch (e) {}
+fallback();
+}
+
+var sec = {};
+[['layoff', 'The layoff list'], ['second_chance', 'A second chance'], ['no_titles', 'No titles to lean on'], ['armor', 'Breaking the armor'], ['today', 'Where I am today'], ['why', 'Why I’m writing this']].forEach(function (x) {
+sec[x[0]] = function () { copy(url + '#' + x[0].replace('_', '-'), 'Link to “' + x[1] + '” copied'); };
+});
+var cExtra = {
+sec: sec,
+};
+function linksFor(q) {
+var txt = q ? '“' + q + '” ' : title + ' ';
+var e = encodeURIComponent(txt);
+return {
+whatsapp: 'https://wa.me/?text=' + e + u,
+linkedin: links.linkedin,
+x: 'https://x.com/intent/post?url=' + u + '&text=' + encodeURIComponent(q ? '“' + q + '”' : title),
+email: 'mailto:?subject=' + t + '&body=' + e + '%0A%0A' + u
+};
+}
+function openSheet(q) { nativeShare(q ? { text: '“' + q + '”' } : {}, function () { self.setState({ sheet: 'share', sheetQuote: q || '', copied: false }); }); }
+var rvalid = s.msg.trim().length >= 3 && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(s.rmail.trim());
+var labels = ['The layoff list', 'A second chance', 'No titles to lean on', 'Breaking the armor', 'Where I am today', 'Why I’m writing this'];
+return Object.assign(base, cExtra, {
+secNum: '0' + (s.sec + 1),
+themeCls: s.theme === 'dark' ? 'theme-dark' : 'theme-light',
+tocSide: labels.map(function (l, i) { var ids = ['layoff', 'second-chance', 'no-titles', 'armor', 'today', 'why']; var on = i === s.sec; return { label: l, num: '0' + (i + 1), href: '#' + ids[i], cls: on ? 'on' : '', current: on ? 'true' : 'false' }; }),
+leftMeta: s.progress >= 97 ? 'You reached the end.' : s.progress + '% read · about ' + Math.max(1, Math.round(4 * (100 - s.progress) / 100)) + ' min left',
+sideCls: 'f-right',
+isDark: s.theme === 'dark', isLight: s.theme !== 'dark',
+themeLabel: s.theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode',
+toggleTheme: function () { var nt = self.state.theme === 'dark' ? 'light' : 'dark'; try { window.localStorage.setItem('mm-theme', nt); } catch (e) {} self.setState({ theme: nt }); },
+liShared: !!self.props.sharedOnLinkedIn, liBefore: !self.props.sharedOnLinkedIn,
+liHref: 'https://www.linkedin.com/posts/[your-post]',
+secLabel: labels[s.sec],
+progress: s.progress + '%',
+progressLabel: s.progress + '%',
+barCls: s.bar && !s.sheet ? 'b-bar' : 'b-bar hide',
+fadeCls: s.bar && !s.sheet ? 'b-fade' : 'b-fade hide',
+quote: s.quote, hasQuote: !!s.quote && !s.sheet,
+shareSel: function () { openSheet(self.state.quote); },
+shareMainQuote: function () { openSheet('My arrogance wasn’t confidence. It was the only way I knew to avoid asking for help.'); },
+openShare: function () { openSheet(''); },
+openReply: function () { self.setState({ sheet: 'reply', rtried: false }); },
+closeSheet: function () { self.setState({ sheet: '' }); },
+sheetShare: s.sheet === 'share', sheetReply: s.sheet === 'reply',
+sheetTitle: s.sheetQuote ? 'Share this quote' : 'Share this story',
+sheetQuote: s.sheetQuote, sheetHasQuote: !!s.sheetQuote,
+sl: linksFor(s.sheetQuote),
+copyLabel: s.copied ? 'Copied' : (s.sheetQuote ? 'Copy quote and link' : 'Copy link'),
+sheetCopy: function () { copy(self.state.sheetQuote ? '“' + self.state.sheetQuote + '” ' + url : url, self.state.sheetQuote ? 'Quote and link copied' : 'Link copied'); self.setState({ copied: true }); },
+msg: s.msg, rmail: s.rmail,
+onMsg: function (e) { self.setState({ msg: e.target.value }); },
+onRmail: function (e) { self.setState({ rmail: e.target.value }); },
+replyForm: !s.rsent, replySent: s.rsent, replyErr: s.rtried && !rvalid,
+sendReply: function () { self.setState(rvalid ? { rsent: true, rtried: false } : { rtried: true }); }
+});
 }
 }
 </script>

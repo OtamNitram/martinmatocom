@@ -11,217 +11,510 @@
 <x-dc>
 <helmet>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600;700&amp;family=Space+Mono&amp;family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,500;0,8..60,600;0,8..60,700;1,8..60,500&amp;display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600;700&amp;family=Space+Mono&amp;family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,500;0,8..60,600;0,8..60,700;1,8..60,400;1,8..60,500&amp;display=swap">
 <style>
 :root{
---surfaces-white:#fafafa;--surfaces-highlights:#f2f6f8;--surfaces-strokes:#cdd8df;--surfaces-elevation:#7a8b99;--surfaces-elevation-20:rgba(122,139,153,0.2);--surfaces-divider:#364552;
+--surfaces-white:#fafafa;--surfaces-highlights:#f2f6f8;--surfaces-strokes:#cdd8df;--surfaces-elevation:#7a8b99;--surfaces-divider:#364552;
 --text-primary:#121b27;--text-secondary:#364552;--text-contrast:#f2f6f8;--text-highlight:#3d9c9a;
---button-dark:#013345;--button-mid:#216375;--button-light:#3d9c9a;--accent:#22d48d;
---teal-900:#013345;--teal-700:#216375;--teal-500:#3d9c9a;--teal-400:#68b6b2;--teal-300:#97cfcc;--teal-100:#e3f4f4;
---topic-leading-surface:#97cfcc;--topic-leading-stroke:#68b6b2;--topic-leading-text:#121b27;--topic-leading-dot:#013345;
---topic-ai-surface:#e3f4f4;--topic-ai-stroke:#97cfcc;--topic-ai-text:#121b27;--topic-ai-dot:#216375;
---topic-mentoring-surface:#fafafa;--topic-mentoring-stroke:#68b6b2;--topic-mentoring-text:#121b27;--topic-mentoring-dot:#3d9c9a;
---topic-personal-surface:#cdd8df;--topic-personal-stroke:#7a8b99;--topic-personal-text:#121b27;--topic-personal-dot:#364552;
+--button-dark:#013345;--button-mid:#216375;--button-light:#3d9c9a;--accent:#22d48d;--teal-500:#3d9c9a;
 --font-mono:"Space Mono",ui-monospace,"SFMono-Regular",Menlo,monospace;--font-serif:"Source Serif 4",Georgia,"Times New Roman",serif;--font-sans:"Instrument Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
---space-xxs:4px;--space-xs:8px;--space-s:12px;--space-m:16px;--space-l:24px;--space-xl:32px;--space-xxl:96px;--space-l-mobile:16px;
+--space-xxs:4px;--space-xs:8px;--space-s:12px;--space-m:16px;--space-l:24px;--space-xl:32px;--space-xxl:96px;
 --radius-none:0px;--radius-s:4px;--radius-card:8px;
---shadow-elevation:0px 4px 4px 0px rgba(122,139,153,0.2);--shadow-highlights:0px 0px 15px 0px rgba(54,69,82,0.2);
---measure-reading:680px;--measure-page:800px;--container-max:1440px;
---gutter:96px;--section-half:48px;--page-top:96px
+--shadow-elevation:0px 4px 4px 0px rgba(122,139,153,0.2);
+--gutter:96px;--container:1440px;--side:max(var(--gutter),calc((100% - var(--container)) / 2 + var(--gutter)));
+--section:96px;--indent:32px
 }
 @media (max-width: 1023px){:root{--gutter:48px}}
-@media (max-width: 599px){:root{--gutter:16px;--section-half:24px;--page-top:48px}}
+@media (max-width: 599px){:root{--gutter:16px;--section:56px;--indent:20px}}
 body{margin:0;background:#fafafa}
+.measure{max-width:800px}
+a{color:#121b27}
+a:hover{color:#216375}
+a:focus-visible{outline:1px solid #216375;outline-offset:3px}
+.nav a{text-decoration:underline;text-underline-offset:3px}
+.nav a:hover{text-decoration:none}
+.btn:hover{background:#216375 !important}
+.inline-link{font-family:var(--font-sans);font-weight:500;font-size:14px;text-underline-offset:3px;padding:4px 0}
 
-/* One left edge: header, content and footer all start on the container's gutter; backgrounds keep running edge to edge. */
-.wrap{width:100%;max-width:var(--container-max);margin:0 auto;box-sizing:border-box;padding:0 var(--gutter)}
-.mw-header,.mw-footer{padding-left:max(var(--gutter),calc((100% - var(--container-max)) / 2 + var(--gutter)));padding-right:max(var(--gutter),calc((100% - var(--container-max)) / 2 + var(--gutter)))}
-.menu-panel{padding:16px max(var(--gutter),calc((100% - var(--container-max)) / 2 + var(--gutter)))}
+/* Mobile navigation: hamburger + drop-down list (hidden on desktop) */
+.menu-btn{display:none;align-items:center;justify-content:center;width:48px;height:48px;padding:0;border:0;border-radius:4px;background:none;color:#013345;cursor:pointer}
+.menu-btn:hover{color:#216375}
+.menu-btn:focus-visible{outline:1px solid #216375;outline-offset:2px}
+.menu-panel{display:none}
+.menu-panel a{display:block;padding:14px 0;border-bottom:1px solid #cdd8df;font-family:var(--font-sans);font-weight:500;font-size:16px;line-height:1.2;color:#121b27;text-decoration:none}
+.menu-panel a[aria-current="page"]{color:#216375}
+.menu-panel a.btn{margin-top:16px;padding:12px 16px;border:0;border-radius:4px;background:#013345;color:#f2f6f8;text-align:center}
 
-/* Text never wider than measure-page */
-.measure{max-width:var(--measure-page)}
+/* Animated logo, same as the Home */
+.logo-anim .m-trace{stroke-dasharray:1 3;stroke-dashoffset:1.05;animation:m-write 1.5s cubic-bezier(.55,.1,.35,1) .35s forwards}
+.logo-anim .m-full{opacity:0;animation:m-settle .25s ease 1.8s forwards}
+@keyframes m-write{to{stroke-dashoffset:0}}
+@keyframes m-settle{to{opacity:1}}
+@media (prefers-reduced-motion: reduce){.logo-anim .m-trace{animation:none;stroke-dashoffset:0}.logo-anim .m-full{animation:none;opacity:1}}
 
-/* Type: desktop, then the *-mobile styles below 600 */
-.t-h1{margin:0;font-size:48px;font-weight:700;line-height:48px}
-.t-h2{margin:0;font-size:32px;font-weight:600;line-height:1.35}
-.t-body{font-size:20px;line-height:1.35}
-.t-caption{margin:0;font-size:14px;line-height:1.35;color:var(--text-secondary)}
-/* Card titles sit under a section h2, so they take the h3 step (24 serif SemiBold) */
-.mw-card__title{font-size:24px}
+/* Type */
+.eyebrow{margin:0;font-family:var(--font-mono);font-size:18px;text-transform:uppercase;letter-spacing:.04em}
+.meta{font-family:var(--font-mono);font-size:13px;text-transform:uppercase;color:#364552;letter-spacing:.02em}
+.h2{margin:0;font-size:32px;font-weight:600;line-height:1.35}
+.lead{margin:0;font-size:20px;line-height:1.5}
+.step-title{margin:0;font-size:24px;font-weight:600;line-height:1.35}
+.step-text{margin:0;font-size:20px;line-height:1.6}
 
-/* Hero: text and portrait side by side, stacked below 768 with the portrait first */
-.hero{display:flex;flex-direction:row;align-items:flex-start;gap:24px}
-.hero-img{width:315px;height:315px;object-fit:cover;object-position:50% 40%;flex-shrink:0;display:block}
+/* 1 · Hero: text left, photo right, the Home's fades; the photo box starts 96px before the text block ends */
+.hero{position:relative;min-height:640px;overflow:hidden;display:flex;flex-direction:column;--hero-text-w:min(700px,55%)}
+.hero-photo{position:absolute;top:0;right:0;left:calc(var(--side) + var(--hero-text-w) - 96px);width:calc(100% - (var(--side) + var(--hero-text-w) - 96px));height:100%;object-fit:cover;object-position:50% 62%;
+-webkit-mask-image:linear-gradient(to right,transparent 0%,rgba(0,0,0,0.55) 28%,#000 55%),linear-gradient(to bottom,rgba(0,0,0,0.1) 0%,rgba(0,0,0,0.18) 8%,rgba(0,0,0,0.45) 18%,rgba(0,0,0,0.8) 28%,#000 38%,#000 45%,rgba(0,0,0,0.6) 70%,transparent 100%);-webkit-mask-composite:source-in;
+mask-image:linear-gradient(to right,transparent 0%,rgba(0,0,0,0.55) 28%,#000 55%),linear-gradient(to bottom,rgba(0,0,0,0.1) 0%,rgba(0,0,0,0.18) 8%,rgba(0,0,0,0.45) 18%,rgba(0,0,0,0.8) 28%,#000 38%,#000 45%,rgba(0,0,0,0.6) 70%,transparent 100%);mask-composite:intersect}
+.hero-text{position:relative;z-index:1;flex-grow:1;max-width:var(--hero-text-w);display:flex;flex-direction:column;justify-content:center;gap:24px;padding:32px var(--side) 72px}
+.hero-h1{margin:0;font-size:56px;font-weight:700;line-height:60px;text-wrap:balance}
 
-/* Rows of three cards: 256px each on desktop = the 800px measure */
-.row3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px;max-width:var(--measure-page)}
+/* 2 · Story + book-jacket flap. The flap closes the story: who the narrator is, told by someone else.
+   Black and white and a tighter crop, so it reads as a different photo from the hero's colour shot. */
+.story-wrap{display:grid;grid-template-columns:minmax(0,1fr) 240px;gap:96px;align-items:start;max-width:1136px}
+.story::before{content:"";position:absolute;left:0;top:11px;bottom:11px;width:1px;background:#cdd8df}
+.flap{position:sticky;top:32px;display:flex;flex-direction:column;gap:16px;margin:0;padding-top:4px}
+.flap-photo{display:block;width:100%;aspect-ratio:4 / 5;object-fit:cover;object-position:50% 22%;filter:grayscale(1) contrast(1.05)}
+.flap-text{margin:0;font-size:14px;font-style:italic;line-height:1.5;color:#364552}
+.flap-text strong{font-style:normal;font-weight:600;color:#121b27}
+
+/* 3 · How I work: a tinted band, title on the left, ideas on the right */
+.band{width:100%;box-sizing:border-box;padding:var(--section) var(--side)}
+.work{display:grid;grid-template-columns:300px minmax(0,1fr);gap:96px;align-items:start}
+.work-head{position:sticky;top:32px;display:flex;flex-direction:column;gap:8px}
+.work-list{max-width:640px;display:flex;flex-direction:column;gap:32px;margin:0;padding:0;list-style:none}
+.num{font-family:var(--font-mono);font-size:14px;color:#216375;letter-spacing:.04em}
+
+/* 4 · Where to start: three stories at the same level.
+   Topic and date on top; at the foot, the action and the read time, so the cost of reading sits next to the decision to read. */
+.card{position:relative;isolation:isolate;cursor:pointer;display:flex;flex-direction:column;gap:12px}
+.card::before{content:"";position:absolute;z-index:-1;top:-16px;bottom:-16px;left:-16px;right:-16px;border-radius:4px;background:transparent;transition:background-color .15s ease}
+.card:hover::before,.card:focus-within::before{background:#f2f6f8}
+.card:focus-within::before{box-shadow:inset 0 0 0 1px #216375}
+.card .post-title{text-decoration:none;color:#121b27}
+.card .post-title::after{content:"";position:absolute;inset:-16px}
+.card .post-title:focus-visible{outline:none}
+.card:hover .post-title{text-decoration:underline;text-decoration-thickness:1px;text-underline-offset:6px}
+.card-foot{margin-top:auto;padding-top:4px;display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:8px 16px}
+.read-more{display:inline-flex;align-items:center;gap:6px;padding:4px 0;font-family:var(--font-sans);font-weight:500;font-size:14px;line-height:1.2;color:#013345;text-decoration:underline;text-underline-offset:3px}
+.read-more .arr{display:inline-block;transition:transform .15s ease}
+.card:hover .read-more{color:#216375}
+.card:hover .read-more .arr{transform:translateX(3px)}
+.chip{display:inline-flex;align-items:center;gap:8px;padding:4px 8px;border-radius:4px;border:1px solid;font-family:var(--font-serif);font-size:14px;line-height:1.35;color:#121b27;text-transform:none;letter-spacing:0}
+.chip i{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+.pair{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:48px;max-width:1088px}
+
+/* 5 · Contact: the one dark band */
+.dark{background:#013345;color:#f2f6f8}
+.dark a{color:#f2f6f8}
+.dark a:hover{color:#97cfcc}
+footer.dark a:focus-visible{outline-color:#97cfcc}
+.contact{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:64px;align-items:start;max-width:1088px}
+.dark .mw-input__label{color:#f2f6f8}
+.dark .mw-button--primary{background:#3d9c9a;border-color:#3d9c9a;color:#121b27}
+.dark .mw-button--primary:hover,.dark .mw-button--primary:focus-visible{background:#68b6b2;border-color:#68b6b2}
+.dark .mw-button--secondary{border-color:#97cfcc;color:#f2f6f8}
 .form-row{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}
 
-/* Topic chips: the whole chip tells topics apart (fill, stroke, dot), never a dark teal fill */
-.topic{display:flex}
-.topic>.mw-nextread{flex:1 1 auto}
-.topic .mw-chip{gap:6px;background:var(--t-surface);border-color:var(--t-stroke);color:var(--t-text)}
-.topic .mw-chip::before{content:"";flex:none;width:8px;height:8px;border-radius:50%;background:var(--t-dot)}
-.topic-personal{--t-surface:var(--topic-personal-surface);--t-stroke:var(--topic-personal-stroke);--t-text:var(--topic-personal-text);--t-dot:var(--topic-personal-dot)}
-.topic-leading{--t-surface:var(--topic-leading-surface);--t-stroke:var(--topic-leading-stroke);--t-text:var(--topic-leading-text);--t-dot:var(--topic-leading-dot)}
-.topic-mentoring{--t-surface:var(--topic-mentoring-surface);--t-stroke:var(--topic-mentoring-stroke);--t-text:var(--topic-mentoring-text);--t-dot:var(--topic-mentoring-dot)}
-.topic-ai{--t-surface:var(--topic-ai-surface);--t-stroke:var(--topic-ai-stroke);--t-text:var(--topic-ai-text);--t-dot:var(--topic-ai-dot)}
-
-hr.rule{width:100%;margin:var(--section-half) 0;border:0;border-top:1px solid var(--surfaces-divider)}
-
+@media (max-width: 1023px){
+.story-wrap{grid-template-columns:minmax(0,1fr);gap:48px}
+.flap{position:static;flex-direction:row;align-items:flex-start;gap:24px;max-width:560px}
+.flap-photo{width:160px;flex-shrink:0}
+.work{grid-template-columns:minmax(0,1fr);gap:40px}
+.work-head{position:static}
+.contact{grid-template-columns:minmax(0,1fr);gap:40px}
+}
 @media (max-width: 767px){
-.hero{flex-direction:column-reverse}
-.hero-img{width:100%;max-width:400px;height:auto;aspect-ratio:1/1}
-.row3{grid-template-columns:minmax(0,1fr)}
+.hero{min-height:auto;padding-top:0}
+.hero > header{order:-1;padding-top:24px;padding-bottom:24px;background:#fafafa;box-shadow:0px 4px 4px 0px rgba(122,139,153,0.2)}
+.hero-photo{position:relative;left:auto;width:100%;height:420px;object-position:50% 72%;-webkit-mask-image:linear-gradient(to bottom,#000 60%,transparent 100%);mask-image:linear-gradient(to bottom,#000 60%,transparent 100%)}
+.hero-text{margin-top:-120px;max-width:none}
+.hero-h1{font-size:36px;line-height:44px}
+header .nav{display:none !important}
+.menu-btn{display:flex}
+.menu-panel{position:absolute;left:0;right:0;top:100%;display:flex;flex-direction:column;padding:8px var(--side) 24px;background:#fafafa;border-top:1px solid #cdd8df;box-shadow:0px 4px 4px 0px rgba(122,139,153,0.2)}
+footer{flex-direction:column;align-items:flex-start !important}
+footer .nav{flex-wrap:wrap;gap:8px 16px !important}
+.pair{grid-template-columns:minmax(0,1fr);gap:48px}
 }
 @media (max-width: 599px){
-.t-h1{font-size:36px}
-.t-h2{font-size:24px}
-.t-body{font-size:16px}
-.t-caption{font-size:12px}
-.mw-card__title{font-size:20px}
+.eyebrow{font-size:14px}
+.h2{font-size:24px}
+.lead{font-size:16px}
+.step-title{font-size:20px}
+.step-text{font-size:18px}
+.flap-photo{width:112px}
 .form-row{grid-template-columns:minmax(0,1fr)}
+}
+
+/* Dark ending: the last band and the footer share ONE background, so no seam can appear between them */
+.dark-end{flex-grow:1;display:flex;flex-direction:column;background:linear-gradient(to bottom,#013345 0%,#013345 62%,#00222e 100%);color:#f2f6f8}
+.dark-end > .dark{background:transparent}
+.dark-end > footer{margin-top:auto}
+
+/* ================= Site kit: shared by Blog, About, Post and Contact =================
+   Header, dark ending (band + footer), type and spacing from the design system, light/dark theme.
+   Rhythm: every section pads 48 top and bottom (24 on phones), so two sections meet at one xxl (96 / 48). */
+:root{--section:48px}
+@media (max-width: 599px){:root{--section:24px}}
+.site-header{background:#fafafa}
+.theme-btn{display:inline-flex;align-items:center;justify-content:center;width:44px;height:44px;margin-left:auto;padding:0;border:1px solid #cdd8df;border-radius:4px;background:transparent;color:#013345;cursor:pointer}
+.theme-btn:hover{border-color:#216375;color:#216375}
+.theme-btn:focus-visible{outline:2px solid #216375;outline-offset:2px}
+header .nav + .theme-btn{margin-left:0}
+@media (min-width: 768px){.site-header{gap:16px !important}.site-header .nav{margin-left:auto}}
+.menu-btn{display:none;align-items:center;justify-content:center;width:48px;height:48px;padding:0;border:0;border-radius:4px;background:none;color:#013345;cursor:pointer}
+.menu-btn:hover{color:#216375}
+.menu-btn:focus-visible{outline:1px solid #216375;outline-offset:2px}
+.menu-panel{display:none}
+.menu-panel a{display:block;padding:14px 0;border-bottom:1px solid #cdd8df;font-family:var(--font-sans);font-weight:500;font-size:16px;line-height:1.2;color:#121b27;text-decoration:none}
+.menu-panel a[aria-current="page"]{color:#216375}
+.menu-panel a.btn{margin-top:16px;padding:12px 16px;border:0;border-radius:4px;background:#013345;color:#f2f6f8;text-align:center}
+.nav a{text-decoration:underline;text-underline-offset:3px}
+.nav a:hover{text-decoration:none}
+.btn:hover{background:#216375 !important}
+.logo-anim .m-trace{stroke-dasharray:1 3;stroke-dashoffset:1.05;animation:m-write 1.5s cubic-bezier(.55,.1,.35,1) .35s forwards}
+.logo-anim .m-full{opacity:0;animation:m-settle .25s ease 1.8s forwards}
+@keyframes m-write{to{stroke-dashoffset:0}}
+@keyframes m-settle{to{opacity:1}}
+@media (prefers-reduced-motion: reduce){.logo-anim .m-trace{animation:none;stroke-dashoffset:0}.logo-anim .m-full{animation:none;opacity:1}}
+.band{width:100%;box-sizing:border-box;padding:var(--section) var(--side)}
+.dark{background:#013345;color:#f2f6f8}
+.dark a{color:#f2f6f8}
+.dark a:hover{color:#97cfcc}
+footer.dark a:focus-visible{outline-color:#97cfcc}
+.dark .mw-input__label{color:#f2f6f8}
+.dark .mw-button--primary{background:#3d9c9a;border-color:#3d9c9a;color:#121b27}
+.dark .mw-button--primary:hover,.dark .mw-button--primary:focus-visible{background:#68b6b2;border-color:#68b6b2}
+.dark .mw-button--secondary{border-color:#97cfcc;color:#f2f6f8}
+.dark .mw-button{min-height:48px;padding:12px 16px}
+.news{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:64px;align-items:end;max-width:1088px}
+.sub-row{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:16px;align-items:end}
+.dark-end{flex-grow:1;display:flex;flex-direction:column;background:linear-gradient(to bottom,#013345 0%,#013345 62%,#00222e 100%);color:#f2f6f8}
+.dark-end > .dark{background:transparent}
+.dark-end > footer{margin-top:auto}
+/* Type, from the design system */
+.eyebrow{margin:0;font-family:var(--font-mono);font-size:18px;line-height:1.35;text-transform:uppercase;letter-spacing:0}
+.lead{margin:0;font-size:20px;line-height:1.35}
+.h2{margin:0;font-size:32px;font-weight:600;line-height:1.35}
+.hero-h1{font-size:48px !important;line-height:48px !important}
+.meta{font-size:14px !important;letter-spacing:0 !important}
+@media (max-width: 1023px){.news{grid-template-columns:minmax(0,1fr);gap:40px;align-items:start}}
+@media (max-width: 767px){
+header .nav{display:none !important}
+.menu-btn{display:flex}
+.menu-panel{position:absolute;left:0;right:0;top:100%;display:flex;flex-direction:column;padding:8px var(--side) 24px;background:#fafafa;border-top:1px solid #cdd8df;box-shadow:0px 4px 4px 0px rgba(122,139,153,0.2)}
+footer{flex-direction:column;align-items:flex-start !important}
+footer .nav{flex-wrap:wrap;gap:8px 16px !important}
+}
+@media (max-width: 599px){
+.eyebrow{font-size:14px}
+.lead{font-size:16px}
+.h2{font-size:24px}
+.hero-h1{font-size:36px !important;line-height:48px !important}
+.sub-row{grid-template-columns:minmax(0,1fr)}
+}
+
+/* ===== Dark theme: design system dark tokens. Same structure, inverted surfaces. ===== */
+.theme-dark{--surfaces-white:#121b27;--surfaces-highlights:#212d38;--surfaces-strokes:#364552;--surfaces-divider:#cdd8df;--text-primary:#fafafa;--text-secondary:#cdd8df;--button-dark:#3d9c9a;--button-mid:#97cfcc;--text-contrast:#121b27;background:#121b27 !important;color:#fafafa !important}
+.theme-dark a{color:#fafafa}
+.theme-dark a:not(.mw-button):hover{color:#97cfcc}
+.theme-dark a:focus-visible,.theme-dark button:focus-visible{outline-color:#97cfcc}
+.theme-dark .site-header{background:#121b27 !important;box-shadow:0 1px 0 #364552 !important}
+.theme-dark .site-header a[style]{color:#fafafa !important}
+.theme-dark .site-header a.btn{background:#3d9c9a !important;color:#121b27 !important}
+.theme-dark .site-header svg path[fill="#121b27"]{fill:#fafafa}
+.theme-dark .menu-btn{color:#fafafa}
+.theme-dark .menu-panel{background:#121b27;border-top-color:#364552;box-shadow:none}
+.theme-dark .menu-panel a{color:#fafafa;border-bottom-color:#364552}
+.theme-dark .menu-panel a.btn{background:#3d9c9a;color:#121b27}
+.theme-dark .theme-btn{border-color:#364552;color:#fafafa}
+.theme-dark .theme-btn:hover{border-color:#97cfcc;color:#97cfcc}
+/* inline colours written for the light theme */
+.theme-dark [style*="background: #fafafa"],.theme-dark [style*="background: rgb(250, 250, 250)"],.theme-dark [style*="background-color: rgb(250, 250, 250)"]{background:#121b27 !important}
+.theme-dark [style*="background: #f2f6f8"],.theme-dark [style*="background: rgb(242, 246, 248)"],.theme-dark [style*="background-color: rgb(242, 246, 248)"]{background:#212d38 !important}
+.theme-dark [style*="background: #cdd8df"],.theme-dark [style*="background: rgb(205, 216, 223)"],.theme-dark [style*="background-color: rgb(205, 216, 223)"]{background:#364552 !important}
+.theme-dark [style*="background: #364552"],.theme-dark [style*="background: rgb(54, 69, 82)"],.theme-dark [style*="background-color: rgb(54, 69, 82)"]{background:#cdd8df !important}
+.theme-dark [style*="background: #013345"],.theme-dark [style*="background: rgb(1, 51, 69)"],.theme-dark [style*="background-color: rgb(1, 51, 69)"]{background:#3d9c9a !important;color:#121b27 !important}
+.theme-dark [style*="color: #121b27"],.theme-dark [style*="color: rgb(18, 27, 39)"]{color:#fafafa !important}
+.theme-dark [style*="color: #364552"],.theme-dark [style*="color: rgb(54, 69, 82)"]{color:#cdd8df !important}
+.theme-dark [style*="border: 1px solid #013345"],.theme-dark [style*="border: 1px solid rgb(1, 51, 69)"]{border-color:#97cfcc !important;color:#97cfcc !important}
+.theme-dark .dark-end [style*="background: #013345"],.theme-dark .dark-end [style*="background: rgb(1, 51, 69)"],.theme-dark .dark-end [style*="background-color: rgb(1, 51, 69)"]{background:transparent !important;color:inherit !important}
+/* chips, covers, cards */
+.theme-dark .chip-f,.theme-dark .tchip,.theme-dark .chip{background:#212d38 !important;border-color:#364552 !important;color:#fafafa !important}
+.theme-dark .chip-f[aria-pressed="true"]{border-color:#3d9c9a !important}
+.theme-dark .cover{color:#121b27 !important}
+.theme-dark .cover[style*="background: #013345"],.theme-dark .cover[style*="background: rgb(1, 51, 69)"],.theme-dark .cover[style*="background-color: rgb(1, 51, 69)"]{background:#013345 !important;color:#f2f6f8 !important}
+.theme-dark .cover[style*="background: #cdd8df"],.theme-dark .cover[style*="background: rgb(205, 216, 223)"],.theme-dark .cover[style*="background-color: rgb(205, 216, 223)"]{background:#cdd8df !important}
+.theme-dark .card:hover::before,.theme-dark .card:focus-within::before{background:#212d38}
+.theme-dark .card .post-title{color:#fafafa}
+.theme-dark .read-more,.theme-dark .num{color:#97cfcc}
+.theme-dark .meta,.theme-dark .flap-text{color:#cdd8df}
+.theme-dark .flap-text strong{color:#fafafa}
+.theme-dark .story::before{background:#364552}
+.theme-dark .field{background:#212d38;border-color:#364552;color:#fafafa}
+.theme-dark .lbl{color:#fafafa}
+.theme-dark .err{color:#f2a99b}
+
+/* About: section rhythm */
+.hero-text{padding-bottom:var(--section)}
+@media (max-width: 767px){.hero > .site-header{order:-1;box-shadow:0px 4px 4px 0px rgba(122,139,153,0.2)}}
+
+/* phones: logo on one line, footer links aligned with the copyright, closing headlines at phone size */
+@media (max-width: 599px){
+.site-header > a > span{font-size:24px !important;white-space:nowrap}
+footer .nav{margin-left:-8px}
+#news-title,#contact-title{font-size:32px !important;line-height:1.15 !important}
 }
 </style>
 </helmet>
-<div style="min-height: 100vh; display: flex; flex-direction: column; background: var(--surfaces-white); color: var(--text-primary); font-family: var(--font-serif)">
+<div class="{{themeCls}}" style="min-height: 100vh; background: #fafafa; color: #121b27; font-family: var(--font-serif); display: flex; flex-direction: column">
 
-<div style="position: relative; z-index: 1">
-<x-import component-from-global-scope="MartinsWeb.Header" device="{{device}}" home-href="#" links="{{navLinks}}" on-menu="{{toggleMenu}}"></x-import>
+<section class="hero">
+<img class="hero-photo" src="/_blob/e2c0e21f205252dce6dee4545d97374b" alt="Martín writing in his notebook at the dining table at night, under a warm lamp">
+
+<header class="site-header" style="position: relative; z-index: 2; display: flex; align-items: center; justify-content: space-between; gap: 24px; padding: 24px var(--side); background: #fafafa; box-shadow: 0px 4px 4px 0px rgba(122,139,153,0.2)">
+<a href="Main.dc.html" style="display: flex; align-items: center; text-decoration: none; color: #121b27">
+<svg class="logo-anim" width="57" height="48" viewBox="0 0 57 48" fill="none" aria-hidden="true" style="display: block">
+<defs><mask id="m-write-post" maskUnits="userSpaceOnUse" x="0" y="0" width="57" height="48"><path class="m-trace" d="M26.7 35.6 C26.8 29 27.4 21 28.7 14.4 C30.4 19.4 31.8 14.8 34.2 14.8 C36.9 15 36.4 24 34.9 31.6 C35.7 26 37.5 21.2 39.7 20.3 C41.7 20.2 41.2 26 40.8 30 C40.5 33 40.5 35.4 41.4 34.9 C42 34.6 42.5 33.4 42.7 32.6" pathLength="1" stroke="#fff" stroke-width="5.2" stroke-linecap="round" stroke-linejoin="round" fill="none"></path></mask></defs>
+<path class="m-ink" d="M32.746 12C33.737 12.013 34.746 12.003 35.737 12.003L41.145 12.003L41.141 17.533L41.14 19.005C41.14 19.225 41.15 19.621 41.122 19.825C41.296 20.004 41.516 20.173 41.645 20.394C41.969 20.948 42.109 21.668 42.127 22.31C42.185 24.299 41.695 26.284 41.227 28.203C41.192 28.346 41.157 28.489 41.134 28.634C41.156 28.856 41.149 29.195 41.148 29.426L41.145 30.72C41.144 31.737 41.174 32.9 41.144 33.907C41.397 33.699 41.64 33.19 41.793 32.895C41.87 32.743 41.927 32.556 42.035 32.424C42.369 32.018 42.847 32.629 42.732 32.988C42.431 33.925 41.865 34.926 41.042 35.489C40.678 35.738 40.151 35.853 39.728 35.763C39.529 35.722 39.245 35.571 39.157 35.553C38.608 35.572 37.997 35.56 37.444 35.56L34.428 35.56C34.428 34.056 34.404 32.477 34.436 30.979C33.95 30.66 33.559 30.423 33.694 29.746C33.776 29.334 33.884 28.925 33.974 28.514C34.155 27.679 34.322 26.841 34.475 26C34.851 23.865 35.082 21.707 35.165 19.54C35.201 18.605 35.234 17.656 35.089 16.731C35.045 16.446 34.934 15.729 34.518 15.879C33.769 16.148 33.229 17.129 32.82 17.777C31.491 20.152 30.64 22.954 29.876 25.559C29.332 27.415 28.749 29.504 28.344 31.38C28.179 32.118 28.046 32.862 27.945 33.611C27.883 34.079 27.879 34.654 27.757 35.074C27.644 35.464 27.302 35.867 26.893 35.957C26.605 36.02 26.384 36.028 26.111 35.882C25.96 35.8 25.846 35.597 25.785 35.556C25.569 35.179 25.632 34.522 25.638 34.096C25.649 33.373 25.675 32.651 25.716 31.93C25.843 29.687 26.047 27.449 26.326 25.221C26.427 24.388 26.522 23.498 26.649 22.672C26.701 22.499 26.72 22.24 26.744 22.054L26.873 21.05C27.056 19.678 27.254 18.308 27.467 16.94C27.542 16.442 27.625 15.945 27.714 15.449C27.775 15.106 27.871 14.386 28.095 14.118C28.761 13.263 30.318 14.006 30.484 14.882C30.536 15.156 30.262 16.493 30.206 16.835L29.835 19.103C29.801 19.302 29.674 19.886 29.699 20.053C29.805 19.834 29.943 19.446 30.033 19.211L30.594 17.718L31.998 13.983C32.236 13.351 32.491 12.619 32.746 12Z" fill="#3d9c9a" mask="url(#m-write-post)"></path>
+<path class="m-full" d="M32.746 12C33.737 12.013 34.746 12.003 35.737 12.003L41.145 12.003L41.141 17.533L41.14 19.005C41.14 19.225 41.15 19.621 41.122 19.825C41.296 20.004 41.516 20.173 41.645 20.394C41.969 20.948 42.109 21.668 42.127 22.31C42.185 24.299 41.695 26.284 41.227 28.203C41.192 28.346 41.157 28.489 41.134 28.634C41.156 28.856 41.149 29.195 41.148 29.426L41.145 30.72C41.144 31.737 41.174 32.9 41.144 33.907C41.397 33.699 41.64 33.19 41.793 32.895C41.87 32.743 41.927 32.556 42.035 32.424C42.369 32.018 42.847 32.629 42.732 32.988C42.431 33.925 41.865 34.926 41.042 35.489C40.678 35.738 40.151 35.853 39.728 35.763C39.529 35.722 39.245 35.571 39.157 35.553C38.608 35.572 37.997 35.56 37.444 35.56L34.428 35.56C34.428 34.056 34.404 32.477 34.436 30.979C33.95 30.66 33.559 30.423 33.694 29.746C33.776 29.334 33.884 28.925 33.974 28.514C34.155 27.679 34.322 26.841 34.475 26C34.851 23.865 35.082 21.707 35.165 19.54C35.201 18.605 35.234 17.656 35.089 16.731C35.045 16.446 34.934 15.729 34.518 15.879C33.769 16.148 33.229 17.129 32.82 17.777C31.491 20.152 30.64 22.954 29.876 25.559C29.332 27.415 28.749 29.504 28.344 31.38C28.179 32.118 28.046 32.862 27.945 33.611C27.883 34.079 27.879 34.654 27.757 35.074C27.644 35.464 27.302 35.867 26.893 35.957C26.605 36.02 26.384 36.028 26.111 35.882C25.96 35.8 25.846 35.597 25.785 35.556C25.569 35.179 25.632 34.522 25.638 34.096C25.649 33.373 25.675 32.651 25.716 31.93C25.843 29.687 26.047 27.449 26.326 25.221C26.427 24.388 26.522 23.498 26.649 22.672C26.701 22.499 26.72 22.24 26.744 22.054L26.873 21.05C27.056 19.678 27.254 18.308 27.467 16.94C27.542 16.442 27.625 15.945 27.714 15.449C27.775 15.106 27.871 14.386 28.095 14.118C28.761 13.263 30.318 14.006 30.484 14.882C30.536 15.156 30.262 16.493 30.206 16.835L29.835 19.103C29.801 19.302 29.674 19.886 29.699 20.053C29.805 19.834 29.943 19.446 30.033 19.211L30.594 17.718L31.998 13.983C32.236 13.351 32.491 12.619 32.746 12Z" fill="#3d9c9a"></path>
+<path d="M32.747 12C33.737 12.013 34.746 12.003 35.738 12.003L41.145 12.003L41.141 17.533L41.14 19.005C41.14 19.225 41.15 19.621 41.122 19.825C40.733 19.582 40.317 19.496 39.869 19.605C38.866 19.847 38.283 20.71 37.765 21.516C38.013 19.505 38.1 16.847 36.784 15.163C36.389 14.658 35.875 14.271 35.224 14.196C34.528 14.116 33.876 14.423 33.346 14.852C31.433 16.396 30.021 20.781 29.203 23.112L29.528 21.038C29.57 20.785 29.639 20.286 29.699 20.053C29.806 19.834 29.944 19.446 30.033 19.211L30.594 17.718L31.999 13.983C32.237 13.351 32.491 12.619 32.747 12Z" fill="#121b27"></path>
+<path d="M34.437 30.979C34.707 31.097 34.988 31.149 35.271 31.037C35.657 30.883 35.874 30.49 36.027 30.127C36.431 29.162 36.587 28.121 36.893 27.128C37.279 25.871 38.847 21.566 39.998 21.041C40.025 21.028 40.046 21.026 40.075 21.027C40.269 21.253 39.83 22.74 39.734 23.076L39.442 24.137C38.703 26.832 37.848 29.83 37.88 32.658C37.891 33.64 38.284 35.011 39.158 35.553C38.609 35.572 37.998 35.56 37.444 35.56L34.429 35.56C34.429 34.056 34.404 32.477 34.437 30.979Z" fill="#121b27"></path>
+<path d="M41.135 28.634C41.157 28.855 41.15 29.195 41.149 29.426L41.146 30.72C41.145 31.736 41.175 32.9 41.145 33.906C41.068 34.009 40.965 34.103 40.868 34.186C40.746 34.289 40.488 34.493 40.317 34.46C40.259 34.449 40.22 34.415 40.192 34.364C40.132 34.259 40.12 34.106 40.107 33.988C39.96 32.63 40.765 30.018 41.135 28.634Z" fill="#121b27"></path>
+<path d="M14.251 12.004L22.648 12.001C22.839 12.542 23.063 13.107 23.266 13.646L24.529 17.003C25.237 18.886 25.923 20.798 26.65 22.672C26.522 23.498 26.427 24.387 26.326 25.22C26.047 27.449 25.843 29.687 25.716 31.93C25.675 32.651 25.649 33.373 25.639 34.096C25.632 34.522 25.569 35.179 25.786 35.556C25.313 35.569 24.803 35.56 24.327 35.561C24.189 35.065 24.036 34.56 23.882 34.068C22.882 30.858 21.976 27.603 20.964 24.398C20.931 24.739 20.951 25.349 20.952 25.714L20.952 28.029L20.959 35.561L14.25 35.562C14.271 34.702 14.252 33.759 14.253 32.893L14.252 27.475L14.251 12.004Z" fill="#121b27"></path>
+</svg>
+<span style="font-weight: 700; font-size: 30px; line-height: 1.35">Martín Mato</span>
+</a>
+<nav class="nav" aria-label="Main" style="display: flex; align-items: center; gap: 24px; font-family: var(--font-sans); font-weight: 500; font-size: 14px">
+<a href="Main.dc.html" style="padding: 8px; color: #121b27">Blog</a>
+<a href="About.dc.html" aria-current="page" style="padding: 8px; color: #121b27">About</a>
+<a href="Contact.dc.html" style="padding: 8px; color: #121b27">Contact</a>
+<a class="btn" href="Main.dc.html#newsletter" style="padding: 8px; border-radius: 4px; background: #013345; color: #f2f6f8; text-decoration: none">Subscribe</a>
+</nav>
+<button type="button" class="theme-btn" aria-label="{{themeLabel}}" title="{{themeLabel}}" onClick="{{toggleTheme}}"><sc-if value="{{isDark}}" hint-placeholder-val="{{false}}"><svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4"></circle><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"></path></svg></sc-if><sc-if value="{{isLight}}" hint-placeholder-val="{{true}}"><svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 14.5A8 8 0 1 1 9.5 4a6.5 6.5 0 0 0 10.5 10.5z"></path></svg></sc-if></button>
+<button type="button" class="menu-btn" aria-label="{{menuLabel}}" aria-expanded="{{menuExpanded}}" aria-controls="mobile-menu" onClick="{{toggleMenu}}">
+<svg width="34" height="28" viewBox="0 0 34 28" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round" aria-hidden="true"><path d="M3 4h28M3 14h28M3 24h28"></path></svg>
+</button>
 <sc-if value="{{menuOpen}}" hint-placeholder-val="{{false}}">
-<nav class="menu-panel" aria-label="Main (mobile)" style="position: absolute; left: 0; right: 0; top: 100%; display: flex; flex-direction: column; gap: 4px; background: var(--surfaces-white); border-top: 1px solid var(--surfaces-strokes); box-shadow: var(--shadow-elevation)">
-<x-import component-from-global-scope="MartinsWeb.Link" href="#">Blog</x-import>
-<x-import component-from-global-scope="MartinsWeb.Link" href="#" current="{{yes}}">About</x-import>
-<x-import component-from-global-scope="MartinsWeb.Link" href="#contact">Contact</x-import>
+<nav id="mobile-menu" class="menu-panel" aria-label="Main (mobile)">
+<a href="Main.dc.html" onClick="{{closeMenu}}">Blog</a>
+<a href="About.dc.html" aria-current="page" onClick="{{closeMenu}}">About</a>
+<a href="Contact.dc.html" onClick="{{closeMenu}}">Contact</a>
+<a class="btn" href="Main.dc.html#newsletter" onClick="{{closeMenu}}">Subscribe</a>
 </nav>
 </sc-if>
+</header>
+
+<div class="hero-text">
+<p class="eyebrow">Hi, I’m Martín</p>
+<h1 class="hero-h1">I lead software teams. <span style="color: #3d9c9a">Here I write about it.</span></h1>
+<p class="lead" style="max-width: 600px">I still catch myself trying to have every answer. I write here about that, and about what happens when I ask instead.</p>
+<div style="display: flex; flex-wrap: wrap; align-items: center; gap: 24px; padding-top: 8px">
+<a class="btn" href="#contact" style="display: inline-flex; padding: 8px; border-radius: 4px; background: #013345; color: #f2f6f8; text-decoration: none; font-family: var(--font-sans); font-weight: 500; font-size: 14px">Let’s talk</a>
+<a class="inline-link" href="https://www.linkedin.com/">Connect on LinkedIn ↗</a>
+</div>
+</div>
+</section>
+
+<main style="width: 100%; display: flex; flex-direction: column">
+
+<section aria-labelledby="story-title" class="story-wrap" style="box-sizing: border-box; padding: var(--section) var(--side)">
+<div style="min-width: 0; max-width: 800px; display: flex; flex-direction: column; gap: 40px">
+<div style="display: flex; flex-direction: column; gap: 8px">
+<h2 id="story-title" class="h2">How I got here</h2>
+<p class="lead" style="color: #364552">The short version, including the parts I’m not proud of.</p>
+</div>
+<ol class="story" style="position: relative; list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 48px">
+<li style="position: relative; display: flex; flex-direction: column; gap: 8px; padding-left: var(--indent)">
+<span aria-hidden="true" style="position: absolute; left: -5px; top: 6px; width: 11px; height: 11px; border-radius: 50%; background: #fafafa; border: 2px solid #3d9c9a; box-sizing: border-box"></span>
+<span class="meta">2008 · Before code</span>
+<h3 class="step-title">The long way in</h3>
+<p class="step-text">I fixed PCs, answered phones at a call center, and spent four years in QA before I wrote code for a living.</p>
+</li>
+<li style="position: relative; display: flex; flex-direction: column; gap: 8px; padding-left: var(--indent)">
+<span aria-hidden="true" style="position: absolute; left: -5px; top: 6px; width: 11px; height: 11px; border-radius: 50%; background: #fafafa; border: 2px solid #3d9c9a; box-sizing: border-box"></span>
+<span class="meta">2016 · First job as a developer</span>
+<h3 class="step-title">Laid off for working alone</h3>
+<p class="step-text">Seven months into my first job as a junior developer, I was at the top of the layoff list. I blamed everyone and everything instead of looking at my part.</p>
+<a class="inline-link" href="Post.dc.html" style="align-self: flex-start">Read the full story →</a>
+</li>
+<li style="position: relative; display: flex; flex-direction: column; gap: 8px; padding-left: var(--indent)">
+<span aria-hidden="true" style="position: absolute; left: -5px; top: 6px; width: 11px; height: 11px; border-radius: 50%; background: #fafafa; border: 2px solid #3d9c9a; box-sizing: border-box"></span>
+<span class="meta">2017 · From QA to tech lead</span>
+<h3 class="step-title">My first team</h3>
+<p class="step-text">Leading a team for the first time taught me to listen before fixing. For a while, it stuck.</p>
+</li>
+<li style="position: relative; display: flex; flex-direction: column; gap: 8px; padding-left: var(--indent)">
+<span aria-hidden="true" style="position: absolute; left: -5px; top: 6px; width: 11px; height: 11px; border-radius: 50%; background: #fafafa; border: 2px solid #3d9c9a; box-sizing: border-box"></span>
+<span class="meta">2018 · A new job</span>
+<h3 class="step-title">A company with no bosses</h3>
+<p class="step-text">Here every decision is earned through conversation. I slipped back into knowing it all, until my colleagues were honest enough to tell me.</p>
+</li>
+<li style="position: relative; display: flex; flex-direction: column; gap: 8px; padding-left: var(--indent)">
+<span aria-hidden="true" style="position: absolute; left: -6px; top: 5px; width: 13px; height: 13px; border-radius: 50%; background: #3d9c9a"></span>
+<span class="meta">Today</span>
+<h3 class="step-title">Where I am now</h3>
+<p class="step-text">I lead teams for clients in the US, mentor people who are starting to lead, and bring AI into how we work. I still write code when it’s needed. It keeps me close to what the team actually deals with.</p>
+</li>
+</ol>
 </div>
 
-<main class="wrap" style="flex-grow: 1; display: flex; flex-direction: column; padding-top: var(--page-top); padding-bottom: var(--space-xxl)">
+</section>
 
-<section style="display: flex; flex-direction: column; gap: 32px">
-<div class="measure" style="display: flex; flex-direction: column; gap: 12px">
-<h1 class="t-h1">About Me</h1>
-<p class="t-h2">Engineering Leadership &amp; Organizational Design</p>
+<section aria-labelledby="work-title" class="band" style="background: #f2f6f8">
+<div class="work">
+<div class="work-head">
+<h2 id="work-title" class="h2">How I work</h2>
+<p class="lead" style="color: #364552">Three ideas I keep coming back to.</p>
 </div>
-<div class="hero">
-<div class="t-body measure" style="flex: 1 1 0; min-width: 0; display: flex; flex-direction: column; gap: 16px">
-<p style="margin: 0">I’m Martín Mato. I’m from Uruguay and I work as a Principal Software Engineer at Kaizen Softworks. I navigate between engineering, product, and strategy to align teams and unify complex platforms.</p>
-<p style="margin: 0">I come from a technical background in .NET, AWS, and React, but today I focus my energy on organizational design and socio-technical architecture.</p>
+<ol class="work-list">
+<li style="display: flex; flex-direction: column; gap: 8px">
+<span class="num" aria-hidden="true">01</span>
+<h3 class="step-title">Team building</h3>
+<p class="step-text">Continuous improvement, done by the team itself. I try to build teams that iterate toward quality on their own, not because someone asks them to.</p>
+</li>
+<li style="display: flex; flex-direction: column; gap: 8px">
+<span class="num" aria-hidden="true">02</span>
+<h3 class="step-title">Psychological safety</h3>
+<p class="step-text">People only try new things, AI included, when they feel safe to get it wrong. The hard part isn’t the tool. It’s adoption, trust, and knowing where to draw the line.</p>
+</li>
+<li style="display: flex; flex-direction: column; gap: 8px">
+<span class="num" aria-hidden="true">03</span>
+<h3 class="step-title">Ontological coaching</h3>
+<p class="step-text">A human-centered way to grow as a professional. I lean on it when I listen, give feedback or lead.</p>
+</li>
+</ol>
 </div>
-<img class="hero-img" src="/_blob/78f28c4786c64e136d62d8c4a9cb9136" alt="Portrait of Martín Mato">
+</section>
+
+<section aria-labelledby="start-title" class="band" style="display: flex; flex-direction: column; gap: 48px">
+<div class="measure" style="display: flex; flex-direction: column; gap: 8px">
+<h2 id="start-title" class="h2">Where to start</h2>
+<p class="lead" style="color: #364552">If you’re new here, start with one of these.</p>
+</div>
+<div class="pair">
+<article class="card">
+<div class="meta" style="display: flex; flex-direction: column; align-items: flex-start; gap: 8px">
+<span class="chip" style="background: #cdd8df; border-color: #7a8b99"><i aria-hidden="true" style="background: #364552"></i>Personal</span>
+<span>Oct 25, 2026 · 4 min read</span>
+</div>
+<h3 class="step-title"><a class="post-title" href="Post.dc.html">The armor I called confidence.</a></h3>
+<p class="step-text" style="font-size: 18px">My arrogance wasn’t confidence. It was the only way I knew to avoid asking for help.</p>
+<div class="card-foot">
+<span class="read-more" aria-hidden="true">Keep reading <span class="arr">→</span></span>
+</div>
+</article>
+<article class="card">
+<div class="meta" style="display: flex; flex-direction: column; align-items: flex-start; gap: 8px">
+<span class="chip" style="background: #97cfcc; border-color: #68b6b2"><i aria-hidden="true" style="background: #013345"></i>Leading Teams</span>
+<span>Sept 9, 2026 · [X] min read</span>
+</div>
+<h3 class="step-title"><a class="post-title" href="#">Artificial Harmony</a></h3>
+<p class="step-text" style="font-size: 18px">The state a team falls into when it simply lacks the tools to face conflict.</p>
+<div class="card-foot">
+<span class="read-more" aria-hidden="true">Keep reading <span class="arr">→</span></span>
+</div>
+</article>
+<article class="card">
+<div class="meta" style="display: flex; flex-direction: column; align-items: flex-start; gap: 8px">
+<span class="chip" style="background: #e3f4f4; border-color: #97cfcc"><i aria-hidden="true" style="background: #216375"></i>AI in Teams</span>
+<span>Sept 9, 2026 · [X] min read</span>
+</div>
+<h3 class="step-title"><a class="post-title" href="#">Use of AI bots in meetings</a></h3>
+<p class="step-text" style="font-size: 18px">Installing an AI bot in a meeting is not the same as installing Big Brother. Or at least, it doesn’t have to be.</p>
+<div class="card-foot">
+<span class="read-more" aria-hidden="true">Keep reading <span class="arr">→</span></span>
+</div>
+</article>
+</div>
+</section>
+
+</main>
+
+<div class="dark-end">
+<section id="contact" aria-labelledby="contact-title" class="band dark">
+<div class="contact">
+<div style="display: flex; flex-direction: column; gap: 20px">
+<p class="eyebrow" style="color: #97cfcc">Let’s talk</p>
+<h2 id="contact-title" style="margin: 0; font-size: 44px; font-weight: 700; line-height: 1.15">Got a story like mine? Tell me about it.</h2>
+<p class="lead" style="color: #cdd8df">I’m still figuring out how to put these ideas into practice. If you’re in the same spot, want to compare notes, or think I got something wrong, write to me.</p>
+<p style="margin: 0; font-size: 14px; line-height: 1.35; color: #cdd8df">Or find me on <a href="https://www.linkedin.com/" style="text-underline-offset: 3px">LinkedIn</a>.</p>
 </div>
 <div>
-<x-import component-from-global-scope="MartinsWeb.Button" href="https://www.linkedin.com/" icon="external-link">Connect on LinkedIn</x-import>
-</div>
-</section>
-
-<hr class="rule">
-
-<section style="display: flex; flex-direction: column; gap: 24px">
-<h2 class="t-h2">Approach &amp; Methodology</h2>
-<div class="row3">
-<x-import component-from-global-scope="MartinsWeb.Card" icon="group" title="Team Building">Focusing on continuous improvement and operational excellence. Building teams that naturally iterate towards higher quality and efficiency.</x-import>
-<x-import component-from-global-scope="MartinsWeb.Card" icon="psychology" title="Psychological Safety">Leveraging modern tools while fostering a culture of trust and innovation. Ensuring teams feel secure to experiment and adopt new paradigms.</x-import>
-<x-import component-from-global-scope="MartinsWeb.Card" icon="coach" title="Ontological Coaching">A human-centered approach to professional growth and team dynamics. Cultivating leadership and effective communication from within.</x-import>
-</div>
-</section>
-
-<hr class="rule">
-
-<section style="display: flex; flex-direction: column; gap: 24px">
-<h2 class="t-h2">Highlighted Posts</h2>
-<div class="row3">
-<div class="topic topic-personal">
-<x-import component-from-global-scope="MartinsWeb.NextRead" href="#" tag="Personal" title="The armor I called confidence." date="Oct 25, 2026"></x-import>
-</div>
-<div class="topic topic-leading">
-<x-import component-from-global-scope="MartinsWeb.NextRead" href="#" tag="Leading Teams" title="How we make decisions" date="Aug 17, 2026"></x-import>
-</div>
-<div class="topic topic-ai">
-<x-import component-from-global-scope="MartinsWeb.NextRead" href="#" tag="AI in Teams" title="Build with AI Agents at Full Speed" date="Aug 17, 2026"></x-import>
-</div>
-</div>
-</section>
-
-<hr class="rule">
-
-<section id="contact" class="measure" style="display: flex; flex-direction: column; gap: 24px">
-<div style="display: flex; flex-direction: column; gap: 12px">
-<h2 class="t-h2">Contact</h2>
-<p class="t-caption">Have a question about organizational design, engineering leadership, or a collaboration opportunity? Send me a message and I’ll get back to you.</p>
-</div>
 <sc-if value="{{showForm}}" hint-placeholder-val="{{true}}">
-<form novalidate="" onSubmit="{{submit}}" style="display: flex; flex-direction: column; gap: 24px; padding: 24px; background: var(--surfaces-white); border: 1px solid var(--surfaces-strokes); box-shadow: var(--shadow-elevation)">
+<form novalidate="" onSubmit="{{submit}}" style="display: flex; flex-direction: column; gap: 24px">
 <div style="display: flex; flex-direction: column; gap: 16px">
 <div class="form-row">
 <x-import component-from-global-scope="MartinsWeb.Input" label="Name" name="name" placeholder="Your name" auto-complete="name" value="{{name}}" on-change="{{onName}}"></x-import>
 <x-import component-from-global-scope="MartinsWeb.Input" label="Email" name="email" type="email" placeholder="you@company.com" auto-complete="email" value="{{email}}" on-change="{{onEmail}}"></x-import>
 </div>
-<x-import component-from-global-scope="MartinsWeb.Input" label="Topic" name="topic" placeholder="Speaking, coaching, collaboration, etc." value="{{topic}}" on-change="{{onTopic}}"></x-import>
-<x-import component-from-global-scope="MartinsWeb.Input" label="Message" name="message" size="l" placeholder="Tell me a bit about what you’d like to discuss." value="{{message}}" on-change="{{onMessage}}"></x-import>
+<x-import component-from-global-scope="MartinsWeb.Input" label="Message" name="message" size="l" placeholder="What’s on your mind?" value="{{message}}" on-change="{{onMessage}}"></x-import>
 <sc-if value="{{showError}}" hint-placeholder-val="{{false}}">
-<p role="alert" style="margin: 0; font-size: 14px; line-height: 1.35; color: var(--text-primary)">Please add your name, a valid email and a message.</p>
+<p role="alert" style="margin: 0; font-size: 14px; line-height: 1.35; color: #f2f6f8">Please add your name, a valid email and a message.</p>
 </sc-if>
 </div>
-<div style="display: flex; flex-wrap: wrap; gap: 16px">
-<x-import component-from-global-scope="MartinsWeb.Button" type="submit">Send message</x-import>
-<x-import component-from-global-scope="MartinsWeb.Button" variant="secondary" on-click="{{clear}}">Clear form</x-import>
+<div>
+<x-import component-from-global-scope="MartinsWeb.Button" type="button" on-click="{{submit}}">Send message</x-import>
 </div>
 </form>
 </sc-if>
 <sc-if value="{{sent}}" hint-placeholder-val="{{false}}">
-<div role="status" style="display: flex; flex-direction: column; align-items: flex-start; gap: 16px; padding: 24px; background: var(--surfaces-white); border: 1px solid var(--surfaces-strokes); box-shadow: var(--shadow-elevation)">
-<p class="t-h2">Thanks, {{firstName}}.</p>
-<p class="t-caption">Your message is on its way. I’ll get back to you at {{email}}.</p>
+<div role="status" style="display: flex; flex-direction: column; align-items: flex-start; gap: 12px">
+<p style="margin: 0; font-size: 28px; font-weight: 600; line-height: 1.35">Thanks, {{firstName}}.</p>
+<p class="lead" style="color: #cdd8df">Your message is on its way. I’ll get back to you at {{email}}.</p>
 <x-import component-from-global-scope="MartinsWeb.Button" variant="secondary" on-click="{{clear}}">Send another message</x-import>
 </div>
 </sc-if>
+</div>
+</div>
 </section>
 
-</main>
-
-<x-import component-from-global-scope="MartinsWeb.Footer" device="{{device}}" links="{{footerLinks}}"></x-import>
+<footer class="dark" style="display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 16px; padding: 24px var(--side) 32px">
+<p style="margin: 0; font-size: 14px; color: #cdd8df">© 2026 Martín Mato</p>
+<nav class="nav" aria-label="Footer" style="display: flex; gap: 24px; font-family: var(--font-sans); font-weight: 500; font-size: 14px">
+<a href="Main.dc.html" style="padding: 8px">Blog</a>
+<a href="About.dc.html" style="padding: 8px">About</a>
+<a href="Contact.dc.html" style="padding: 8px">Contact</a>
+<a href="#" style="padding: 8px">RSS</a>
+</nav>
+</footer>
+</div>
 
 </div>
 </x-dc>
-<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1280,"height":2600}}'>
+<script type="text/x-dc" data-dc-script data-props='{"theme":{"editor":"enum","options":["auto","light","dark"],"default":"auto","section":"Preview"},"$preview":{"width":1280,"height":3500}}'>
 class Component extends DCLogic {
 constructor(props) {
 super(props);
-this.state = { name: '', email: '', topic: '', message: '', tried: false, sent: false, menuOpen: false, device: this.deviceFor() };
-this.onResize = this.onResize.bind(this);
-}
-deviceFor() {
-/* breakpoint-md: the header nav collapses below 768 */
-return (typeof window !== 'undefined' && window.innerWidth < 768) ? 'mobile' : 'desktop';
-}
-componentDidMount() { window.addEventListener('resize', this.onResize); }
-componentWillUnmount() { window.removeEventListener('resize', this.onResize); }
-onResize() {
-var d = this.deviceFor();
-if (d !== this.state.device) this.setState({ device: d, menuOpen: false });
+this.state = { name: '', email: '', message: '', tried: false, sent: false, menuOpen: false };
+this.state.theme = (function (pt) {
+if (pt === 'dark' || pt === 'light') return pt;
+try { var ls = window.localStorage.getItem('mm-theme'); if (ls === 'dark' || ls === 'light') return ls; } catch (e) {}
+return 'light';
+})(props && props.theme);
 }
 renderVals() {
 var self = this;
 var s = this.state;
 var valid = s.name.trim() !== '' && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(s.email.trim()) && s.message.trim() !== '';
 return {
-yes: true,
-device: s.device,
+themeCls: s.theme === 'dark' ? 'theme-dark' : 'theme-light',
+isDark: s.theme === 'dark', isLight: s.theme !== 'dark',
+themeLabel: s.theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode',
+toggleTheme: function () { var nt = self.state.theme === 'dark' ? 'light' : 'dark'; try { window.localStorage.setItem('mm-theme', nt); } catch (e) {} self.setState({ theme: nt }); },
 menuOpen: s.menuOpen,
+menuExpanded: s.menuOpen ? 'true' : 'false',
+menuLabel: s.menuOpen ? 'Close menu' : 'Open menu',
 toggleMenu: function () { self.setState({ menuOpen: !self.state.menuOpen }); },
-navLinks: [{ label: 'Blog', href: '#' }, { label: 'About', href: '#', current: true }, { label: 'Contact', href: '#contact' }],
-footerLinks: [{ label: 'Posts', href: '#' }, { label: 'About', href: '#' }, { label: 'Contact', href: '#contact' }, { label: 'RSS', href: '#' }],
-name: s.name, email: s.email, topic: s.topic, message: s.message,
+closeMenu: function () { self.setState({ menuOpen: false }); },
+name: s.name, email: s.email, message: s.message,
 firstName: s.name.trim().split(' ')[0] || 'there',
 showForm: !s.sent, sent: s.sent, showError: s.tried && !valid,
 onName: function (e) { self.setState({ name: e.target.value }); },
 onEmail: function (e) { self.setState({ email: e.target.value }); },
-onTopic: function (e) { self.setState({ topic: e.target.value }); },
 onMessage: function (e) { self.setState({ message: e.target.value }); },
 submit: function (e) { if (e && e.preventDefault) e.preventDefault(); self.setState(valid ? { sent: true, tried: false } : { tried: true }); },
-clear: function () { self.setState({ name: '', email: '', topic: '', message: '', tried: false, sent: false }); }
+clear: function () { self.setState({ name: '', email: '', message: '', tried: false, sent: false }); }
 };
 }
 }
