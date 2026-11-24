@@ -385,7 +385,8 @@ a:focus-visible {
   }
 }
 
-/* Small phones (320-399px): the canvas header (drawn at 390) needs a little less room to fit. */
+/* Small phones (320-399px): the logo and the name shrink a little so the canvas buttons (44px theme,
+   48px menu) still fit, with 17px of air between the pieces at 320px. */
 @media (max-width: 399px) {
   .site-header {
     gap: var(--space-xs);
@@ -398,12 +399,6 @@ a:focus-visible {
 
   .site-brand__name {
     font-size: 20px;
-  }
-
-  .theme-btn,
-  .menu-btn {
-    width: 40px;
-    height: 40px;
   }
 }
 
