@@ -9,6 +9,7 @@
     "dev": "astro dev",
     "build": "astro build",
     "new-post": "node scripts/new-post.mjs",
+    "check-post": "node scripts/check-post.mjs",
     "lighthouse": "lhci autorun",
     "preview": "astro preview",
     "astro": "astro"

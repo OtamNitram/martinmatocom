@@ -34,6 +34,8 @@ npm run lighthouse   # after a build: performance, accessibility, best practices
 - `startHere: 1..3`: the story's place in About's "Where to start".
 - Set `draft: false` to publish. Drafts show in `npm run dev` only.
 
+`npm run check-post -- <slug>` checks a post (front matter, photo, typography, body); with `--built` it also checks what `npm run build` produced (page, share card, sitemap, RSS, `llms.txt`). The `new-post` skill in `.claude/skills/new-post/` walks Claude Code or Cursor through the whole flow, from the manuscript to the pull request and the steps after the deploy.
+
 ## Forms and analytics
 
 Copy `.env.example` to `.env` (and set the same keys as build variables in Cloudflare) when the forms have somewhere to send. Without them the forms stay on the page and say they are not open yet.

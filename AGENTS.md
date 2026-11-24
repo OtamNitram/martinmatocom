@@ -8,6 +8,10 @@ astro dev --background
 
 Manage the background server with `astro dev stop`, `astro dev status`, and `astro dev logs`.
 
+## Posts
+
+To draft, check or publish a story, follow the `new-post` skill in `.claude/skills/new-post/SKILL.md` (Claude Code and Cursor both load it, as `/new-post`). `npm run new-post -- "Title."` starts a draft and `npm run check-post -- <slug> [--built]` checks it.
+
 ## Documentation
 
 Full documentation: https://docs.astro.build

@@ -59,8 +59,8 @@ If the README and a page design in `design-system/pages/` disagree, the page des
 - Posts are written in English, first person, never prescriptive. Post titles in sentence case; page and section titles in title case.
 - Topics are a closed list, in this order: Personal, Leading Teams, Mentoring, AI in Teams. One topic per post.
 - Meta line is always: topic Chip, date, read time, joined by a middle dot "·" ("Sept 9, 2026 · 6 min read").
-- No cover images on posts.
-- A post page is exactly: Header, Article (author block, `body-long` paragraphs, at most one Highlight, ClosingPrompt), the dark newsletter band (`id="newsletter"`), Footer. Nothing else between them.
+- A post may carry one real photo under its head (`image` in the front matter, cropped 3:2), never a decorative or stock cover.
+- A post page follows `design-system/pages/post.dc.html`: Header, reading progress bar, head, the optional photo, the body, the closing (thanks, "Continue the conversation", "Keep reading"), the dark newsletter band (`id="newsletter"`), Footer. Nothing else between them.
 - Blog list: newest first, PostCards separated by `surfaces-divider` rules, "Older Entries" secondary Button for paging, never infinite scroll.
 
 ## Accessibility
