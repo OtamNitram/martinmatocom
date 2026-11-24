@@ -33,7 +33,7 @@ const share = {
 };
 const replyAction = import.meta.env.PUBLIC_FORMSPREE_ACTION ?? "";
 const shared = Boolean(post.data.linkedinUrl);
-const ogImage = `/og/${post.id}.png`;
+const ogImage = `/og/${post.id}.jpg`;
 const photo = post.data.image ? await getImage({ src: post.data.image, width: 721, format: "jpg" }) : undefined;
 const jsonLd = postNodes(post, {
   wordCount: (post.body ?? "").trim().split(/\s+/).filter(Boolean).length,

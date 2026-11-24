@@ -1,8 +1,10 @@
-/* Share cards (1200×630): the site card, and one per post (with the post's photo when it has one). */
+/* Share cards (1200×630 JPEG): the site card, and one per post (with the post's photo when it has one).
+   JPEG keeps them small enough for WhatsApp, which skips preview images over roughly 300 KB. */
 import { readFile } from "node:fs/promises";
 import path from "node:path";
 import satori from "satori";
 import { Resvg } from "@resvg/resvg-js";
+import sharp from "sharp";
 import type { APIRoute } from "astro";
 import { getPosts } from "../../lib/posts";
 import { site } from "../../lib/site";
@@ -102,9 +104,10 @@ export const GET: APIRoute = async ({ props }) => {
   );
 
   const png = new Resvg(svg).render().asPng();
-  return new Response(png, {
+  const jpeg = await sharp(png).jpeg({ quality: 82, mozjpeg: true }).toBuffer();
+  return new Response(jpeg, {
     headers: {
-      "Content-Type": "image/png",
+      "Content-Type": "image/jpeg",
       "Cache-Control": "public, max-age=31536000, immutable",
     },
   });
