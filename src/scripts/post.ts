@@ -31,7 +31,7 @@ if (root) {
     }
   };
 
-  /* ----- Chapters: a copy-link button on each, and "Back to contents" before the last one ----- */
+  /* ----- Chapters: a copy-link button on each ----- */
   const linkIcon =
     '<svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg>';
 
@@ -48,14 +48,6 @@ if (root) {
     });
     heading.append(button);
   });
-
-  if (total >= 3 && document.getElementById("c-toc")) {
-    const back = document.createElement("a");
-    back.className = "c-back";
-    back.href = "#c-toc";
-    back.textContent = "↑ Back to contents";
-    chapters[total - 1].before(back);
-  }
 
   /* ----- Progress, current chapter, tracker ----- */
   const tocLinks = [...document.querySelectorAll<HTMLAnchorElement>("[data-toc-link]")];

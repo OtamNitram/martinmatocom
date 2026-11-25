@@ -78,8 +78,7 @@
 
   .c-toc,
   .b-bar,
-  .b-fade,
-  .c-back {
+  .b-fade {
     display: none !important;
   }
 }
@@ -544,15 +543,6 @@
   .c-anchor {
     opacity: 1;
   }
-}
-
-.c-back {
-  display: inline-flex;
-  margin: -0.4em 0 0;
-  color: var(--text-secondary);
-  font-family: var(--font-sans);
-  font-size: 14px;
-  text-underline-offset: 3px;
 }
 
 /* ===== Sign-off: who wrote it, before the question ===== */

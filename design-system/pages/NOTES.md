@@ -16,7 +16,7 @@ Translated from the Spanish notes on the canvas "Martín Mato · Web (consolidad
 ## Post: what stayed from each experiment
 
 - Reading: a 680px column, 20px on desktop and 18px on phones, 1.6 line height.
-- Chapters: numbered headings, a collapsible table of contents at the top, a link to each section and "Back to contents".
+- Chapters: numbered headings, a collapsible table of contents at the top, and a link to each section.
 - Sharing: a single Share button that opens the phone's share menu (no quote sharing).
 - Tracker: a floating bar with the current chapter and the % read; tapping it goes to the contents. On phones it hides while scrolling down to read and comes back when scrolling up a little.
 - Closing: write to me privately, LinkedIn, or send it to someone.
