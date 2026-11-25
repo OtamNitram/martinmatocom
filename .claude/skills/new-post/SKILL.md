@@ -66,7 +66,7 @@ Each field on one line. `draft`, `date`, `updated` and `image` stay **unquoted**
 2. `npm run build`, then `npm run check-post -- <slug> --built`. It must pass: the page, canonical, JSON-LD, share card under 300 KB (WhatsApp skips larger ones), sitemap, RSS, `llms.txt` and `llms-full.txt`.
 3. Branch `post/<slug>` from an up-to-date `main`. Commit only the `.md` and its image, as `feat: publish "<title>"`.
 4. Push and open a PR into `main`. If `gh auth status` works use `gh pr create`; if not, give him `https://github.com/OtamNitram/martinmatocom/compare/main...post/<slug>?expand=1`.
-5. CI runs Lighthouse. Its single run on the home page is flaky (performance 0.87–0.93 on a GitHub runner): if that is the only failure, re-run the failed job before touching code.
+5. CI runs Lighthouse. Performance on a GitHub runner moves between about 0.87 and 0.93, so that category only warns. A failure means accessibility or SEO actually dropped.
 6. He merges. Cloudflare Workers Builds deploys `main` automatically in a minute or two.
 
 ## 7. Once it is live
