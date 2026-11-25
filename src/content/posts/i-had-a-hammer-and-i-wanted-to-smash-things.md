@@ -8,6 +8,7 @@ closingQuestion: "Are you trying to solve something and can’t find the right t
 image: ./images/i-had-a-hammer-and-i-wanted-to-smash-things.jpg
 imageAlt: "AI-generated image of Martín at his dining table at night, holding a hammer next to his laptop"
 replyPlaceholder: "The hammer I keep reaching for is…"
+linkedinUrl: "https://www.linkedin.com/posts/martinmato_ten-years-ago-i-earned-my-angular-2-certification-share-7531391013760888832-WCP1/"
 draft: false
 ---
 
