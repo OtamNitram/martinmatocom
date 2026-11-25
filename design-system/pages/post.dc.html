@@ -851,7 +851,7 @@ this._y = y; this._dir = dir;
 var phone = window.innerWidth < 768;
 var endEl = document.getElementById('c-end');
 var atEnd = !!endEl && endEl.getBoundingClientRect().top < window.innerHeight * 0.9;
-var show = y > 360 && !atEnd && (!phone || dir === 'up');
+var show = y > 360 && !atEnd && (!phone || dir === 'down');
 var ids = ['layoff', 'second-chance', 'no-titles', 'armor', 'today', 'why'];
 var act = 0;
 for (var i = 0; i < ids.length; i++) { var el = document.getElementById(ids[i]); if (el && el.getBoundingClientRect().top < window.innerHeight * 0.45) act = i; }

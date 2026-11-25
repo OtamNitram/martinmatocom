@@ -112,7 +112,8 @@ if (root) {
     const phone = window.innerWidth < 768;
     const atEnd = !!end && end.getBoundingClientRect().top < window.innerHeight * 0.9;
     const dialogOpen = dialogs.some((dialog) => dialog.open);
-    const show = y > 360 && !atEnd && !dialogOpen && (!phone || direction === "up");
+    /* On a phone the tracker follows the reading gesture: finger up (page scrolling down) brings it in; scrolling back up tucks it away. */
+    const show = y > 360 && !atEnd && !dialogOpen && (!phone || direction === "down");
     bar?.classList.toggle("hide", !show);
     fade?.classList.toggle("hide", !show);
     if (bar) bar.inert = !show;

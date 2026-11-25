@@ -16,6 +16,10 @@ function countOf(topic: Topic | "all") {
   return topic === "all" ? posts.length : posts.filter((post) => post.data.topic === topic).length;
 }
 
+const topicsWithPosts = topicOrder.filter((topic) => countOf(topic) > 0);
+/** Filters only help when two topics actually have stories. A topic with nothing, or the only topic, is just noise. */
+const showFilters = topicsWithPosts.length > 1;
+
 const plural = (n: number) => `${n} ${n === 1 ? "post" : "posts"}`;
 const allCount = posts.length === 1 ? "Showing 1 story" : `Showing all ${posts.length} stories`;
 ---
@@ -63,28 +67,32 @@ const allCount = posts.length === 1 ? "Showing 1 story" : `Showing all ${posts.l
   <section id="latest" class="home-stories" aria-labelledby="latest-title" data-stories>
     <div class="home-stories__inner">
       <h2 id="latest-title" class="h2">Latest stories</h2>
-      <div class="home-filters">
-        <p id="filter-label" class="home-filters__label">Topics</p>
-        <div class="home-filters__chips" role="group" aria-labelledby="filter-label">
-          <button type="button" class="chip-f" data-topic="all" data-label="All" aria-pressed="true">
-            <svg class="chip-f__check" aria-hidden="true" width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 6.2 5 8.5l4.5-5"></path></svg>
-            <span>All <span class="chip-f__count" aria-hidden="true">· {countOf("all")}</span><span class="visually-hidden">, {plural(countOf("all"))}</span></span>
-          </button>
-          {
-            topicOrder.map((topic) => (
-              <button type="button" class:list={["chip-f", "tchip", `tchip--${topicSlug[topic]}`]} data-topic={topicSlug[topic]} data-label={topic} aria-pressed="false">
-                <svg class="chip-f__check" aria-hidden="true" width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 6.2 5 8.5l4.5-5" /></svg>
-                <span class="tchip__dot" aria-hidden="true" />
-                <span>
-                  {topic} <span class="chip-f__count" aria-hidden="true">· {countOf(topic)}</span>
-                  <span class="visually-hidden">, {plural(countOf(topic))}</span>
-                </span>
+      {
+        showFilters && (
+          <div class="home-filters">
+            <p id="filter-label" class="home-filters__label">Topics</p>
+            <div class="home-filters__chips" role="group" aria-labelledby="filter-label">
+              <button type="button" class="chip-f" data-topic="all" data-label="All" aria-pressed="true">
+                <svg class="chip-f__check" aria-hidden="true" width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 6.2 5 8.5l4.5-5"></path></svg>
+                <span>All <span class="chip-f__count" aria-hidden="true">· {countOf("all")}</span><span class="visually-hidden">, {plural(countOf("all"))}</span></span>
               </button>
-            ))
-          }
-        </div>
-        <p class="home-filters__count" data-count role="status" aria-live="polite">{allCount}</p>
-      </div>
+              {
+                topicsWithPosts.map((topic) => (
+                  <button type="button" class:list={["chip-f", "tchip", `tchip--${topicSlug[topic]}`]} data-topic={topicSlug[topic]} data-label={topic} aria-pressed="false">
+                    <svg class="chip-f__check" aria-hidden="true" width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 6.2 5 8.5l4.5-5" /></svg>
+                    <span class="tchip__dot" aria-hidden="true" />
+                    <span>
+                      {topic} <span class="chip-f__count" aria-hidden="true">· {countOf(topic)}</span>
+                      <span class="visually-hidden">, {plural(countOf(topic))}</span>
+                    </span>
+                  </button>
+                ))
+              }
+            </div>
+            <p class="home-filters__count" data-count role="status" aria-live="polite">{allCount}</p>
+          </div>
+        )
+      }
 
       <div class="home-thread" data-thread hidden={posts.length === 0}>
         <span class="home-thread__rail" aria-hidden="true"></span>
